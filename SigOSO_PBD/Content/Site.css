@@ -130,6 +130,10 @@ ul#menu {
     position: relative;
     margin: 0;
     text-align: right;
+    top: 17px;
+    left: 3px;
+    height: 302px;
+    width: 133px;
 }
 
 ul#menu li {

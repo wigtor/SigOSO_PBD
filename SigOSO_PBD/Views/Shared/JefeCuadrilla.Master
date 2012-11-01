@@ -1,0 +1,14 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" MasterPageFile="~/Views/Shared/Site.Master"%>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MenuContent" runat="server">
+    <div><%:Html.ActionLink("Trabajador", "Trabajador", "JefeCuadrilla") %></div>
+    <div><%:Html.ActionLink("Solicitud de material", "SolicitudDeMaterial", "JefeCuadrilla")%></div>
+    <div><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></div>
+    <div><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "JefeCuadrilla")%></div>
+    <div><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeCuadrilla")%></div>
+</asp:Content>
+
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+</asp:Content>
