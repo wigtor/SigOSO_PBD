@@ -10,10 +10,17 @@
 <body>
 
     <div style="height: 1000px; width:1000px; margin:0px auto 0px auto;">
-        <div style="height: 1000px; width: 200px; margin-right: 0px; display: inline-block">
-            <asp:ContentPlaceHolder ID="MenuContent" runat="server" />
+        <div id="sideNav" style="height: 1000px; margin-right: 0px; display: inline-block">
+            <div xmlns="" nowrap="true" class="leftNavHeader">
+                <asp:ContentPlaceHolder ID="MenuName" runat="server" />
+            </div>
+            <div class="leftNav">
+                <ul class="leftNavUL">
+                    <asp:ContentPlaceHolder ID="MenuLinks" runat="server" />
+                </ul>
+            </div>
         </div>
-        <div style="height: 1000px; width: 790px; margin-right: 0px; display: inline-block">
+        <div style="height: 1000px; width: 800px; margin-right: 0px; display: inline-block">
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
         </div>
     </div>

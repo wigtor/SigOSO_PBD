@@ -1,17 +1,16 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" MasterPageFile="~/Views/Shared/Site.Master"%>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MenuContent" runat="server">
-    <div id="navigation">
-        <ul>
-            <li><%:Html.ActionLink("Trabajador", "Trabajador", "JefeCuadrilla") %></li>
-            <li><%:Html.ActionLink("Solicitud de material", "SolicitudDeMaterial", "JefeCuadrilla")%></li>
-            <li><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></li>
-            <li><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "JefeCuadrilla")%></li>
-            <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeCuadrilla")%></li>
-        </ul>
-    
-    </div>
-    
+
+<asp:Content ID="Content3" ContentPlaceHolderID="MenuName" runat="server">
+    Menu jefe de cuadrilla
+</asp:Content>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
+    <li><%:Html.ActionLink("Trabajador", "Trabajador", "JefeCuadrilla") %></li>
+    <li><%:Html.ActionLink("Solicitud de material", "SolicitudDeMaterial", "JefeCuadrilla")%></li>
+    <li><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></li>
+    <li><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "JefeCuadrilla")%></li>
+    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeCuadrilla")%></li>
 </asp:Content>
 
 

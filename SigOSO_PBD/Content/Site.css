@@ -56,7 +56,7 @@ h1 {
 }
 
 h2 {
-    padding: 0 0 10px 0;
+    padding: 0 10px 10px 0;
 }
 
 h3 {
@@ -124,11 +124,33 @@ footer,
 
 /* TAB MENU   
 ----------------------------------------------------------*/
-#navigation ul {margin:0;padding:0;list-style:none;display:inline;}
-#navigation ul li {margin:0;padding:0;list-style:none;display:inline;}
-#navigation ul li a {display:block;background-color:#FFF7FF;height:39px;}
-#navigation ul li a img {border:none;}
-#navigation ul li a:hover img {display:none;filter:alpha(opacity=100);}
+#sideNav {width:190px; border:none; padding:20px 0 0 0; margin:0; margin-right:0px;}
+div.leftNavHeader {
+    width:185px; 
+    height:21px; 
+    background-image:url(theme/sidebar_header.gif); 
+    background-repeat:no-repeat;
+    text-transform:uppercase; 
+    font-size:12px; 
+    font-weight:bold;
+    padding-left:10px;
+    padding-top:5px;
+}
+div.leftNav {
+    width:174px;
+    background-color:#f0f0f0; 
+    background-image:url(theme/bg_gradient_leftnav.gif); 
+    background-repeat:repeat-x; 
+    background-position:bottom;
+    padding:10px 10px 25px 10px;
+}
+.leftNav p {line-height:14px; font-size:11px; margin:1px 0; padding:0; color:#999999;}
+a.leftNavLink {font-size:13px; color:#333333; text-decoration:none;}
+a.leftNavLink:hover {font-size:13px; color:#76b900; text-decoration:underline;}
+ul.leftNavUL {margin:0; padding:0; list-style-type:none;}
+ul.leftNavUL li {margin-bottom:6px; line-height:15px}
+
+
 
 /* FORM LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
