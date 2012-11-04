@@ -12,9 +12,18 @@
     <!--funcion para ocultar y mostrar -->
     <script type="text/Javascript">
         function expandcollapse(postid) {
+            var weaAbiertas = $(".postshown");
+            weaAbiertas.removeClass("postshown");
+            weaAbiertas.addClass("posthidden");
+
             whichpost = document.getElementById(postid);
-            if (whichpost.className == "postshown") { whichpost.className = "posthidden"; }
-            else { whichpost.className = "postshown"; }
+
+            if (whichpost.className == "postshown") {
+                whichpost.className = "posthidden";
+            }
+            else {
+                whichpost.className = "postshown";
+            }
         }
     </script>
 
