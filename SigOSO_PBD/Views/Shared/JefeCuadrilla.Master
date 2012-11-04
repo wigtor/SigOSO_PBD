@@ -6,9 +6,29 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
+    <!--funcion para ocultar y mostrar -->
+    <script type="text/Javascript">
+        function expandcollapse(postid) {
+            whichpost = document.getElementById(postid);
+            if (whichpost.className == "postshown") { whichpost.className = "posthidden"; }
+            else { whichpost.className = "postshown"; }
+        }
+    </script>
+<!-- css para ocultar y mostrar -->
+    <style type="text/css">
+        .posthidden {display:none}
+        .postshown {display:inline}
+    </style>
     <li><%:Html.ActionLink("Trabajador", "Trabajador", "JefeCuadrilla") %></li>
-    <li><%:Html.ActionLink("Solicitud de material", "SolicitudDeMaterial", "JefeCuadrilla")%></li>
-    <li><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></li>
+    <blockquote><p><a href="javascript:expandcollapse('1')">Solicitud de material</a></p>
+    <p><span class="posthidden" id="1"><br />
+    	<a><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></a><br />
+    	<a><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></a><br />
+    </p></blockquote>
+    
+    
+    
+
     <li><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "JefeCuadrilla")%></li>
     <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeCuadrilla")%></li>
 </asp:Content>
@@ -17,3 +37,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <asp:ContentPlaceHolder ID="MainContent" runat="server" />
 </asp:Content>
+
+
+
+
+
+
+
+
