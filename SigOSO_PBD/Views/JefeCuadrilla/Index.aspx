@@ -6,8 +6,8 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     <div>
-        Formulario de jefe de cuadrilla
-    
+        Formulario de jefe de cuadrilla<br />
+        <img alt="Logo de SigOSO" src="/Content/imagenes/logo.png" />
     </div>
 </asp:Content>
 

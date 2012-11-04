@@ -6,6 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
+    <li><%:Html.ActionLink("Bienvenido", "Index", "Supervisor") %></li>
     <li><%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor") %></li>
     <li><%:Html.ActionLink("Asignación trabajos internos", "AsigOTI", "Supervisor")%></li>
     <li><%:Html.ActionLink("Estados trabajos internos", "EstadosOTI", "Supervisor")%></li>

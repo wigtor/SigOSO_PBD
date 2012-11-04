@@ -6,8 +6,8 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     <div>
-        Formulario de administrador
-    
+        Formulario de administrador<br />
+        <img alt="Logo de SigOSO" src="/Content/imagenes/logo.png" />
     </div>
 </asp:Content>
 

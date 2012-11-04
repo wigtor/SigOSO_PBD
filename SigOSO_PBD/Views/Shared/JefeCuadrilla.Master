@@ -6,7 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
-
+    <li><%:Html.ActionLink("Bienvenido", "Index", "JefeCuadrilla") %></li>
     <li><%:Html.ActionLink("Trabajador", "Trabajador", "JefeCuadrilla") %></li>
 
     <li><a href="javascript:expandcollapse('menuExpand_1')">Solicitud de material</a></li>

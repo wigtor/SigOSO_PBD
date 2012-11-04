@@ -6,6 +6,8 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
+    <li><%:Html.ActionLink("Bienvenido", "Index", "Administrador") %></li>
+
     <li><a href="javascript:expandcollapse('menuExpand_1')">Auditoría</a></li>
     <li>
         <span class="posthidden" id="menuExpand_1"><br /><dd>
