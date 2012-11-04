@@ -2,35 +2,27 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MenuName" runat="server">
-    Menu jefe de cuadrilla
+    Menu supervisor
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
-    <!--funcion para ocultar y mostrar -->
-    <script type="text/Javascript">
-        function expandcollapse(postid) {
-            whichpost = document.getElementById(postid);
-            if (whichpost.className == "postshown") { whichpost.className = "posthidden"; }
-            else { whichpost.className = "postshown"; }
-        }
-    </script>
-<!-- css para ocultar y mostrar -->
-    <style type="text/css">
-        .posthidden {display:none}
-        .postshown {display:inline}
-    </style>
-    <li><%:Html.ActionLink("Trabajador", "Trabajador", "JefeCuadrilla") %></li>
-    <blockquote><p><a href="javascript:expandcollapse('1')">Solicitud de material</a></p>
-    <p><span class="posthidden" id="1"><br />
-    	<a><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></a><br />
-    	<a><%:Html.ActionLink("Cambiar estado OTI", "CambiarEstadoOTI", "JefeCuadrilla")%></a><br />
-    </p></blockquote>
-    
-    
-    
+    <li><%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor") %></li>
+    <li><%:Html.ActionLink("Asignación trabajos internos", "AsigOTI", "Supervisor")%></li>
+    <li><%:Html.ActionLink("Estados trabajos internos", "EstadosOTI", "Supervisor")%></li>
+    <li><%:Html.ActionLink("Generación trabajos internos", "GenOTI", "Supervisor")%></li>
 
-    <li><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "JefeCuadrilla")%></li>
-    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeCuadrilla")%></li>
+    <li><a href="javascript:expandcollapse('menuExpand_1')">Organizar cuadrillas</a></li>
+    <li>
+        <span class="posthidden" id="menuExpand_1"><br /><dd>
+            <a><%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor")%></a><br /><br />
+            <a><%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Supervisor")%></a><br /><br />
+            <a><%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Supervisor")%></a><br /><br />
+            <a><%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Supervisor")%></a><br /><br />
+        </dd></span>
+    </li>
+    
+    <li><%:Html.ActionLink("Modificar perfil", "modPerfil", "Supervisor")%></li>
+    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Supervisor")%></li>
 </asp:Content>
 
 

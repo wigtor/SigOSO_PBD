@@ -1,5 +1,4 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
-<%@ import Namespace="SigOSO_PBD.Clases" %>
 <!DOCTYPE html>
 <html>
 <head runat="server">
