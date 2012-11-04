@@ -10,6 +10,10 @@ body {
     margin: 0;
     padding: 0;
     color: #696969;
+    /*
+    background-image: url(theme/logo.png);
+    background-repeat: repeat;
+    */
 }
 
 a:link {
@@ -103,9 +107,12 @@ header h1, #header h1 {
 #main {
     padding: 30px 30px 15px 30px;
     background-color: #fff;
+    float:left;
     border-radius: 4px 0 0 0;
     -webkit-border-radius: 4px 0 0 0;
     -moz-border-radius: 4px 0 0 0;
+    
+    display: inline-block;
 }
 
 footer, 
@@ -124,20 +131,29 @@ footer,
 
 /* TAB MENU   
 ----------------------------------------------------------*/
-#sideNav {width:190px; border:none; padding:20px 0 0 0; margin:0; margin-right:0px;}
+#sideNav {
+    width:200px;
+    border:none;
+    float: left;
+    padding:20px 0 0 0;
+    margin-left:0px;   
+    display: inline-block;
+    padding-top:5px;
+    padding-right:10px;
+    padding-left:10px;
+}
+
 div.leftNavHeader {
-    width:185px; 
+    width:195px; 
     height:21px; 
     background-image:url(theme/sidebar_header.gif); 
     background-repeat:no-repeat;
     text-transform:uppercase; 
     font-size:12px; 
     font-weight:bold;
-    padding-left:10px;
-    padding-top:5px;
 }
 div.leftNav {
-    width:174px;
+    width:175px;
     background-color:#f0f0f0; 
     background-image:url(theme/bg_gradient_leftnav.gif); 
     background-repeat:repeat-x; 

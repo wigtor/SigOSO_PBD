@@ -28,8 +28,9 @@
     </script>
 
     <div style="height: 100%; width:1000px; margin:0px auto 0px auto;">
-        <div id="sideNav" style="height: 100%; width: 200px; margin-right: 0px; display: inline-block">
-            <div xmlns="" nowrap="true" class="leftNavHeader">
+
+        <div id="sideNav">
+            <div xmlns="" class="leftNavHeader">
                 <asp:ContentPlaceHolder ID="MenuName" runat="server" />
             </div>
             <div class="leftNav">
@@ -38,9 +39,17 @@
                 </ul>
             </div>
         </div>
-        <div class="MainContent" style="height: 100%; width: 780px; margin-right: 0px; display: inline-block">
+
+        <div class="header">
+            <h1>
+                <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+            </h1>
+        </div>
+
+        <div id="main">
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
         </div>
+
     </div>
 
 </body>

@@ -1,12 +1,12 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="aboutTitle" ContentPlaceHolderID="TitleContent" runat="server">
-    About Us
+    -Acerca de
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>About</h2>
+    <h2>Acerca de</h2>
     <p>
-        Put content here.
+        Este corresponde a la entrega final del trabajo de Proyecto de base de datos 2-2012. El proyecto ha sido llamado SigOSO
     </p>
 </asp:Content>
