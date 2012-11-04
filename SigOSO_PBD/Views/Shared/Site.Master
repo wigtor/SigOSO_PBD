@@ -9,8 +9,8 @@
 </head>
 <body>
 
-    <div style="height: 1000px; width:1000px; margin:0px auto 0px auto;">
-        <div id="sideNav" style="height: 1000px; margin-right: 0px; display: inline-block">
+    <div style="height: 100%; width:1000px; margin:0px auto 0px auto;">
+        <div id="sideNav" style="height: 100%; width: 200px; margin-right: 0px; display: inline-block">
             <div xmlns="" nowrap="true" class="leftNavHeader">
                 <asp:ContentPlaceHolder ID="MenuName" runat="server" />
             </div>
@@ -20,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <div style="height: 1000px; width: 800px; margin-right: 0px; display: inline-block">
+        <div class="MainContent" style="height: 100%; width: 780px; margin-right: 0px; display: inline-block">
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
         </div>
     </div>

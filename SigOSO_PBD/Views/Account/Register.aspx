@@ -1,26 +1,26 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.RegisterModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Account.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.RegisterModel>" %>
 
 <asp:Content ID="registerTitle" ContentPlaceHolderID="TitleContent" runat="server">
-    Register
+    Registrarse
 </asp:Content>
 
 <asp:Content ID="registerContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>Create a New Account</h2>
+    <h2>Crear una nueva cuenta</h2>
     <p>
-        Use the form below to create a new account. 
+        Use este formulario para crear una nueva cuenta. 
     </p>
     <p>
-        Passwords are required to be a minimum of <%: Membership.MinRequiredPasswordLength %> characters in length.
+        Las contraseñas requeridas deben tener un mínimo de <%: Membership.MinRequiredPasswordLength %> caracteres de largo.
     </p>
 
     <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
     <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
 
     <% using (Html.BeginForm()) { %>
-        <%: Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.") %>
+        <%: Html.ValidationSummary(true, "La creación de la cuenta no ha sido exitosa. Porfavot corrija los errores e intente nuevamente.") %>
         <div>
             <fieldset>
-                <legend>Account Information</legend>
+                <legend>Información de cuenta</legend>
                 
                 <div class="editor-label">
                     <%: Html.LabelFor(m => m.UserName) %>
