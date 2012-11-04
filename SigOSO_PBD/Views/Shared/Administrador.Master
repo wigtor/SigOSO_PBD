@@ -6,56 +6,56 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
-    <li><%:Html.ActionLink("Bienvenido", "Index", "Administrador") %></li>
+    <li><%:Html.ActionLink("Bienvenido", "Index", "Home") %></li>
 
     <li><a href="javascript:expandcollapse('menuExpand_1')">Auditoría</a></li>
     <li>
         <span class="posthidden" id="menuExpand_1"><br /><dd>
-            <a><%:Html.ActionLink("Configurar", "confAuditoria", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Consultar", "verAuditoria", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Configurar", "confAuditoria", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Consultar", "verAuditoria", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
     <li><a href="javascript:expandcollapse('menuExpand_2')">Clientes</a></li>
     <li>
         <span class="posthidden" id="menuExpand_2"><br /><dd>
-            <a><%:Html.ActionLink("Agregar", "agregarCliente", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Modificar", "ModificarCliente", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Buscar", "BuscarCliente", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Eliminar", "EliminarCliente", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Agregar", "agregarCliente", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Modificar", "ModificarCliente", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Buscar", "BuscarCliente", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Eliminar", "EliminarCliente", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
     <li><a href="javascript:expandcollapse('menuExpand_3')">Contratos</a></li>
     <li>
         <span class="posthidden" id="menuExpand_3"><br /><dd>
-            <a><%:Html.ActionLink("Agregar", "agregarContrato", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Buscar", "BuscarContrato", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Eliminar", "EliminarContrato", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Agregar", "agregarContrato", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Buscar", "BuscarContrato", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Eliminar", "EliminarContrato", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
-    <li><%:Html.ActionLink("Estado órdenes de trabajo", "EstadosOT", "Administrador")%></li>
+    <li><%:Html.ActionLink("Estado órdenes de trabajo", "EstadosOT", "Home")%></li>
 
     <li><a href="javascript:expandcollapse('menuExpand_4')">Informes</a></li>
     <li>
         <span class="posthidden" id="menuExpand_4"><br /><dd>
-            <a><%:Html.ActionLink("Bono trabajador", "infBonoTrabajador", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Materiales utilizados", "infMaterialUsado", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Bono trabajador", "infBonoTrabajador", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Materiales utilizados", "infMaterialUsado", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
-    <li><%:Html.ActionLink("Ingreso Orden de trabajo", "ingresoOT", "Administrador")%></li>
+    <li><%:Html.ActionLink("Ingreso Orden de trabajo", "ingresoOT", "Home")%></li>
 
     <li><a href="javascript:expandcollapse('menuExpand_5')">Mantención</a></li>
     <li>
         <span class="posthidden" id="menuExpand_5"><br /><dd>
-            <a><%:Html.ActionLink("Unidades de medida", "ManUnidadesMedida", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Materiales genéricos", "ManMaterialGenericos", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Estados OT", "MantEstadosOT", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Estados OTI", "MantEstadosOTI", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Perfil trabajadores", "MantPerfilTrabajadores", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Servicios prestados", "MantServiciosPrestados", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Unidades de medida", "ManUnidadesMedida", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Materiales genéricos", "ManMaterialGenericos", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Estados OT", "MantEstadosOT", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Estados OTI", "MantEstadosOTI", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Perfil trabajadores", "MantPerfilTrabajadores", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Servicios prestados", "MantServiciosPrestados", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
@@ -63,25 +63,25 @@
     <li><a href="javascript:expandcollapse('menuExpand_6')">Organizar cuadrillas</a></li>
     <li>
         <span class="posthidden" id="menuExpand_6"><br /><dd>
-            <a><%:Html.ActionLink("Crear", "CrearCuadrilla", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Crear", "CrearCuadrilla", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
     <li><a href="javascript:expandcollapse('menuExpand_7')">Trabajadores</a></li>
     <li>
         <span class="posthidden" id="menuExpand_7"><br /><dd>
-            <a><%:Html.ActionLink("Agregar", "AgregarTrabajador", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Modificar", "ModificarTrabajador", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Buscar", "BuscarTrabajador", "Administrador")%></a><br /><br />
-            <a><%:Html.ActionLink("Eliminar", "EliminarTrabajador", "Administrador")%></a><br /><br />
+            <a><%:Html.ActionLink("Agregar", "AgregarTrabajador", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Modificar", "ModificarTrabajador", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Buscar", "BuscarTrabajador", "Home")%></a><br /><br />
+            <a><%:Html.ActionLink("Eliminar", "EliminarTrabajador", "Home")%></a><br /><br />
         </dd></span>
     </li>
 
-    <li><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "Administrador")%></li>
-    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Administrador")%></li>
+    <li><%:Html.ActionLink("Modificar perfil", "ModificarPerfil", "Home")%></li>
+    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Home")%></li>
 </asp:Content>
 
 
