@@ -11,7 +11,7 @@ namespace SigOSO_PBD.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "Welcome to ASP.NET MVC! caca";
 
             return View();
         }
