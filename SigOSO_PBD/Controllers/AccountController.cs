@@ -17,6 +17,7 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult LogOn()
         {
+            
             return View();
         }
 
