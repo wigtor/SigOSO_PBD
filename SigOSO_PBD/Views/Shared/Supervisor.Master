@@ -70,27 +70,6 @@
       </div>
     </div>
 
-    <!--
-    <li><%:Html.ActionLink("Bienvenido", "Index", "Supervisor") %></li>
-    <li><%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor") %></li>
-    <li><%:Html.ActionLink("Asignación trabajos internos", "AsigOTI", "Supervisor")%></li>
-    <li><%:Html.ActionLink("Estados trabajos internos", "EstadosOTI", "Supervisor")%></li>
-    <li><%:Html.ActionLink("Generación trabajos internos", "GenOTI", "Supervisor")%></li>
-
-    <li><a href="javascript:expandcollapse('menuExpand_1')">Organizar cuadrillas</a></li>
-    <li>
-        <span class="posthidden" id="menuExpand_1"><br /><dd>
-            <a><%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor")%></a><br /><br />
-            <a><%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Supervisor")%></a><br /><br />
-            <a><%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Supervisor")%></a><br /><br />
-            <a><%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Supervisor")%></a><br /><br />
-        </dd></span>
-    </li>
-    
-    <li><%:Html.ActionLink("Modificar perfil", "modPerfil", "Supervisor")%></li>
-    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Supervisor")%></li>
-
-    -->
 </asp:Content>
 
 
