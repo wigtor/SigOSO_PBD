@@ -31,16 +31,16 @@
         }
     </script>
 
-    <div style="height: 100%; width:1280px; margin:0px auto 0px auto;">
-        <div style="height:100px; width:100%; margin-top:20px; background-color:black;">
+    <div class="contenedor_principal">
+        <div class="barraSuperior">
             <div class="span4" style="height:100px; background-image:url(../../Content/imagenes/logo%20mapeso.png);  background-repeat: no-repeat; background-position:0px 15px;"></div>          
             <div class="menuSuperior">
                 <div class="navbar navbar-inverse">
                   <div class="navbar-inner">
                     <ul class="nav">
-                            <asp:ContentPlaceHolder ID="menuSuperiorC1" runat="server" />
-                            <asp:ContentPlaceHolder ID="menuSuperiorC2" runat="server" />
-                            <asp:ContentPlaceHolder ID="menuSuperiorC3" runat="server" />
+                        <asp:ContentPlaceHolder ID="menuSuperiorC1" runat="server" />
+                        <asp:ContentPlaceHolder ID="menuSuperiorC2" runat="server" />
+                        <asp:ContentPlaceHolder ID="menuSuperiorC3" runat="server" />
                     </ul>
                   </div>
                 </div>
@@ -55,17 +55,17 @@
             <div xmlns="" class="leftNavHeader">
                 <asp:ContentPlaceHolder ID="MenuName" runat="server" />
             </div>
-            <div class="leftNav">
+            <div class="contenedorBarraLateral">
                 <asp:ContentPlaceHolder ID="MenuLinks" runat="server" />
             </div>
         </div>
         <div class="row">
         
-            <div class="span12 titulo-seccion">            
+            <div class="span9 titulo-seccion">            
                 <asp:ContentPlaceHolder ID="TitleContent" runat="server" />            
             </div>
 
-            <div class="span12">
+            <div class="span9">
                 <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             </div>
         </div>
