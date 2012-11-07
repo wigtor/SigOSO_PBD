@@ -2,6 +2,20 @@
 <%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" MasterPageFile="~/Views/Shared/Site.Master"%>
 
 
+<asp:Content ID="Content5" ContentPlaceHolderID="menuSuperiorC1" runat="server">
+     <%:Html.ActionLink("Bienvenido", "Index", "Supervisor", null, new { @class = "brand", @style = "text-decoration:none;" })%>
+</asp:Content>
+
+<asp:Content ID="Content6" ContentPlaceHolderID="menuSuperiorC2" runat="server">
+    <%:Html.ActionLink("Modificar perfil", "modPerfil", "Supervisor", null, new { @class = "brand", @style = "text-decoration:none;" })%>
+</asp:Content>
+
+<asp:Content ID="Content7" ContentPlaceHolderID="menuSuperiorC3" runat="server">
+    <%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Supervisor", null, new { @class = "brand", @style = "text-decoration:none;" })%>
+</asp:Content>
+
+
+
 <asp:Content ID="Content3" ContentPlaceHolderID="MenuName" runat="server">
     Menu supervisor
 </asp:Content>
@@ -13,13 +27,7 @@
 
       <div class="accordion-group">
         <div class="accordion-heading">
-            <%:Html.ActionLink("Bienvenido", "Index", "Supervisor", null, new {@class="accordion-toggle"})%>
-        </div>
-      </div>
-
-      <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor", null, new { @class = "accordion-toggle" })%>
+            <%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor", null, new { @class = "accordion-toggle"})%>
         </div>
       </div>
 
@@ -49,23 +57,11 @@
         </div>
         <div id="collapseFive" class="accordion-body collapse">
           <div class="accordion-inner">
-            <%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor", null, new { @style="margin-left:10px"})%><br />
-            <%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Supervisor", null, new { @style = "margin-left:10px" })%><br />
-            <%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Supervisor", null, new { @style = "margin-left:10px" })%><br />
-            <%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Supervisor", null, new { @style = "margin-left:10px" })%><br />
+            <%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor", null, new { @class = "subSeccionBarraLateral" })%><br />
+            <%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Supervisor", null, new { @class = "subSeccionBarraLateral" })%><br />
+            <%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Supervisor", null, new { @class = "subSeccionBarraLateral" })%><br />
+            <%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Supervisor", null, new { @class = "subSeccionBarraLateral" })%><br />
           </div>
-        </div>
-      </div>
-
-      <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Modificar perfil", "modPerfil", "Supervisor", null, new { @class = "accordion-toggle" })%>
-        </div>
-      </div>
-
-      <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Supervisor", null, new { @class = "accordion-toggle" })%>
         </div>
       </div>
     </div>
