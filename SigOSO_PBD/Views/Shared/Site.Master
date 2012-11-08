@@ -35,7 +35,7 @@
         <div class="barraSuperior">
             <div class="span4" style="height:100px; background-image:url(../../Content/imagenes/logo%20mapeso.png);  background-repeat: no-repeat; background-position:0px 15px;"></div>          
             <div class="menuSuperior">
-                <div class="navbar navbar-inverse">
+                <div class="navbar">
                   <div class="navbar-inner">
                     <ul class="nav">
                         <asp:ContentPlaceHolder ID="menuSuperiorC1" runat="server" />
@@ -52,7 +52,7 @@
         </div>
 
         <div id="sideNav">
-            <div xmlns="" class="leftNavHeader">
+            <div xmlns="" class="titulo-barra-lateral">
                 <asp:ContentPlaceHolder ID="MenuName" runat="server" />
             </div>
             <div class="contenedorBarraLateral">

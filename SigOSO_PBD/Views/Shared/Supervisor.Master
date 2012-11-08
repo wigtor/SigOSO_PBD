@@ -52,8 +52,8 @@
         <div class="accordion-heading">        
             <div class="dropup">
                 <ul class="dropdown-submenu">
-                    <a class="accordion-toggle">asdf</a>
-                    <div class="dropdown-menu" style="background:none; border:none; box-shadow:0 0 0">
+                    <a class="accordion-toggle barra-lateral-sub-menu" >asdf</a>
+                    <div class="dropdown-menu">
                         <div>
                             <div class="accordion-heading"> 
                                 <%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor", null, new { @class = "accordion-toggle" })%>
