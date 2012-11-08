@@ -1,9 +1,6 @@
 body
 {
-    background-image:url(../../Content/imagenes/pattern11.png);
-    
-    
-    
+    background-image:url(../../Content/imagenes/pattern11.png);        
     height:100%;
     margin-top:10px;
     }
@@ -192,6 +189,11 @@ body
     text-align:center;  
     
     }    
+
+.accordion-group
+{
+    border: none;
+    }
 
 .brand:hover
 {
