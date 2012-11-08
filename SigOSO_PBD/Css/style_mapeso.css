@@ -59,7 +59,7 @@ body
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */    
     }
 
-.contenedorBarraLateral div div div a
+.contenedorBarraLateral div div div a, dropdown-menu li
 {   
     margin-bottom:5px;
     color: White;
@@ -67,9 +67,12 @@ body
     font-weight: bold;    
     }
     
-.contenedorBarraLateral div div div a:hover
+.contenedorBarraLateral div div div a:hover, dropdown-menu li:hover
 {
     color: Black;
+    
+    
+    
     background: rgb(252,255,244); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(252,255,244,1) 18%, rgba(233,233,206,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(18%,rgba(252,255,244,1)), color-stop(100%,rgba(233,233,206,1))); /* Chrome,Safari4+ */
@@ -78,8 +81,8 @@ body
     background: -ms-linear-gradient(top,  rgba(252,255,244,1) 18%,rgba(233,233,206,1) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(252,255,244,1) 18%,rgba(233,233,206,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#e9e9ce',GradientType=0 ); /* IE6-9 */
-
     }    
+
 
 .accordion-inner
 {
