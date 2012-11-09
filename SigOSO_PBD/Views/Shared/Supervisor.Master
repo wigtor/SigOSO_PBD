@@ -3,15 +3,15 @@
 
 
 <asp:Content ID="Content5" ContentPlaceHolderID="menuSuperiorC1" runat="server">
-     <%:Html.ActionLink("Bienvenido", "Index", "Supervisor", null, new { @class = "brand", @style = "text-decoration:none;" })%>
+     <%:Html.ActionLink("Bienvenido", "Index", "Supervisor", null, new { @id="BotonIndex", @class = "brand", @style = "text-decoration:none;" })%>
 </asp:Content>
 
 <asp:Content ID="Content6" ContentPlaceHolderID="menuSuperiorC2" runat="server">
-    <%:Html.ActionLink("Modificar perfil", "modPerfil", "Supervisor", null, new { @class = "brand", @style = "text-decoration:none;" })%>
+    <%:Html.ActionLink("Modificar perfil", "modPerfil", "Supervisor", null, new { @id = "BotonModPerfil", @class = "brand", @style = "text-decoration:none;" })%>
 </asp:Content>
 
 <asp:Content ID="Content7" ContentPlaceHolderID="menuSuperiorC3" runat="server">
-    <%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Supervisor", null, new { @class = "brand", @style = "text-decoration:none;" })%>
+    <%:Html.ActionLink("Cerrar Sesión", "Trabajador", "Supervisor", null, new { @id = "BotonCerrarSesion", @class = "brand", @style = "text-decoration:none;" })%>
 </asp:Content>
 
 
@@ -25,53 +25,53 @@
     <div class="accordion" id="accordion2">      
 
       <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor", null, new { @class = "accordion-toggle"})%>
+        <div class="accordion-heading accordion-heading-mapeso">
+            <%:Html.ActionLink("Asignación materiales", "AsigMat", "Supervisor", null, new { @id = "BotonAsigMat", @class = "accordion-toggle" })%>
         </div>
       </div>
 
       <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Asignación trabajos internos", "AsigOTI", "Supervisor", null, new { @class = "accordion-toggle" })%>
+        <div class="accordion-heading accordion-heading-mapeso">
+            <%:Html.ActionLink("Asignación trabajos internos", "AsigOTI", "Supervisor", null, new { @id = "BotonAsigOTI", @class = "accordion-toggle" })%>
         </div>
       </div>
 
       <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Estados trabajos internos", "EstadosOTI", "Supervisor", null, new { @class = "accordion-toggle" })%>
+        <div class="accordion-heading accordion-heading-mapeso">
+            <%:Html.ActionLink("Estados trabajos internos", "EstadosOTI", "Supervisor", null, new { @id = "BotonEstadosOTI", @class = "accordion-toggle" })%>
         </div>
       </div>
 
       <div class="accordion-group">
-        <div class="accordion-heading">
-            <%:Html.ActionLink("Generación trabajos internos", "GenOTI", "Supervisor", null, new { @class = "accordion-toggle" })%>
+        <div class="accordion-heading accordion-heading-mapeso">
+            <%:Html.ActionLink("Generación trabajos internos", "GenOTI", "Supervisor", null, new { @id = "BotonGenOTI", @class = "accordion-toggle" })%>
         </div>
       </div>
 
       <div class="accordion-group">
-        <div class="accordion-heading">        
+        <div class="accordion-heading accordion-heading-mapeso">        
             <div class="dropup">
                 <ul class="dropdown-submenu">
-                    <a class="accordion-toggle barra-lateral-sub-menu" >asdf</a>
+                    <a id="BotonOrganizarCuadrilla"class="accordion-toggle barra-lateral-sub-menu" >Organizar Cuadrilla</a>
                     <div class="dropdown-menu">
                         <div>
                             <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor", null, new { @class = "accordion-toggle" })%>
+                                <%:Html.ActionLink("Crear", "CrearCuadrilla", "Supervisor", null, new { @id = "BotonCrearCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                         <div>
                             <div class="accordion-heading"> 
-                            <%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Supervisor", null, new { @class = "accordion-toggle" })%>
+                            <%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Supervisor", null, new { @id = "BotonModificarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                         <div>
                             <div class="accordion-heading"> 
-                            <%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Supervisor", null, new { @class = "accordion-toggle" })%>
+                            <%:Html.ActionLink("Buscar", "BuscarCuadrilla", "Supervisor", null, new { @id = "BotonBuscarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                         <div>
                             <div class="accordion-heading"> 
-                            <%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Supervisor", null, new { @class = "accordion-toggle" })%>
+                            <%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Supervisor", null, new { @id = "BotonEliminarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                     </div>                    

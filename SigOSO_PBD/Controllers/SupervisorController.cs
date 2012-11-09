@@ -16,5 +16,45 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+        public ActionResult AsigMat()
+        {
+            return View();
+        }
+
+        public ActionResult AsigOTI()
+        {
+            return View();
+        }
+
+        public ActionResult BuscarCuadrilla()
+        {
+            return View();
+        }
+
+        public ActionResult EliminarCuadrilla()
+        {
+            return View();
+        }
+
+        public ActionResult EstadosOTI()
+        {
+            return View();
+        }
+
+        public ActionResult GenOTI()
+        {
+            return View();
+        }
+
+        public ActionResult ModificarCuadrilla()
+        {
+            return View();
+        }
+
+        public ActionResult modPerfil()
+        {
+            return View();
+        }
+
     }
 }

@@ -129,6 +129,14 @@
     <Content Include="Views\JefeCuadrilla\ModificarPerfil.aspx" />
     <Content Include="Views\JefeCuadrilla\SolicitudDeMaterial.aspx" />
     <Content Include="Views\JefeCuadrilla\Trabajador.aspx" />
+    <Content Include="Views\Supervisor\BuscarCuadrilla.aspx" />
+    <Content Include="Views\Supervisor\EliminarCuadrilla.aspx" />
+    <Content Include="Views\Supervisor\ModificarCuadrilla.aspx" />
+    <Content Include="Views\Supervisor\EstadosOTI.aspx" />
+    <Content Include="Views\Supervisor\GenOTI.aspx" />
+    <Content Include="Views\Supervisor\AsigOTI.aspx" />
+    <Content Include="Views\Supervisor\AsigMat.aspx" />
+    <Content Include="Views\Supervisor\modPerfil.aspx" />
     <Content Include="Views\Supervisor\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

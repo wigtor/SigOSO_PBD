@@ -10,9 +10,12 @@
 
         Formulario de supervisor
     
-    
-    
-    
+    <script>
+        $('#BotonAsigMat').removeClass("accordion-heading-mapeso");
+        $('#BotonAsigMat').addClass("accordion-heading-mapeso-seleccionada");
+        
+            
+    </script>    
 </asp:Content>
 
 

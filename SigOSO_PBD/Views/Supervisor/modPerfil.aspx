@@ -10,9 +10,7 @@
 
         Formulario de supervisor
     
-    
-    
-    
+
 </asp:Content>
 
 
