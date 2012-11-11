@@ -1,17 +1,44 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" MasterPageFile="~/Views/Shared/Site.Master"%>
 
 
+<asp:Content ID="Content5" ContentPlaceHolderID="menuSuperiorC1" runat="server">
+     <%:Html.ActionLink("Bienvenido", "Index", "JefeBodega", null, new { @id = "BotonIndex", @class = "brand", @style = "text-decoration:none;" })%>
+</asp:Content>
+
+<asp:Content ID="Content6" ContentPlaceHolderID="menuSuperiorC2" runat="server">
+    <%:Html.ActionLink("Modificar Perfil", "modPerfil", "JefeBodega", null, new { @id = "BotonModPerfil", @class = "brand", @style = "text-decoration:none;" })%>
+</asp:Content>
+
+<asp:Content ID="Content7" ContentPlaceHolderID="menuSuperiorC3" runat="server">
+    <%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeBodega", null, new { @id = "BotonCerrarSesion", @class = "brand", @style = "text-decoration:none;" })%>
+</asp:Content>
+
+
+
 <asp:Content ID="Content3" ContentPlaceHolderID="MenuName" runat="server">
     Menu jefe de bodega
 </asp:Content>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MenuLinks" runat="server">
-    <li><%:Html.ActionLink("Bienvenido", "Index", "JefeBodega") %></li>
-    <li><%:Html.ActionLink("Retiro", "RetiroMat", "JefeBodega") %></li>
-    <li><%:Html.ActionLink("Devolución", "DevolucionMat", "JefeBodega") %></li>
-    <li><%:Html.ActionLink("Modificar perfil", "modPerfil", "JefeCuadrilla") %></li>
-    <li><%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeCuadrilla")%></li>
+
+<asp:Content ID="Content8" ContentPlaceHolderID="MenuLinks" runat="server">
+    
+    <div class="accordion" id="accordion2">      
+
+      <div class="accordion-group">
+        <div class="accordion-heading accordion-heading-mapeso">
+            <%:Html.ActionLink("Retiro", "RetiroMat", "JefeBodega", null, new { @id = "BotonRetirogMat", @class = "accordion-toggle" })%>
+        </div>
+      </div>
+
+      <div class="accordion-group">
+        <div class="accordion-heading accordion-heading-mapeso">
+            <%:Html.ActionLink("Devolución", "DevolucionMat", "JefeBodega", null, new { @id = "BotonDevolucionMat", @class = "accordion-toggle" })%>
+        </div>
+      </div>
+    </div>
+
 </asp:Content>
+
 
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
     <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
