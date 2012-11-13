@@ -22,6 +22,12 @@ namespace SigOSO_PBD.Controllers
             ViewBag.primerValor = cargaUnidades();
             return View();
         }
+        public ActionResult AgregarTrabajador()
+        {
+
+            
+            return View();
+        }
 
         public string cargaUnidades()
         {
