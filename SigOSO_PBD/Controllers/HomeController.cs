@@ -43,6 +43,18 @@ namespace SigOSO_PBD.Controllers
 
                 try
                 {
+                    string query2 = "SELECT rut_cliente FROM cliente WHERE rut_cliente = '" + nvoCliente.rut + "'";
+                    NpgsqlDataReader lector = DBConector.SELECT(query2);
+                    if (lector.HasRows) {
+                        ModelState.AddModelError( "rut", "Ya existe un cliente con ese rut");
+                        lector.Dispose();
+                        ViewBag.respuestaPost = "";
+                        return View(nvoCliente);
+                    }
+
+                    
+
+
                     int cantidadInsertada = DBConector.INSERT(query);
 
                     ViewBag.respuestaPost = "Se ha creado correctamente el cliente";
@@ -67,6 +79,33 @@ namespace SigOSO_PBD.Controllers
             ViewBag.respuestaPost = "Correctamente cargado";
             return View();
         }
+
+
+
+        //DEL ADOLFO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //HASTA ACÁ EL ADOLFO
+
 
         public string cargaUnidades()
         {

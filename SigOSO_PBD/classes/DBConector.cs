@@ -15,12 +15,6 @@ namespace SigOSO_PBD.classes
             NpgsqlConnection con = new NpgsqlConnection(DBConector.conectionString);
             con.Open();
 
-            //Un insert o un update o un delete
-            /*
-            NpgsqlCommand comando = new NpgsqlCommand("INSERT INTO unidad_material (nombre_unidad, abreviatura_unidad) VALUES ('kilogramos', 'kg')", con);
-            int resultado = comando.ExecuteNonQuery();
-            */
-
             //Un select
             NpgsqlCommand comando = new NpgsqlCommand(query, con);
             NpgsqlDataReader resultQuery =  comando.ExecuteReader();

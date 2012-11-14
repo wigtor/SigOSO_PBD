@@ -66,7 +66,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="classes\Cliente.cs" />
     <Compile Include="classes\DBConector.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -129,6 +128,7 @@
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
     <Content Include="Views\Home\AgregarCliente.aspx" />
     <Content Include="Views\Home\MantServiciosPrestados.aspx" />
+    <Content Include="Views\Home\ModificarCliente.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\JefeBodega\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\CambiarEstadoOTI.aspx" />
