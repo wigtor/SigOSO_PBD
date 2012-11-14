@@ -34,13 +34,10 @@ namespace SigOSO_PBD.Controllers
         //Para hacer POST
         [HttpPost]
         public ActionResult AgregarCliente(agregarClienteModel nvoCliente)
-        {
-            
+        {  
             if (ModelState.IsValid)
             {
-
                 string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente, ciudad_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '" + nvoCliente.correo + "', '"+nvoCliente.ciudad+"')";
-
                 try
                 {
                     string query2 = "SELECT rut_cliente FROM cliente WHERE rut_cliente = '" + nvoCliente.rut + "'";
@@ -51,12 +48,7 @@ namespace SigOSO_PBD.Controllers
                         ViewBag.respuestaPost = "";
                         return View(nvoCliente);
                     }
-
-                    
-
-
                     int cantidadInsertada = DBConector.INSERT(query);
-
                     ViewBag.respuestaPost = "Se ha creado correctamente el cliente";
                 }
                 catch (Exception ex)
@@ -85,10 +77,72 @@ namespace SigOSO_PBD.Controllers
         //DEL ADOLFO
 
 
+        [HttpGet]
+        public ActionResult MantServiciosPrestados()
+        {
+            ViewBag.respuestaPost = "";
+            NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
+            string respuesta="<div class='contenedor_lista_servicios'>";
+            respuesta += "<div class='fila_contenedor_lista_servicios_titulos'>";
+                respuesta += "<div class='columna_contenedor_lista_servicios1'>Nombre servicio</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios2'>Precio pizarra</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios3'>Factor bono</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios4'>Visible</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios5'>Editar</div>";
+            respuesta += "</div>";
+            while(servicios.Read()){
+                respuesta += "<div class='fila_contenedor_lista_servicios'>";
+                    respuesta += "<div class='columna_contenedor_lista_servicios1'>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</div>";
+                    respuesta += "<div class='columna_contenedor_lista_servicios2'>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</div>";
+                    respuesta += "<div class='columna_contenedor_lista_servicios3'>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</div>";
+                    if (servicios.GetBoolean(servicios.GetOrdinal("visibilidad_servicio")))
+                    {
+                        respuesta += "<div class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox' disabled='true' checked>" + "</div>";
+                    }else{
+                        respuesta += "<div class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox'>" + "</div>";
+                    }
+                    respuesta += "<div class='columna_contenedor_lista_servicios5'>" + "boton editar" + "</div>";
+                respuesta += "</div>";
+            }
+            respuesta += "</div>";
+            ViewBag.tabla = respuesta;
+            return View();
+        }
 
-
-
-
+        [HttpPost]
+        public ActionResult MantServiciosPrestados(agregarServicioModel nvoServicio)
+        {
+            if (ModelState.IsValid)
+            {
+                string activado = "true";
+                string query = "INSERT INTO servicio (nombre_servicio, precio_pizarra, factor_bono_trabajador, visibilidad_servicio) VALUES ('" + nvoServicio.nombreServicio + "','" + nvoServicio.precioPizarra + "','" + nvoServicio.factorBono + "','" + activado + "')";
+                try
+                {
+                    string query2 = "SELECT nombre_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
+                    NpgsqlDataReader lector = DBConector.SELECT(query2);
+                    if (lector.HasRows)
+                    {
+                        ModelState.AddModelError("rut", "Ya existe un servicio con ese nombre");
+                        lector.Dispose();
+                        ViewBag.respuestaPost = "";
+                        return View(nvoServicio);
+                    }
+                    int cantidadInsertada = DBConector.INSERT(query);
+                    ViewBag.respuestaPost = "Se ha creado correctamente el servicio";
+                    return RedirectToAction("MantServiciosPrestados", "home");
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                }                
+            }
+            else 
+            {
+                ViewBag.respuestaPost = "";
+                return View(nvoServicio);
+            }
+            return View(nvoServicio);
+        }
 
 
 
