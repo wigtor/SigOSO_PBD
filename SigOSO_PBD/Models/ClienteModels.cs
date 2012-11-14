@@ -11,7 +11,7 @@ namespace SigOSO_PBD.Models
     {
 
         [Required]
-        [StringLength(30, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 2)]
+        [StringLength(30, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 2)]
         [Display(Name = "Ciudad")]
         public string ciudad { get; set; }
 
@@ -38,7 +38,7 @@ namespace SigOSO_PBD.Models
         public string telefono2 { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 2)]
+        [StringLength(50, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 5)]
         [DataType(DataType.EmailAddress)]
         [RegularExpression("^(?<user>[^@]+)@(?<host>.+)$", ErrorMessage = "El {0} ingresado no es válido")]
 
