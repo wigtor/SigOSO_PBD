@@ -15,20 +15,28 @@
             <tr>
                 <td class="input-medium" style="width: 200px">
                     &nbsp;
-                    Nombre</td>
+                    Rut</td>
                 <td>
                     &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%></td>
+                    <input id="btn_cargarCliente" type="submit" name="btn_submit" value="Cargar"/>
+                    <!--
+                    <input id="btn_cargarCliente" type="button" name="btn_cargarCliente" value="Cargar" onclick="location='./ModificarCliente/?rut='"/>
+                    -->
+                    <br />
+                    &nbsp;
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.rut)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%>
+                    
+                    </td>
             </tr>
             <tr>
                 <td class="input-medium" style="width: 200px">
                     &nbsp;
-                    Rut</td>
+                    Nombre</td>
                 <td >
                     &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.rut)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%></td>
 
             </tr>
             <tr>
@@ -101,14 +109,16 @@
         </table>
 
         <div>
-            <%: ViewBag.respuestaPost%>
+            <% if (ViewBag.respuestaPost!= null) {%>
+                <%: ViewBag.respuestaPost %>
+            <%}
+             %>
         </div>
 
         <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
-            <input id="btn_agregarCliente" type="submit" value="Agregar Cliente" />
+            <input id="btn_modificarCliente" name="btn_submit" type="submit" value="Guardar cambios" />
         </div>
     </form>
 </asp:Content>
-
 
