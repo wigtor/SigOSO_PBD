@@ -62,6 +62,17 @@ namespace SigOSO_PBD.Models
         
         public string giro { get; set; }
 
+        public void limpiarCampos()
+        {
+            this.nombre = "";
+            this.rut = "";
+            this.telefono1 = "";
+            this.telefono2 = "";
+            this.giro = "";
+            this.direccion = "";
+            this.comuna = "";
+            this.ciudad = "";
+        }
     }
 
     

@@ -63,11 +63,11 @@ namespace SigOSO_PBD.Controllers
                 {
                     ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
                 }
-                return View();
+
+                return RedirectToAction("AgregarCliente", "home");
             }
             else
             {
-                ViewBag.respuestaPost = "";
                 return View(nvoCliente);
             }
         }
@@ -76,7 +76,94 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult AgregarCliente()
         {
-            ViewBag.respuestaPost = "Correctamente cargado";
+            return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult ModificarCliente()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public ActionResult ModificarCliente(agregarClienteModel clienteMod, string btn_submit)
+        {
+            if (btn_submit == null)
+            {
+                return View(clienteMod);
+            }
+
+            if (btn_submit.Equals("Cargar")) //Se esta cargando un cliente
+            {
+                if (ModelState.IsValidField("rut"))
+                {
+                    string query = "SELECT * FROM cliente WHERE rut_cliente = '" + clienteMod.rut + "'";
+                    NpgsqlDataReader lector = DBConector.SELECT(query);
+                    if (lector.Read())
+                    {
+                        ModelState.Clear();
+                        clienteMod.rut = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
+                        clienteMod.nombre = lector.GetString(lector.GetOrdinal("nombre_cliente"));
+                        clienteMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_cliente"));
+                        clienteMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_cliente"));
+                        clienteMod.correo = lector.GetString(lector.GetOrdinal("mail_cliente"));
+                        clienteMod.direccion = lector.GetString(lector.GetOrdinal("direccion_cliente"));
+                        clienteMod.comuna = lector.GetString(lector.GetOrdinal("comuna_cliente"));
+                        clienteMod.ciudad = lector.GetString(lector.GetOrdinal("ciudad_cliente"));
+                        clienteMod.giro = lector.GetString(lector.GetOrdinal("giro_cliente"));
+                        return View(clienteMod);
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("rut", "El rut insertado no existe");
+                    }
+                    lector.Dispose();
+
+                }
+                else
+                {
+                    string mensaje = "El rut ingresado no es válido";
+                    ModelState.Clear();
+                    ModelState.AddModelError("rut", mensaje);
+                }
+            }
+            else if (btn_submit.Equals("Guardar cambios")) //Se presionó el botón para guardar cambios
+            {
+                if (ModelState.IsValid)
+                {
+
+                    string query = "UPDATE cliente SET nombre_cliente='" + clienteMod.nombre + "', direccion_cliente='" + clienteMod.direccion + "', comuna_cliente='" + clienteMod.comuna + "', giro_cliente='" + clienteMod.giro + "', tel1_cliente='" + clienteMod.telefono1 + "', tel2_cliente='" + clienteMod.telefono2 + "', mail_cliente='" + clienteMod.correo + "', ciudad_cliente='" + clienteMod.ciudad + "' WHERE rut_cliente='"+clienteMod.rut+"'";
+
+                    try
+                    {
+                        
+
+                        int cantidadInsertada = DBConector.UPDATE(query);
+
+                        ViewBag.respuestaPost = "Se han guardado correctamente los datos del cliente";
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                    }
+
+                    return RedirectToAction("Index", "home");
+                }
+                else
+                {
+                    return View(clienteMod);
+                }
+
+
+            }
+            else //Se presionó cualquier otra cosa, no se usa
+            {
+
+            }
             return View();
         }
 

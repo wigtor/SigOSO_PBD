@@ -101,7 +101,10 @@
         </table>
 
         <div>
-            <%: ViewBag.respuestaPost%>
+            <% if (ViewBag.respuestaPost!= null) {%>
+                <%: ViewBag.respuestaPost %>
+            <%}
+             %>
         </div>
 
         <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
