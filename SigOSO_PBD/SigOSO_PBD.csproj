@@ -66,6 +66,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\Cliente.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JefeBodegaController.cs" />
@@ -75,6 +76,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +126,7 @@
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
+    <Content Include="Views\Home\AgregarCliente.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\JefeBodega\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\CambiarEstadoOTI.aspx" />

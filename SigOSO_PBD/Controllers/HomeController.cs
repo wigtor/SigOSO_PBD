@@ -22,10 +22,25 @@ namespace SigOSO_PBD.Controllers
             ViewBag.primerValor = cargaUnidades();
             return View();
         }
+
         public ActionResult AgregarTrabajador()
         {
 
-            
+            return View();
+        }
+
+        //Para hacer POST
+        [HttpPost]
+        public ActionResult AgregarCliente(SigOSO_PBD.classes.Cliente nvoCliente)
+        {
+            ViewBag.respuestaPost = "Se ha recibido correctamente el cliente";
+            return View();
+        }
+
+        //Para visualizar
+        public ActionResult AgregarCliente()
+        {
+
             return View();
         }
 
