@@ -53,7 +53,7 @@
                     <div class="dropdown-menu">
                         <div>
                             <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Agregar", "agregarCliente", "Home", null, new { @id = "BotonAgregarCliente", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                <%:Html.ActionLink("Agregar", "AgregarCliente", "Home", null, new { @id = "BotonAgregarCliente", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                         <div>
