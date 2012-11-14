@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Npgsql;
 using SigOSO_PBD.classes;
+using SigOSO_PBD.Models;
 
 namespace SigOSO_PBD.Controllers
 {
@@ -32,21 +33,31 @@ namespace SigOSO_PBD.Controllers
 
         //Para hacer POST
         [HttpPost]
-        public ActionResult AgregarCliente(Cliente nvoCliente)
+        public ActionResult AgregarCliente(agregarClienteModel nvoCliente)
         {
-            string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '"+nvoCliente.correo+"')";
-                
-            try
+            
+            if (ModelState.IsValid)
             {
-                int cantidadInsertada = DBConector.INSERT(query);
 
-                ViewBag.respuestaPost = "Se ha recibido correctamente el cliente: "+cantidadInsertada+ "\n"+query;
-            }
-            catch (Exception ex) {
+                string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente, ciudad_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '" + nvoCliente.correo + "', '"+nvoCliente.ciudad+"')";
 
-                ViewBag.respuestaPost = query;//ex.Message;
+                try
+                {
+                    int cantidadInsertada = DBConector.INSERT(query);
+
+                    ViewBag.respuestaPost = "Se ha creado correctamente el cliente";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                }
+                return View();
             }
-            return View();
+            else
+            {
+                ViewBag.respuestaPost = "";
+                return View(nvoCliente);
+            }
         }
 
         //Para visualizar

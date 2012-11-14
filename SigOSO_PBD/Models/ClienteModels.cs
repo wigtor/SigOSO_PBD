@@ -9,27 +9,57 @@ namespace SigOSO_PBD.Models
 {
     public class agregarClienteModel
     {
-        
-        
-        public string ciudad;
-        public string comuna;
-        public string direccion;
-        public string telefono1;
-        public string telefono2;
-        public string correo;
 
         [Required]
-        [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 2)]
+        [Display(Name = "Ciudad")]
+        public string ciudad { get; set; }
+
+        [Required]
+        [StringLength(30, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 2)]
+        [Display(Name = "Comuna")]
+        public string comuna { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 2)]
+        [Display(Name = "Dirección")]
+        public string direccion { get; set; }
+
+        [Required]
+        [StringLength(15, ErrorMessage = "El {0} debe tener al menos {2} dígitos de longitud y máximo {1}", MinimumLength = 5)]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Teléfono 1")]
+        public string telefono1 { get; set; }
+
+        
+        [StringLength(15, ErrorMessage = "El {0} debe tener al menos {2} dígitos de longitud y máximo {1}.", MinimumLength = 5)]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Teléfono 2")]
+        public string telefono2 { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 2)]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression("^(?<user>[^@]+)@(?<host>.+)$", ErrorMessage = "El {0} ingresado no es válido")]
+
+        [Display(Name = "Correo electrónico")]
+        public string correo { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 2)]
         [Display(Name = "Nombre")]
-        public string nombre;
+        public string nombre { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]
+        //[StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} dígitos de longitud y máximo {1}", MinimumLength = 7)]
         [Display(Name = "Rut")]
-        public int rut { get; set; }
+        [Range(1000000, 1000000000, ErrorMessage = "El {0} ingresado no es válido")]
+        public string rut { get; set; }
 
         
         [Display(Name = "Giro")]
+        [StringLength(40, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 0)]
+        
         public string giro { get; set; }
 
     }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.agregarClienteModel>" %>
 
 
 
@@ -18,8 +18,8 @@
                     Nombre</td>
                 <td>
                     &nbsp;
-                    <input id="nombre" name="nombre" type="text" />
-                </td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%></td>
             </tr>
             <tr>
                 <td class="input-medium" style="width: 200px">
@@ -27,8 +27,8 @@
                     Rut</td>
                 <td >
                     &nbsp;
-                    <input id="rut" name="rut" type="text" />
-                    <input id="digito_verificador" type="text" style="width: 20px"/></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.rut)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%></td>
 
             </tr>
             <tr>
@@ -37,7 +37,8 @@
                     Giro</td>
                 <td >
                     &nbsp;
-                    <input id="giro" name="giro" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.giro)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.giro)%>
 
             </tr>
             <tr>
@@ -46,7 +47,8 @@
                     Ciudad</td>
                 <td>
                     &nbsp;
-                    <input id="ciudad" name="ciudad" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.ciudad)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.ciudad)%>
             </tr>
             <tr>
                 <td class="input-medium" style="width: 200px">
@@ -54,14 +56,16 @@
                     Comuna</td>
                 <td>
                     &nbsp;
-                    <input id="comuna" name="comuna" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.comuna)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.comuna)%></td>
             </tr>
             <tr>
                 <td class="input-medium" style="width: 200px">
                     &nbsp; Dirección</td>
                 <td>
                     &nbsp;
-                    <input id="direccion" name="direccion" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.direccion)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.direccion)%></td>
             </tr>
             <tr>
                 <td class="input-medium" style="width: 200px">
@@ -69,7 +73,8 @@
                     Teléfono 1</td>
                 <td>
                     &nbsp;
-                    <input id="telefono1" name="telefono1" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.telefono1)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono1)%></td>
             </tr>
              <tr>
                 <td class="input-medium" style="width: 200px">
@@ -77,7 +82,8 @@
                     Teléfono 2</td>
                 <td>
                     &nbsp;
-                    <input id="telefono2" name="telefono2" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.telefono2)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono2)%></td>
             </tr>
         
          
@@ -87,7 +93,8 @@
                     Correo electrónico</td>
                 <td>
                     &nbsp;
-                    <input id="correo" name="correo" type="text" /></td>
+                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.correo)%>
+                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.correo)%></td>
             </tr>
         
          

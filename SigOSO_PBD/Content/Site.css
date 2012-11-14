@@ -192,7 +192,7 @@ input[type="password"] {
     height: 25px;
     font-size: 1.2em;
     color: #444;
-    width: 60%;
+    width: 40%;
 }
 
 select {
@@ -308,7 +308,7 @@ div#title {
 }
 
 .text-box {
-    width: 30em;
+    width: 40%;//30em;
 }
 
 .text-box.multi-line {
