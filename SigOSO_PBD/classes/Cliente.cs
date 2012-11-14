@@ -7,14 +7,14 @@ namespace SigOSO_PBD.classes
 {
     public class Cliente
     {
-        public string ciudad;
-        public string comuna;
-        public string direccion;
-        public string telefono1;
-        public string telefono2;
-        public string correo;
-        public string nombre;
-        public int rut;
-        public string giro;
+        public string ciudad { get; set; }
+        public string comuna { get; set; }
+        public string direccion { get; set; }
+        public string telefono1 { get; set; }
+        public string telefono2 { get; set; }
+        public string correo { get; set; }
+        public string nombre { get; set; }
+        public int rut { get; set; }
+        public string giro { get; set; }
     }
 }

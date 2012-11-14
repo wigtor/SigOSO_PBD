@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Npgsql;
+using SigOSO_PBD.classes;
 
 namespace SigOSO_PBD.Controllers
 {
@@ -25,22 +26,34 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult AgregarTrabajador()
         {
-
+            
             return View();
         }
 
         //Para hacer POST
         [HttpPost]
-        public ActionResult AgregarCliente(SigOSO_PBD.classes.Cliente nvoCliente)
+        public ActionResult AgregarCliente(Cliente nvoCliente)
         {
-            ViewBag.respuestaPost = "Se ha recibido correctamente el cliente";
+            string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '"+nvoCliente.correo+"')";
+                
+            try
+            {
+                int cantidadInsertada = DBConector.INSERT(query);
+
+                ViewBag.respuestaPost = "Se ha recibido correctamente el cliente: "+cantidadInsertada+ "\n"+query;
+            }
+            catch (Exception ex) {
+
+                ViewBag.respuestaPost = query;//ex.Message;
+            }
             return View();
         }
 
         //Para visualizar
+        [HttpGet]
         public ActionResult AgregarCliente()
         {
-
+            ViewBag.respuestaPost = "Correctamente cargado";
             return View();
         }
 
@@ -73,4 +86,6 @@ namespace SigOSO_PBD.Controllers
 
         }
     }
+
+
 }
