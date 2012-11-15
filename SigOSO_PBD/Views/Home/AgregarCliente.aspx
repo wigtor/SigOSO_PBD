@@ -11,106 +11,49 @@
 
 
     <form id="form1" method="post">
-        <table style="width: 100%;">
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Nombre</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%></td>
-            </tr>
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Rut</td>
-                <td >
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.rut)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%></td>
+          <fieldset>            
+            <label>Nombre</label>            
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre, new {@class="text"})%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%>
 
-            </tr>
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Giro</td>
-                <td >
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.giro)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.giro)%>
+            <label>Rut</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.rut, new { @class = "text" })%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%>
 
-            </tr>
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Ciudad</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.ciudad)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.ciudad)%>
-            </tr>
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Comuna</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.comuna)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.comuna)%></td>
-            </tr>
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp; Dirección</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.direccion)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.direccion)%></td>
-            </tr>
-            <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Teléfono 1</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.telefono1)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono1)%></td>
-            </tr>
-             <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Teléfono 2</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.telefono2)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono2)%></td>
-            </tr>
-        
-         
-             <tr>
-                <td class="input-medium" style="width: 200px">
-                    &nbsp;
-                    Correo electrónico</td>
-                <td>
-                    &nbsp;
-                    <%: Html.TextBoxFor(nvoCliente => nvoCliente.correo)%>
-                    <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.correo)%></td>
-            </tr>
-        
-         
-        </table>
+            <label>Giro</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.giro)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.giro)%>
 
-        <div>
-            <% if (ViewBag.respuestaPost!= null) {%>
-                <%: ViewBag.respuestaPost %>
-            <%}
-             %>
-        </div>
+            <label>Ciudad</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.ciudad)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.ciudad)%>
 
-        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
-        align="center">
-            <input id="btn_agregarCliente" type="submit" value="Agregar Cliente" />
-        </div>
+            <label>Comuna</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.comuna)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.comuna)%>
+
+            <label>Dirección</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.direccion)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.direccion)%>
+
+            <label>Teléfono 1</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.telefono1)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono1)%>
+
+            <label>Teléfono 2</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.correo)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.correo)%>
+
+            <div>
+                <% if (ViewBag.respuestaPost!= null) {%>
+                    <%: ViewBag.respuestaPost %>
+                <%}
+                 %>
+            </div>
+
+            <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
+                <input id="btn_agregarCliente" type="submit" value="Agregar Cliente" />
+            </div>
     </form>
 </asp:Content>
 

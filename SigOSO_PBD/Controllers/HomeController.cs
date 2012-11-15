@@ -233,6 +233,38 @@ namespace SigOSO_PBD.Controllers
         {
             ViewBag.respuestaPost = "";
             NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
+            string respuesta = "<table class='table contenedor_lista_servicios'>";
+            respuesta += "<thead>";
+            respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
+            respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre servicio</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios2'>Precio pizarra</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios3'>Factor bono</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios4'>Visible</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios5'>Editar</td>";
+            respuesta += "</thead>";
+            respuesta += "</tr>";
+            while (servicios.Read())
+            {
+                respuesta += "<tr class='fila_contenedor_lista_servicios'>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios3'>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</td>";
+                if (servicios.GetBoolean(servicios.GetOrdinal("visibilidad_servicio")))
+                {
+                    respuesta += "<td class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox' disabled='true' checked>" + "</td>";
+                }
+                else
+                {
+                    respuesta += "<td class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox'>" + "</td>";
+                }
+                respuesta += "<td class='columna_contenedor_lista_servicios5'>" + "boton editar" + "</td>";
+                respuesta += "</tr>";
+            }
+            respuesta += "</table>";
+            ViewBag.tabla = respuesta;
+            return View();
+            /*ViewBag.respuestaPost = "";
+            NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
             string respuesta="<div class='contenedor_lista_servicios'>";
             respuesta += "<div class='fila_contenedor_lista_servicios_titulos'>";
                 respuesta += "<div class='columna_contenedor_lista_servicios1'>Nombre servicio</div>";
@@ -257,7 +289,7 @@ namespace SigOSO_PBD.Controllers
             }
             respuesta += "</div>";
             ViewBag.tabla = respuesta;
-            return View();
+            return View();*/
         }
 
         [HttpPost]

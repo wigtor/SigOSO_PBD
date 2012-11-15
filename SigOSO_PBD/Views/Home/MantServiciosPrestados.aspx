@@ -11,35 +11,18 @@
     <form id="form1" method="post" style="height: auto;">
         <fieldset>
             <legend>Crear nuevo servicio</legend>
-                <table style="width: 100%;">
-                    <tr>
-                        <td class="input-medium" style="width: 200px">
-                            &nbsp;
-                            Nombre Servicio</td>
-                        <td>
-                            &nbsp;
-                            <%: Html.TextBoxFor(nvoServicio => nvoServicio.nombreServicio)%>
-                            <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.nombreServicio)%></td>
-                    </tr>
-                    <tr>
-                        <td class="input-medium" style="width: 200px">
-                            &nbsp;
-                            Precio pizarra</td>
-                        <td>
-                            &nbsp;
-                            <%: Html.TextBoxFor(nvoServicio => nvoServicio.precioPizarra)%>
-                            <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.precioPizarra)%></td>
-                    </tr>
-                    <tr>
-                        <td class="input-medium" style="width: 200px">
-                            &nbsp;
-                            Factor bono</td>
-                        <td>
-                            &nbsp;
-                            <%: Html.TextBoxFor(nvoServicio => nvoServicio.factorBono)%>
-                            <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.factorBono)%></td>
-                    </tr>
-                </table>     
+                <label>Nombre Servicio</label>            
+                    <%: Html.TextBoxFor(nvoServicio => nvoServicio.nombreServicio)%>
+                    <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.nombreServicio)%>
+
+                <label>Precio pizarra</label>  
+                    <%: Html.TextBoxFor(nvoServicio => nvoServicio.precioPizarra)%>
+                    <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.precioPizarra)%>
+
+                <label>Factor bono</label>    
+                    <%: Html.TextBoxFor(nvoServicio => nvoServicio.factorBono)%>
+                    <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.factorBono)%>
+
                 <div>
                     <%: ViewBag.respuestaPost%>
                 </div>   

@@ -23,10 +23,7 @@ body
 
     }
     
-    .row 
-    {
-        overflow: scroll;
-    }
+
 
 .contenedor_principal
 {    
@@ -262,12 +259,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba5151', end
 
 .contenedor_lista_servicios
 {
-    height:200px;
+ /*   height:200px;
     width:100%;
     background-color:black;
     color:White;
     overflow:auto;
-    
+   */ 
     }
     
 .fila_contenedor_lista_servicios
@@ -279,7 +276,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba5151', end
     
     }
     
-.columna_contenedor_lista_servicios1, .columna_contenedor_lista_servicios2, .columna_contenedor_lista_servicios3, .columna_contenedor_lista_servicios4, .columna_contenedor_lista_servicios5
+/*.columna_contenedor_lista_servicios1, .columna_contenedor_lista_servicios2, .columna_contenedor_lista_servicios3, .columna_contenedor_lista_servicios4, .columna_contenedor_lista_servicios5
 {
     display:inline-block;
     }    
@@ -293,3 +290,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba5151', end
 .columna_contenedor_lista_servicios4{width:100px;}
 
 .columna_contenedor_lista_servicios5{width:100px;}
+*/
+#form1
+{
+    height:auto !important;
+    
+    }
+    
+.span9
+{
+    float:none !important;
+    display: inline-block;
+    }    
