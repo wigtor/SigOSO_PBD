@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Npgsql;
 using SigOSO_PBD.classes;
 using SigOSO_PBD.Models;
+using System.Globalization;
 
 namespace SigOSO_PBD.Controllers
 {
@@ -154,13 +155,81 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+        public List<SelectListItem> getListaPerfilesTrabajadores()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            NpgsqlDataReader servicios = null;
+            try
+            {
+                servicios = DBConector.SELECT("SELECT id_perfil, nombre_cargo FROM perfil_trabajador");
+                int id_perfil;
+                string nombre_cargo;
+                while (servicios.Read())
+                {
+                    id_perfil = servicios.GetInt32(0);
+                    nombre_cargo = servicios.GetString(1);
+                    items.Add(new SelectListItem
+                    {
+                        Text = nombre_cargo,
+                        Value = id_perfil.ToString()
+                    });
+                }
+                servicios.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = DBConector.msjError,
+                    Value = "-1"
+                });
+                if (servicios != null)
+                    servicios.Dispose();
+            }
+            return items;
+        }
 
         [HttpPost]
         public ActionResult AgregarTrabajador(agregarTrabajadorModel nvoTrabajador)
         {
+
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+
+            int diaEscogido, mesContrato, agno_contrato, diasDelMes;
+
+            if (!Int32.TryParse(nvoTrabajador.dia_ini_contrato, out diaEscogido))
+            {
+                ModelState.AddModelError("dia_ini_contrato", "No ha seleccionado un día del mes");
+                return View(nvoTrabajador);
+            }
+            if (!Int32.TryParse(nvoTrabajador.mes_ini_contrato, out mesContrato))
+            {
+                ModelState.AddModelError("mes_ini_contrato", "No ha seleccionado un mes");
+                return View(nvoTrabajador);
+            }
+            if (!Int32.TryParse(nvoTrabajador.agno_ini_contrato, out agno_contrato))
+            {
+                ModelState.AddModelError("agno_ini_contrato", "No ha seleccionado un año");
+                return View(nvoTrabajador);
+            }
+
+            diasDelMes = DateTime.DaysInMonth(agno_contrato, mesContrato);
+            if (diasDelMes < diaEscogido)
+            {
+                ModelState.AddModelError("dia_ini_contrato", "El día seleccionado no es válido para el més seleccionado");
+                return View(nvoTrabajador);
+            }
+
             if (ModelState.IsValid)
             {
-                string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, ciudad_trabajador, fecha_ini_contrato_trabajador) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '" + nvoTrabajador.ciudad + "', '"+nvoTrabajador.fecha_ini_contrato+"')";
+                
+                string fecha_ini_contrato = nvoTrabajador.dia_ini_contrato+"-"+nvoTrabajador.mes_ini_contrato+nvoTrabajador.agno_ini_contrato;
+
+                string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, ciudad_trabajador, fecha_ini_contrato_trabajador) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '" + nvoTrabajador.ciudad + "', '"+fecha_ini_contrato+"')";
                 try
                 {
                     string query2 = "SELECT rut_trabajador FROM trabajador WHERE rut_trabajador = '" + nvoTrabajador.rut + "'";
@@ -188,36 +257,45 @@ namespace SigOSO_PBD.Controllers
             }
         }
 
+        public List<SelectListItem> getListaDias()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            for (int i = 1; i <= 31; i++)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = i + "",
+                    Value = i + ""
+                });
+            }
+            return items;
+        }
+
+        public List<SelectListItem> getListaMeses()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            DateTimeFormatInfo ci = new CultureInfo("es-CL").DateTimeFormat;
+            int i = 1;
+            foreach (String temp in ci.MonthNames)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = temp,
+                    Value = i+""
+                });
+                i++;
+            }
+            return items;
+        }
+
         //Para visualizar
         [HttpGet]
         public ActionResult AgregarTrabajador()
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            try
-            {
-                NpgsqlDataReader servicios = DBConector.SELECT("SELECT id_perfil, nombre_cargo FROM perfil_trabajador");
-                int id_perfil;
-                string nombre_cargo;
-                while (servicios.Read())
-                {
-                    id_perfil = servicios.GetInt32(0);
-                    nombre_cargo = servicios.GetString(1);
-                    items.Add(new SelectListItem
-                    {
-                        Text = nombre_cargo,
-                        Value = id_perfil.ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                items.Add(new SelectListItem
-                {
-                    Text = DBConector.msjError,
-                    Value = "-1"
-                });
-            }
-            ViewBag.listaPerfiles = items;
+            
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
 
             return View();
         }

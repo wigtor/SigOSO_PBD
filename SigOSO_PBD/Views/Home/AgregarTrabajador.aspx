@@ -8,7 +8,7 @@
     }
 </script>
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
-    Bienvenido
+    Agregar trabajador
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
@@ -64,12 +64,14 @@
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.telefono2)%>
 
         <label>Fecha inicio contrato</label>
-
-            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.fecha_ini_contrato, new { @class = "text" })%>
-            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.fecha_ini_contrato)%>
-
             
+            <%: Html.DropDownList("dia_ini_contrato", (List<SelectListItem>)ViewBag.listaDias)%>
+            <%: Html.DropDownList("mes_ini_contrato", (List<SelectListItem>)ViewBag.listaMeses)%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.dia_ini_contrato)%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.mes_ini_contrato)%>
 
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.agno_ini_contrato, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.agno_ini_contrato)%>
    
 
     <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 

@@ -19,8 +19,16 @@ namespace SigOSO_PBD.Models
         public string iniciales { get; set; }
 
         [Required]
-        [Display(Name = "Fecha inicio de contrato")]
-        public string fecha_ini_contrato { get; set; }
+        [Display(Name = "día inicio contrato")]
+        public string dia_ini_contrato { get; set; }
+
+        [Required]
+        [Display(Name = "mes inicio contrato")]
+        public string mes_ini_contrato { get; set; }
+
+        [Required]
+        [Display(Name = "año inicio contrato")]
+        public string agno_ini_contrato { get; set; }
     }
 
     
