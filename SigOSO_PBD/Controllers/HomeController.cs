@@ -13,7 +13,7 @@ namespace SigOSO_PBD.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC! caca";
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
         }
@@ -25,11 +25,6 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
-        public ActionResult AgregarTrabajador()
-        {
-            
-            return View();
-        }
 
         //Para hacer POST
         [HttpPost]
@@ -158,6 +153,48 @@ namespace SigOSO_PBD.Controllers
             }
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult AgregarTrabajador(agregarTrabajadorModel nvoTrabajador)
+        {
+            if (ModelState.IsValid)
+            {
+                string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, ciudad_trabajador, fecha_ini_contrato_trabajador) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '" + nvoTrabajador.ciudad + "', '"+nvoTrabajador.fecha_ini_contrato+"')";
+                try
+                {
+                    string query2 = "SELECT rut_trabajador FROM trabajador WHERE rut_trabajador = '" + nvoTrabajador.rut + "'";
+                    NpgsqlDataReader lector = DBConector.SELECT(query2);
+                    if (lector.HasRows)
+                    {
+                        ModelState.AddModelError("rut", "Ya existe un trabajador con ese rut");
+                        lector.Dispose();
+                        ViewBag.respuestaPost = "";
+                        return View(nvoTrabajador);
+                    }
+                    int cantidadInsertada = DBConector.INSERT(query);
+                    ViewBag.respuestaPost = "Se ha creado correctamente el trabajador";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                }
+
+                return RedirectToAction("AgregarTrabajador", "home");
+            }
+            else
+            {
+                return View(nvoTrabajador);
+            }
+        }
+
+        //Para visualizar
+        [HttpGet]
+        public ActionResult AgregarTrabajador()
+        {
+            return View();
+        }
+
 
 
 

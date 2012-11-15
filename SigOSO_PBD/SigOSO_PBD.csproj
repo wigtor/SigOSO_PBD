@@ -77,6 +77,8 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ClienteModels.cs" />
+    <Compile Include="Models\TrabajadorModels.cs" />
+    <Compile Include="Models\PersonaModels.cs" />
     <Compile Include="Models\ServicioModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

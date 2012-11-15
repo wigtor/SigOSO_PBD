@@ -22,10 +22,15 @@ body
 
 
     }
+    
+    .row 
+    {
+        overflow: scroll;
+    }
 
 .contenedor_principal
 {    
-    min-height: 700px; 
+    min-height: 620px; 
     width:1000px; 
     margin:0px auto 0px auto;    
     border:1px solid;
