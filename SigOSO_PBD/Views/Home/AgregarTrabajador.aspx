@@ -47,12 +47,8 @@
             <td >
                 &nbsp;
                 <!-- Cambiar por select -->
+                <%: Html.DropDownList("id_perfil", (List<SelectListItem>)ViewBag.listaPerfiles)%>
 
-
-
-
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.id_perfil)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.id_perfil)%>
             </td>
 
         </tr>

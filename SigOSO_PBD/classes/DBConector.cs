@@ -9,7 +9,7 @@ namespace SigOSO_PBD.classes
     public class DBConector
     {
         private static string conectionString = "Server=localhost;Port=5432;UserId=SigOSO_user;Password=pbd2012;Database=SigOSO";
-        
+        public static string msjError = "Error al realizar la petición a la base de datos";
         
         public static NpgsqlDataReader SELECT(string query) {
             NpgsqlConnection con = new NpgsqlConnection(DBConector.conectionString);

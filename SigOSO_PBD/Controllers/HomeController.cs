@@ -48,7 +48,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
 
                 return RedirectToAction("AgregarCliente", "home");
@@ -135,7 +135,7 @@ namespace SigOSO_PBD.Controllers
                     }
                     catch (Exception ex)
                     {
-                        ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                        ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                     }
 
                     return RedirectToAction("Index", "home");
@@ -177,7 +177,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
 
                 return RedirectToAction("AgregarTrabajador", "home");
@@ -192,6 +192,33 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult AgregarTrabajador()
         {
+            List<SelectListItem> items = new List<SelectListItem>();
+            try
+            {
+                NpgsqlDataReader servicios = DBConector.SELECT("SELECT id_perfil, nombre_cargo FROM perfil_trabajador");
+                int id_perfil;
+                string nombre_cargo;
+                while (servicios.Read())
+                {
+                    id_perfil = servicios.GetInt32(0);
+                    nombre_cargo = servicios.GetString(1);
+                    items.Add(new SelectListItem
+                    {
+                        Text = nombre_cargo,
+                        Value = id_perfil.ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = DBConector.msjError,
+                    Value = "-1"
+                });
+            }
+            ViewBag.listaPerfiles = items;
+
             return View();
         }
 
@@ -257,7 +284,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.respuestaPost = "Error al realizar la petición a la base de datos";//ex.Message;
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }                
             }
             else 
