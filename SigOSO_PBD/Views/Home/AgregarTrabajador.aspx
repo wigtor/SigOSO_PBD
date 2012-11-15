@@ -1,5 +1,12 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
+<script runat="server">
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        
+    }
+</script>
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
     Bienvenido
 </asp:Content>
@@ -80,7 +87,8 @@
 
     <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
-        <asp:Button ID="Button1" runat="server" Text="Agregar Trabajador" /></div>
+        <asp:Button ID="Button1" runat="server" Text="Agregar Trabajador" 
+            onclick="Button1_Click" /></div>
     </form>
 </asp:Content>
 
