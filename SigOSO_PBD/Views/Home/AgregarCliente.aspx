@@ -10,8 +10,7 @@
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
 
 
-    <form id="form1" method="post">
-          <fieldset>            
+    <form id="form1" method="post">        
             <label>Nombre</label>            
                 <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre, new {@class="text"})%>
                 <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%>
@@ -41,6 +40,10 @@
                 <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono1)%>
 
             <label>Teléfono 2</label>
+                <%: Html.TextBoxFor(nvoCliente => nvoCliente.telefono2)%>
+                <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.telefono2)%>
+
+            <label>Correo electrónico</label>
                 <%: Html.TextBoxFor(nvoCliente => nvoCliente.correo)%>
                 <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.correo)%>
 
@@ -54,6 +57,7 @@
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                 <input id="btn_agregarCliente" type="submit" value="Agregar Cliente" />
             </div>
+
     </form>
 </asp:Content>
 

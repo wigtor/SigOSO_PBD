@@ -13,6 +13,22 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     <form id="form1" method="post">
+        <label>Nombre</label>
+              
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.nombre, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.nombre)%>
+        <label>Rut</label>
+              
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.rut, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.rut)%>
+
+
+
+
+
+
+
+
     <table style="width: 100%;">
         <tr>
             <td class="input-medium" style="width: 200px">
@@ -53,7 +69,6 @@
                 Perfil de trabajador</td>
             <td >
                 &nbsp;
-                <!-- Cambiar por select -->
                 <%: Html.DropDownList("id_perfil", (List<SelectListItem>)ViewBag.listaPerfiles)%>
 
             </td>
@@ -137,13 +152,8 @@
 
     <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
-<<<<<<< HEAD
-        <asp:Button ID="Button1" runat="server" Text="Agregar Trabajador" 
-            onclick="Button1_Click" /></div>
-=======
         <input id="btn_agregarTrabajador" type="submit" value="Agregar Trabajador" />
         </div>
->>>>>>> 790dcc3099fa04b6fa4bd95ffc65224f27a03272
     </form>
 </asp:Content>
 
