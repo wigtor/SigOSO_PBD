@@ -17,138 +17,60 @@
               
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.nombre, new { @class = "text" })%>
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.nombre)%>
+        <label>Abreviatura o iniciales</label>
+            
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.iniciales, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.iniciales)%>
+            
         <label>Rut</label>
               
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.rut, new { @class = "text" })%>
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.rut)%>
 
 
+        <label>Perfil de trabajador</label>
+
+            <%: Html.DropDownList("id_perfil", (List<SelectListItem>)ViewBag.listaPerfiles)%>
+            
+        <label>Correo</label>
+            
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.correo, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.correo)%>
 
 
+        <label>Ciudad</label>
 
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.ciudad, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.ciudad)%>
 
+        <label>Comuna</label>
 
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.comuna, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.comuna)%>
 
-    <table style="width: 100%;">
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Nombre
-            </td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.nombre)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.nombre)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Abreviatura o iniciales
-            </td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.iniciales)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.iniciales)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Rut</td>
-            <td >
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.rut)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.rut)%>
-            </td>
+        <label>Direccón</label>
 
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Perfil de trabajador</td>
-            <td >
-                &nbsp;
-                <%: Html.DropDownList("id_perfil", (List<SelectListItem>)ViewBag.listaPerfiles)%>
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.direccion, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.direccion)%>
 
-            </td>
+        <label>Teléfono 1</label>
+            
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.telefono1, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.telefono1)%>
 
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Correo</td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.correo)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.correo)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Ciudad</td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.ciudad)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.ciudad)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Comuna</td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.comuna)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.comuna)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Direccón</td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.direccion)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.direccion)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Teléfono 1</td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.telefono1)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.telefono1)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Teléfono 2</td>
-            <td>
-                &nbsp;
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.telefono2)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.telefono2)%>
-            </td>
-        </tr>
-        <tr>
-            <td class="input-medium" style="width: 200px">
-                &nbsp;
-                Fecha inicio contrato</td>
-            <td>
-                &nbsp;
-                <!-- Cambiar por calendario -->
-                <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.fecha_ini_contrato)%>
-                <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.fecha_ini_contrato)%>
-            </td>
-        </tr>
-        
-         
-    </table>
+        <label>Teléfono 2</label>
+            
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.telefono2, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.telefono2)%>
 
+        <label>Fecha inicio contrato</label>
+
+            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.fecha_ini_contrato, new { @class = "text" })%>
+            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.fecha_ini_contrato)%>
+
+            
+
+   
 
     <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
