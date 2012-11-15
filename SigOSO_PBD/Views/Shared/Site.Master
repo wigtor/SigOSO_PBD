@@ -34,7 +34,7 @@
                 <asp:ContentPlaceHolder ID="MenuLinks" runat="server" />
             </div>
         </div>
-        <div class="row">        
+        <div class="span9" style="display:float:none">        
             <div class="span9 titulo-seccion">            
                 <asp:ContentPlaceHolder ID="TitleContent" runat="server" />            
             </div>

@@ -76,10 +76,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+<<<<<<< HEAD
+    <Compile Include="Models\dbConection.cs" />
+=======
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\TrabajadorModels.cs" />
     <Compile Include="Models\PersonaModels.cs" />
     <Compile Include="Models\ServicioModels.cs" />
+>>>>>>> 790dcc3099fa04b6fa4bd95ffc65224f27a03272
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
