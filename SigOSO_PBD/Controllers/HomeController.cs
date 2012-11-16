@@ -482,9 +482,74 @@ namespace SigOSO_PBD.Controllers
             return items;
         }
 
-        
+
+        public string generarTablaUnidadesMedida()
+        {
+            NpgsqlDataReader unidades = DBConector.SELECT("SELECT nombre_unidad, abreviatura_unidad FROM unidad_material");
+            string respuesta = "<table class='table contenedor_lista_servicios'>";
+            respuesta += "<thead>";
+            respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
+            respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre unidad</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios2'>Abreviatura unidad</td>";
+            respuesta += "</tr>";
+            respuesta += "</thead>";
+            while (unidades.Read())
+            {
+                respuesta += "<tr class='fila_contenedor_lista_servicios'>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'>" + unidades.GetString(unidades.GetOrdinal("nombre_unidad")) + "</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + unidades.GetString(unidades.GetOrdinal("abreviatura_unidad")) + "</td>";
+                respuesta += "</tr>";
+            }
+            respuesta += "</table>";
+            return respuesta;
+        }
+
+        [HttpGet]
+        public ActionResult MantUnidadesMedida()
+        {
+            
+            ViewBag.tabla = generarTablaUnidadesMedida();
+
+            return View();
+        }
 
 
+        [HttpPost]
+        public ActionResult MantUnidadesMedida(agregarUnidadModel nvaUnidad)
+        {
+            ViewBag.tabla = generarTablaUnidadesMedida();
+
+            if (ModelState.IsValid)
+            {
+                NpgsqlDataReader lector = null;
+                string query = "INSERT INTO unidad_material (nombre_unidad, abreviatura_unidad) VALUES ('"+nvaUnidad.nombre+"', '"+nvaUnidad.abreviatura+"')";
+                try
+                {
+                    string query2 = "SELECT nombre_unidad FROM unidad_material WHERE nombre_unidad ILIKE '" + nvaUnidad.nombre + "' OR abreviatura_unidad ILIKE'" + nvaUnidad.abreviatura + "'";
+                    lector = DBConector.SELECT(query2);
+                    if (lector.HasRows)
+                    {
+                        ModelState.AddModelError("nombre", "Ya existe esta unidad de medida");
+                        lector.Dispose();
+                        ViewBag.respuestaPost = "";
+                        return View(nvaUnidad);
+                    }
+                    int cantidadInsertada = DBConector.INSERT(query);
+                    ViewBag.respuestaPost = "Se ha agregado correctamente la unidad de medida";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+                }
+                return RedirectToAction("MantUnidadesMedida", "home");
+            }
+            else
+            {
+                return View(nvaUnidad);
+            }
+
+            
+        }
 
 
         //DEL ADOLFO
