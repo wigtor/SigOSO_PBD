@@ -18,6 +18,7 @@ namespace SigOSO_PBD.classes
             //Un select
             NpgsqlCommand comando = new NpgsqlCommand(query, con);
             NpgsqlDataReader resultQuery =  comando.ExecuteReader();
+            
             return resultQuery;
 
         }

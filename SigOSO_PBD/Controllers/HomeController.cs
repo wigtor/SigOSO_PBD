@@ -34,13 +34,15 @@ namespace SigOSO_PBD.Controllers
             if (ModelState.IsValid)
             {
                 string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente, ciudad_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '" + nvoCliente.correo + "', '"+nvoCliente.ciudad+"')";
+                NpgsqlDataReader lector = null;
                 try
                 {
                     string query2 = "SELECT rut_cliente FROM cliente WHERE rut_cliente = '" + nvoCliente.rut + "'";
-                    NpgsqlDataReader lector = DBConector.SELECT(query2);
+                    lector = DBConector.SELECT(query2);
                     if (lector.HasRows) {
                         ModelState.AddModelError( "rut", "Ya existe un cliente con ese rut");
                         lector.Dispose();
+                        lector.Close();
                         ViewBag.respuestaPost = "";
                         return View(nvoCliente);
                     }
@@ -51,7 +53,11 @@ namespace SigOSO_PBD.Controllers
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
-
+                if (lector != null)
+                {
+                    lector.Dispose();
+                    lector.Close();
+                }
                 return RedirectToAction("AgregarCliente", "home");
             }
             else
@@ -89,28 +95,41 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValidField("rut"))
                 {
                     string query = "SELECT * FROM cliente WHERE rut_cliente = '" + clienteMod.rut + "'";
-                    NpgsqlDataReader lector = DBConector.SELECT(query);
-                    if (lector.Read())
+                    NpgsqlDataReader lector = null;
+                    try
                     {
-                        ModelState.Clear();
-                        clienteMod.rut = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
-                        clienteMod.nombre = lector.GetString(lector.GetOrdinal("nombre_cliente"));
-                        clienteMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_cliente"));
-                        clienteMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_cliente"));
-                        clienteMod.correo = lector.GetString(lector.GetOrdinal("mail_cliente"));
-                        clienteMod.direccion = lector.GetString(lector.GetOrdinal("direccion_cliente"));
-                        clienteMod.comuna = lector.GetString(lector.GetOrdinal("comuna_cliente"));
-                        clienteMod.ciudad = lector.GetString(lector.GetOrdinal("ciudad_cliente"));
-                        clienteMod.giro = lector.GetString(lector.GetOrdinal("giro_cliente"));
-                        return View(clienteMod);
+                        lector = DBConector.SELECT(query);
+                        if (lector.Read())
+                        {
+                            ModelState.Clear();
+                            clienteMod.rut = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
+                            clienteMod.nombre = lector.GetString(lector.GetOrdinal("nombre_cliente"));
+                            clienteMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_cliente"));
+                            clienteMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_cliente"));
+                            clienteMod.correo = lector.GetString(lector.GetOrdinal("mail_cliente"));
+                            clienteMod.direccion = lector.GetString(lector.GetOrdinal("direccion_cliente"));
+                            clienteMod.comuna = lector.GetString(lector.GetOrdinal("comuna_cliente"));
+                            clienteMod.ciudad = lector.GetString(lector.GetOrdinal("ciudad_cliente"));
+                            clienteMod.giro = lector.GetString(lector.GetOrdinal("giro_cliente"));
+                            lector.Dispose();
+                            lector.Close();
+                            return View(clienteMod);
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rut", "El rut insertado no existe");
+                        }
+                        
                     }
-                    else
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("rut", "El rut insertado no existe");
-                    }
-                    lector.Dispose();
+                    catch (Exception ex) {
 
+                    }
+                    if (lector != null)
+                    {
+                        lector.Dispose();
+                        lector.Close();
+                    }
                 }
                 else
                 {
@@ -174,7 +193,7 @@ namespace SigOSO_PBD.Controllers
                         Value = id_perfil.ToString()
                     });
                 }
-                servicios.Dispose();
+                
 
             }
             catch (Exception ex)
@@ -184,8 +203,12 @@ namespace SigOSO_PBD.Controllers
                     Text = DBConector.msjError,
                     Value = "-1"
                 });
-                if (servicios != null)
-                    servicios.Dispose();
+
+            }
+            if (servicios != null)
+            {
+                servicios.Dispose();
+                servicios.Close();
             }
             return items;
         }
@@ -254,14 +277,16 @@ namespace SigOSO_PBD.Controllers
                 string fecha_ini_contrato = nvoTrabajador.dia_ini_contrato+"-"+nvoTrabajador.mes_ini_contrato+"-"+nvoTrabajador.agno_ini_contrato;
 
                 string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, fecha_ini_contrato_trabajador, esta_activo) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '"+fecha_ini_contrato+"', 'TRUE')";
+                NpgsqlDataReader lector = null;
                 try
                 {
                     string query2 = "SELECT rut_trabajador FROM trabajador WHERE rut_trabajador = '" + nvoTrabajador.rut + "'";
-                    NpgsqlDataReader lector = DBConector.SELECT(query2);
+                    lector = DBConector.SELECT(query2);
                     if (lector.HasRows)
                     {
                         ModelState.AddModelError("rut", "Ya existe un trabajador con ese rut");
                         lector.Dispose();
+                        lector.Close();
                         ViewBag.respuestaPost = "";
                         return View(nvoTrabajador);
                     }
@@ -272,7 +297,11 @@ namespace SigOSO_PBD.Controllers
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
-
+                if (lector != null)
+                {
+                    lector.Dispose();
+                    lector.Close();
+                }
                 return RedirectToAction("AgregarTrabajador", "home");
             }
             else
@@ -309,40 +338,52 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValidField("rut"))
                 {
                     string query = "SELECT * FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
-                    NpgsqlDataReader lector = DBConector.SELECT(query);
-                    if (lector.Read())
+                    NpgsqlDataReader lector = null;
+                    try
                     {
-                        ModelState.Clear();
-                        trabajadorMod.rut = lector.GetInt32(lector.GetOrdinal("rut_trabajador")).ToString();
-                        trabajadorMod.nombre = lector.GetString(lector.GetOrdinal("nombre_trabajador"));
-                        trabajadorMod.id_perfil = lector.GetInt32(lector.GetOrdinal("id_perfil")).ToString();
-                        trabajadorMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_trabajador"));
-                        trabajadorMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_trabajador"));
-                        trabajadorMod.correo = lector.GetString(lector.GetOrdinal("mail_trabajador"));
-                        trabajadorMod.direccion = lector.GetString(lector.GetOrdinal("direccion_trabajador"));
-                        trabajadorMod.comuna = lector.GetString(lector.GetOrdinal("comuna_trabajador"));
-                        trabajadorMod.iniciales = lector.GetString(lector.GetOrdinal("iniciales_trabajador"));
-                        DateTime fecha_ini_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_ini_contrato_trabajador"));
-                        DateTimeFormatInfo dtinfo = new CultureInfo("es-ES", false).DateTimeFormat;
-                        trabajadorMod.dia_ini_contrato = fecha_ini_contrato.Day.ToString();
-                        trabajadorMod.mes_ini_contrato = dtinfo.GetMonthName(fecha_ini_contrato.Month);
-                        trabajadorMod.agno_ini_contrato = fecha_ini_contrato.Year.ToString();
-                        DateTime fecha_fin_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_fin_contrato_trabajador"));
-                        trabajadorMod.dia_fin_contrato = fecha_fin_contrato.Day.ToString();
-                        trabajadorMod.mes_fin_contrato = fecha_fin_contrato.Month.ToString();
-                        trabajadorMod.agno_fin_contrato = fecha_fin_contrato.Year.ToString();
+                        lector = DBConector.SELECT(query);
+                        if (lector.Read())
+                        {
+                            ModelState.Clear();
+                            trabajadorMod.rut = lector.GetInt32(lector.GetOrdinal("rut_trabajador")).ToString();
+                            trabajadorMod.nombre = lector.GetString(lector.GetOrdinal("nombre_trabajador"));
+                            trabajadorMod.id_perfil = lector.GetInt32(lector.GetOrdinal("id_perfil")).ToString();
+                            trabajadorMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_trabajador"));
+                            trabajadorMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_trabajador"));
+                            trabajadorMod.correo = lector.GetString(lector.GetOrdinal("mail_trabajador"));
+                            trabajadorMod.direccion = lector.GetString(lector.GetOrdinal("direccion_trabajador"));
+                            trabajadorMod.comuna = lector.GetString(lector.GetOrdinal("comuna_trabajador"));
+                            trabajadorMod.iniciales = lector.GetString(lector.GetOrdinal("iniciales_trabajador"));
+                            DateTime fecha_ini_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_ini_contrato_trabajador"));
+                            DateTimeFormatInfo dtinfo = new CultureInfo("es-ES", false).DateTimeFormat;
+                            trabajadorMod.dia_ini_contrato = fecha_ini_contrato.Day.ToString();
+                            trabajadorMod.mes_ini_contrato = dtinfo.GetMonthName(fecha_ini_contrato.Month);
+                            trabajadorMod.agno_ini_contrato = fecha_ini_contrato.Year.ToString();
+                            DateTime fecha_fin_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_fin_contrato_trabajador"));
+                            trabajadorMod.dia_fin_contrato = fecha_fin_contrato.Day.ToString();
+                            trabajadorMod.mes_fin_contrato = fecha_fin_contrato.Month.ToString();
+                            trabajadorMod.agno_fin_contrato = fecha_fin_contrato.Year.ToString();
 
 
-                        ViewBag.trabajadorActivo = lector.GetBoolean(lector.GetOrdinal("esta_activo"));
-                        return View(trabajadorMod);
+                            ViewBag.trabajadorActivo = lector.GetBoolean(lector.GetOrdinal("esta_activo"));
+
+                            lector.Dispose();
+                            lector.Close();
+                            return View(trabajadorMod);
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rut", "El rut insertado no existe");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        ModelState.Clear();
-                        ModelState.AddModelError("rut", "El rut insertado no existe");
+
+
                     }
                     lector.Dispose();
-
+                    lector.Close();
                 }
                 else
                 {
@@ -485,9 +526,10 @@ namespace SigOSO_PBD.Controllers
         public List<SelectListItem> getListaUnidades()
         {
             List<SelectListItem> items = new List<SelectListItem>();
+            NpgsqlDataReader unidades = null;
             try
             {
-                NpgsqlDataReader unidades = DBConector.SELECT("SELECT id_unidad, nombre_unidad, abreviatura_unidad FROM unidad_material");
+                unidades = DBConector.SELECT("SELECT id_unidad, nombre_unidad, abreviatura_unidad FROM unidad_material");
 
 
                 while (unidades.Read())
@@ -507,22 +549,64 @@ namespace SigOSO_PBD.Controllers
                     Value = "-1"
                 });
             }
+            if (unidades != null)
+            {
+                unidades.Dispose();
+                unidades.Close();
+            }
             return items;
         }
+
+
+        public string generarTablaPerfilesTrabajadores() {
+            string respuesta;
+            NpgsqlDataReader perfiles = null;
+            try
+            {
+                perfiles = DBConector.SELECT("SELECT nombre_cargo FROM perfil_trabajador");
+                respuesta = "<table class='table contenedor_lista_servicios'>";
+                respuesta += "<thead>";
+                respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'><b>Nombre cargo o perfil</b></td>";
+                respuesta += "</tr>";
+                respuesta += "</thead>";
+                while (perfiles.Read())
+                {
+                    respuesta += "<tr class='fila_contenedor_lista_servicios'>";
+                    respuesta += "<td class='columna_contenedor_lista_servicios1'>" + perfiles.GetString(perfiles.GetOrdinal("nombre_cargo")) + "</td>";
+                    respuesta += "</tr>";
+                }
+                respuesta += "</table>";
+            }
+            catch (Exception ex)
+            {
+                respuesta = DBConector.msjError;
+            }
+            if (perfiles != null)
+            {
+                perfiles.Dispose();
+                perfiles.Close();
+            }
+            return respuesta;
+        }
+
 
 
         public string generarTablaUnidadesMedida()
         {
             string respuesta;
+            NpgsqlDataReader unidades = null;
             try
             {
-                NpgsqlDataReader unidades = DBConector.SELECT("SELECT nombre_unidad, abreviatura_unidad FROM unidad_material");
+                unidades = DBConector.SELECT("SELECT nombre_unidad, abreviatura_unidad FROM unidad_material");
                 respuesta = "<table class='table contenedor_lista_servicios'>";
                 respuesta += "<thead>";
+                respuesta += "<b>";
                 respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
-                respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre unidad</td>";
-                respuesta += "<td class='columna_contenedor_lista_servicios2'>Abreviatura unidad</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'><b>Nombre unidad</b></td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'><b>Abreviatura unidad</b></td>";
                 respuesta += "</tr>";
+                respuesta += "</b>";
                 respuesta += "</thead>";
                 while (unidades.Read())
                 {
@@ -537,29 +621,47 @@ namespace SigOSO_PBD.Controllers
             {
                 respuesta = DBConector.msjError;
             }
+            if (unidades != null)
+            {
+                unidades.Dispose();
+                unidades.Close();
+            }
             return respuesta;
         }
 
         public string generarTablaMaterialGenericos()
         {
-            NpgsqlDataReader materialesGen = DBConector.SELECT("SELECT nombre_tipo_material, glosa_tipo_material, nombre_unidad FROM material_generico NATURAL JOIN unidad_material");
-            string respuesta = "<table class='table contenedor_lista_servicios'>";
-            respuesta += "<thead>";
-            respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
-            respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre material</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios2'>Glosa material</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios2'>Unidad de medida</td>";
-            respuesta += "</tr>";
-            respuesta += "</thead>";
-            while (materialesGen.Read())
-            {
-                respuesta += "<tr class='fila_contenedor_lista_servicios'>";
-                respuesta += "<td class='columna_contenedor_lista_servicios1'>" + materialesGen.GetString(materialesGen.GetOrdinal("nombre_tipo_material")) + "</td>";
-                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + materialesGen.GetString(materialesGen.GetOrdinal("glosa_tipo_material")) + "</td>";
-                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + materialesGen.GetString(materialesGen.GetOrdinal("nombre_unidad")) + "</td>";
+            string respuesta = "";
+            NpgsqlDataReader materialesGen = null;
+            try {
+                materialesGen = DBConector.SELECT("SELECT nombre_tipo_material, glosa_tipo_material, nombre_unidad FROM material_generico NATURAL JOIN unidad_material");
+                respuesta = "<table class='table contenedor_lista_servicios'>";
+                respuesta += "<thead>";
+                respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'><b>Nombre material</b></td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'><b>Glosa material</b></td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'><b>Unidad de medida</b></td>";
                 respuesta += "</tr>";
+                respuesta += "</thead>";
+                while (materialesGen.Read())
+                {
+                    respuesta += "<tr class='fila_contenedor_lista_servicios'>";
+                    respuesta += "<td class='columna_contenedor_lista_servicios1'>" + materialesGen.GetString(materialesGen.GetOrdinal("nombre_tipo_material")) + "</td>";
+                    respuesta += "<td class='columna_contenedor_lista_servicios2'>" + materialesGen.GetString(materialesGen.GetOrdinal("glosa_tipo_material")) + "</td>";
+                    respuesta += "<td class='columna_contenedor_lista_servicios2'>" + materialesGen.GetString(materialesGen.GetOrdinal("nombre_unidad")) + "</td>";
+                    respuesta += "</tr>";
+                }
+                respuesta += "</table>";
             }
-            respuesta += "</table>";
+            catch (Exception ex) {
+
+            }
+
+            if (materialesGen != null)
+            {
+                materialesGen.Dispose();
+                materialesGen.Close();
+            }
             return respuesta;
         }
 
@@ -592,6 +694,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         ModelState.AddModelError("nombre", "Ya existe este material genérico");
                         lector.Dispose();
+                        lector.Close();
                         ViewBag.respuestaPost = "";
                         return View(nvoMat);
                     }
@@ -601,6 +704,12 @@ namespace SigOSO_PBD.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+                }
+
+                if (lector != null)
+                {
+                    lector.Dispose();
+                    lector.Close();
                 }
                 return RedirectToAction("MantMaterialGenericos", "home");
             }
@@ -639,6 +748,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         ModelState.AddModelError("nombre", "Ya existe esta unidad de medida");
                         lector.Dispose();
+                        lector.Close();
                         ViewBag.respuestaPost = "";
                         return View(nvaUnidad);
                     }
@@ -649,6 +759,13 @@ namespace SigOSO_PBD.Controllers
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
+
+                if (lector != null)
+                {
+                    lector.Dispose();
+                    lector.Close();
+                }
+
                 return RedirectToAction("MantUnidadesMedida", "home");
             }
             else
@@ -659,6 +776,61 @@ namespace SigOSO_PBD.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult MantperfilTrabajadores()
+        {
+
+            ViewBag.tabla = generarTablaPerfilesTrabajadores();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult MantperfilTrabajadores(perfilTrabajadorModel nvoCargo)
+        {
+            ViewBag.tabla = generarTablaPerfilesTrabajadores();
+
+            if (ModelState.IsValid)
+            {
+                NpgsqlDataReader lector = null;
+                string query = "INSERT INTO perfil_trabajador (nombre_cargo) VALUES ('" + nvoCargo.nombre + "')";
+                try
+                {
+                    string query2 = "SELECT nombre_cargo FROM perfil_trabajador WHERE nombre_cargo ILIKE '" + nvoCargo.nombre + "'";
+                    lector = DBConector.SELECT(query2);
+                    if (lector.HasRows)
+                    {
+                        ModelState.AddModelError("nombre", "Ya existe este perfil de trabajador");
+                        lector.Dispose();
+                        lector.Close();
+                        ViewBag.respuestaPost = "";
+                        return View(nvoCargo);
+                    }
+                    int cantidadInsertada = DBConector.INSERT(query);
+                    ViewBag.respuestaPost = "Se ha agregado correctamente el perfil de trabajador";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+                }
+
+                if (lector != null)
+                {
+                    lector.Dispose();
+                    lector.Close();
+                }
+                return RedirectToAction("MantperfilTrabajadores", "home");
+            }
+            else
+            {
+                return View(nvoCargo);
+            }
+
+        }
+
+
+
         //DEL ADOLFO
 
 
@@ -666,35 +838,50 @@ namespace SigOSO_PBD.Controllers
         public ActionResult MantServiciosPrestados()
         {
             ViewBag.respuestaPost = "";
-            NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
-            string respuesta = "<table class='table table-hover'>";
-            respuesta += "<thead>";
-            respuesta += "<tr>";
-            respuesta += "<td>Nombre servicio</td>";
-            respuesta += "<td>Precio pizarra</td>";
-            respuesta += "<td>Factor bono</td>";
-            respuesta += "<td>Visible</td>";
-            respuesta += "<td>Editar</td>";
-            respuesta += "</thead>";
-            respuesta += "</tr>";
-            while (servicios.Read())
+            NpgsqlDataReader servicios = null;
+            string respuesta = "";
+            try
             {
+                servicios = DBConector.SELECT("SELECT * FROM servicio");
+                respuesta = "<table class='table table-hover'>";
+                respuesta += "<thead>";
                 respuesta += "<tr>";
-                respuesta += "<td>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</td>";
-                respuesta += "<td>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</td>";
-                respuesta += "<td>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</td>";
-                if (servicios.GetBoolean(servicios.GetOrdinal("visibilidad_servicio")))
-                {
-                    respuesta += "<td>" + "<input type='checkbox' disabled='true' checked>" + "</td>";
-                }
-                else
-                {
-                    respuesta += "<td>" + "<input type='checkbox'>" + "</td>";
-                }
-                respuesta += "<td>" + "boton editar" + "</td>";
+                respuesta += "<td><b>Nombre servicio</b></td>";
+                respuesta += "<td><b>Precio pizarra</b></td>";
+                respuesta += "<td><b>Factor bono</b></td>";
+                respuesta += "<td><b>Visible</b></td>";
+                respuesta += "<td><b>Editar</b></td>";
+                respuesta += "</thead>";
                 respuesta += "</tr>";
+                while (servicios.Read())
+                {
+                    respuesta += "<tr>";
+                    respuesta += "<td>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</td>";
+                    respuesta += "<td>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</td>";
+                    respuesta += "<td>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</td>";
+                    if (servicios.GetBoolean(servicios.GetOrdinal("visibilidad_servicio")))
+                    {
+                        respuesta += "<td>" + "<input type='checkbox' disabled='true' checked>" + "</td>";
+                    }
+                    else
+                    {
+                        respuesta += "<td>" + "<input type='checkbox'>" + "</td>";
+                    }
+                    respuesta += "<td>" + "boton editar" + "</td>";
+                    respuesta += "</tr>";
+                }
+                respuesta += "</table>";
             }
-            respuesta += "</table>";
+            catch (Exception ex)
+            {
+
+
+            }
+            if (servicios != null)
+            {
+                servicios.Dispose();
+                servicios.Close();
+            }
             ViewBag.tabla = respuesta;
             return View();
             /*ViewBag.respuestaPost = "";
@@ -733,14 +920,16 @@ namespace SigOSO_PBD.Controllers
             {
                 string activado = "true";
                 string query = "INSERT INTO servicio (nombre_servicio, precio_pizarra, factor_bono_trabajador, visibilidad_servicio) VALUES ('" + nvoServicio.nombreServicio + "','" + nvoServicio.precioPizarra + "','" + nvoServicio.factorBono + "','" + activado + "')";
+                NpgsqlDataReader lector = null;
                 try
                 {
                     string query2 = "SELECT nombre_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
-                    NpgsqlDataReader lector = DBConector.SELECT(query2);
+                    lector = DBConector.SELECT(query2);
                     if (lector.HasRows)
                     {
                         ModelState.AddModelError("rut", "Ya existe un servicio con ese nombre");
                         lector.Dispose();
+                        lector.Close();
                         ViewBag.respuestaPost = "";
                         return View(nvoServicio);
                     }
@@ -751,7 +940,12 @@ namespace SigOSO_PBD.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
-                }                
+                }
+                if (lector != null)
+                {
+                    lector.Dispose();
+                    lector.Close();
+                }
             }
             else 
             {
@@ -789,7 +983,7 @@ namespace SigOSO_PBD.Controllers
             }
             catch (Exception)
             {
-                return "ERROR EN CONEXIÓN A POSTGRE";
+                return DBConector.msjError;
             }
             //Un insert o un update o un delete
             /*

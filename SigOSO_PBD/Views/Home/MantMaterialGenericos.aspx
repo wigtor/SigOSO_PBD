@@ -13,7 +13,7 @@
     <form id="form1" method="post">
         <fieldset>
             <legend>Agregar nuevo material</legend>
-            <label>Nombre</label>            
+            <label>Nombre</label>
                 <%: Html.TextBoxFor(nvoMat => nvoMat.nombre, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvoMat => nvoMat.nombre)%>
 
