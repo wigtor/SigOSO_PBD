@@ -133,6 +133,7 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
     <Content Include="Views\Home\AgregarCliente.aspx" />
+    <Content Include="Views\Home\EliminarTrabajador.aspx" />
     <Content Include="Views\Home\MantPerfilTrabajadores.aspx" />
     <Content Include="Views\Home\MantMaterialGenericos.aspx" />
     <Content Include="Views\Home\MantUnidadesMedida.aspx" />
