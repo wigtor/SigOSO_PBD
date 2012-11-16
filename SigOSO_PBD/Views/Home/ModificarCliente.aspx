@@ -18,7 +18,7 @@
             <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%>
             
         <label>Nombre</label>            
-            <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre, new {@class="text"})%>
+            <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre, new { @class = "text", @readonly = "true" })%>
             <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%>
             
         <label>Giro</label>

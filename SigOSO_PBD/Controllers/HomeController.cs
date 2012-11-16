@@ -310,6 +310,75 @@ namespace SigOSO_PBD.Controllers
             }
         }
 
+
+        [HttpGet]
+        public ActionResult agregarContrato()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar)
+        {
+
+            if (btn_cargar == null)
+            {
+                return View();
+            }
+
+            if (btn_cargar.Equals("Cargar")) //Se esta cargando un cliente
+            {
+                if (ModelState.IsValidField("rutCliente"))
+                {
+                    string query = "SELECT rut_cliente, nombre_cliente FROM cliente WHERE rut_cliente = '" + nvoContrato.rutCliente + "'";
+                    NpgsqlDataReader lector = null;
+                    try
+                    {
+                        lector = DBConector.SELECT(query);
+                        if (lector.Read())
+                        {
+                            ModelState.Clear();
+                            ViewBag.rutCliente = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
+                            ViewBag.nombreCliente = lector.GetString(lector.GetOrdinal("nombre_cliente"));
+
+
+                            lector.Dispose();
+                            lector.Close();
+                            return View();
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rutCliente", "El rut insertado no existe");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+
+                    }
+                    if (lector != null) {
+                        lector.Dispose();
+                        lector.Close();
+                    }
+                }
+                else
+                {
+                    string mensaje = "El rut ingresado no es válido";
+                    ModelState.Clear();
+                    ModelState.AddModelError("rutCliente", mensaje);
+                }
+            }
+            else //Se presionó cualquier otra cosa, no se usa
+            {
+
+            }
+            return View();
+        }
+
+
+
         [HttpGet]
         public ActionResult ModificarTrabajador()
         {
@@ -319,6 +388,7 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaMeses = getListaMeses();
             return View();
         }
+
 
         [HttpPost]
         public ActionResult ModificarTrabajador(agregarTrabajadorModel trabajadorMod, string btn_submit, string es_activo)
@@ -379,11 +449,14 @@ namespace SigOSO_PBD.Controllers
                     }
                     catch (Exception ex)
                     {
-
+                        ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
 
                     }
-                    lector.Dispose();
-                    lector.Close();
+                    if (lector != null)
+                    {
+                        lector.Dispose();
+                        lector.Close();
+                    }
                 }
                 else
                 {
