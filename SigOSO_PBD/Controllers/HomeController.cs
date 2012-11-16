@@ -560,7 +560,114 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult EliminarTrabajador()
+        {
 
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EliminarTrabajador(agregarTrabajadorModel trabajadorMod, string btn_submit, string es_activo)
+        {
+
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+
+            if (btn_submit == null)
+            {
+                return View(trabajadorMod);
+            }
+            if (btn_submit.Equals("Cargar")) //Se esta cargando un trabajador
+            {
+                if (ModelState.IsValidField("rut"))
+                {
+                    string query = "SELECT * FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
+                    NpgsqlDataReader lector = null;
+                    try
+                    {
+                        lector = DBConector.SELECT(query);
+                        if (lector.Read())
+                        {
+                            ModelState.Clear();
+                            trabajadorMod.rut = lector.GetInt32(lector.GetOrdinal("rut_trabajador")).ToString();
+                            trabajadorMod.nombre = lector.GetString(lector.GetOrdinal("nombre_trabajador"));
+                            trabajadorMod.id_perfil = lector.GetInt32(lector.GetOrdinal("id_perfil")).ToString();
+                            trabajadorMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_trabajador"));
+                            trabajadorMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_trabajador"));
+                            trabajadorMod.correo = lector.GetString(lector.GetOrdinal("mail_trabajador"));
+                            trabajadorMod.direccion = lector.GetString(lector.GetOrdinal("direccion_trabajador"));
+                            trabajadorMod.comuna = lector.GetString(lector.GetOrdinal("comuna_trabajador"));
+                            trabajadorMod.iniciales = lector.GetString(lector.GetOrdinal("iniciales_trabajador"));
+                            DateTime fecha_ini_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_ini_contrato_trabajador"));
+                            DateTimeFormatInfo dtinfo = new CultureInfo("es-ES", false).DateTimeFormat;
+                            trabajadorMod.dia_ini_contrato = fecha_ini_contrato.Day.ToString();
+                            trabajadorMod.mes_ini_contrato = dtinfo.GetMonthName(fecha_ini_contrato.Month);
+                            trabajadorMod.agno_ini_contrato = fecha_ini_contrato.Year.ToString();
+                            if (lector.GetOrdinal("fecha_fin_contrato_trabajador") < 0)
+                            {
+                                DateTime fecha_fin_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_fin_contrato_trabajador"));
+                                trabajadorMod.dia_fin_contrato = fecha_fin_contrato.Day.ToString();
+                                trabajadorMod.mes_fin_contrato = fecha_fin_contrato.Month.ToString();
+                                trabajadorMod.agno_fin_contrato = fecha_fin_contrato.Year.ToString();
+
+                            }
+                            
+                            ViewBag.trabajadorActivo = lector.GetBoolean(lector.GetOrdinal("esta_activo"));
+
+                            lector.Dispose();
+                            lector.Close();
+                            return View(trabajadorMod);
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rut", "El rut insertado no existe");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+
+                    }
+                    lector.Dispose();
+                    lector.Close(); 
+                }
+                else
+                {
+                    string mensaje = "El rut ingresado no es válido";
+                    ModelState.Clear();
+                    ModelState.AddModelError("rut", mensaje);
+                }
+
+            }
+            else if (btn_submit.Equals("Eliminar"))
+            {
+                if (ModelState.IsValidField("rut"))
+                {
+                    try
+                    {
+                        string query = "DELETE FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
+                        DBConector.DELETE(query);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+
+                }
+                else
+                {
+                    return View(trabajadorMod);
+                }
+                
+
+            }
+            return RedirectToAction("EliminarTrabajador", "home");
+        }
 
         public List<SelectListItem> getListaDias()
         {
