@@ -233,31 +233,31 @@ namespace SigOSO_PBD.Controllers
         {
             ViewBag.respuestaPost = "";
             NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
-            string respuesta = "<table class='table contenedor_lista_servicios'>";
+            string respuesta = "<table class='table table-hover'>";
             respuesta += "<thead>";
-            respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
-            respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre servicio</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios2'>Precio pizarra</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios3'>Factor bono</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios4'>Visible</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios5'>Editar</td>";
+            respuesta += "<tr>";
+            respuesta += "<td>Nombre servicio</td>";
+            respuesta += "<td>Precio pizarra</td>";
+            respuesta += "<td>Factor bono</td>";
+            respuesta += "<td>Visible</td>";
+            respuesta += "<td>Editar</td>";
             respuesta += "</thead>";
             respuesta += "</tr>";
             while (servicios.Read())
             {
-                respuesta += "<tr class='fila_contenedor_lista_servicios'>";
-                respuesta += "<td class='columna_contenedor_lista_servicios1'>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</td>";
-                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</td>";
-                respuesta += "<td class='columna_contenedor_lista_servicios3'>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</td>";
+                respuesta += "<tr>";
+                respuesta += "<td>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</td>";
+                respuesta += "<td>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</td>";
+                respuesta += "<td>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</td>";
                 if (servicios.GetBoolean(servicios.GetOrdinal("visibilidad_servicio")))
                 {
-                    respuesta += "<td class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox' disabled='true' checked>" + "</td>";
+                    respuesta += "<td>" + "<input type='checkbox' disabled='true' checked>" + "</td>";
                 }
                 else
                 {
-                    respuesta += "<td class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox'>" + "</td>";
+                    respuesta += "<td>" + "<input type='checkbox'>" + "</td>";
                 }
-                respuesta += "<td class='columna_contenedor_lista_servicios5'>" + "boton editar" + "</td>";
+                respuesta += "<td>" + "boton editar" + "</td>";
                 respuesta += "</tr>";
             }
             respuesta += "</table>";
