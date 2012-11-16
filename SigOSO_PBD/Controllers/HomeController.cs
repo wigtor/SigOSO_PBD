@@ -455,8 +455,8 @@ namespace SigOSO_PBD.Controllers
             {
                 items.Add(new SelectListItem
                 {
-                    Text = i + "",
-                    Value = i + ""
+                    Text = i.ToString(),
+                    Value = i.ToString()
                 });
             }
             return items;
@@ -474,7 +474,7 @@ namespace SigOSO_PBD.Controllers
                     items.Add(new SelectListItem
                     {
                         Text = temp,
-                        Value = i + ""
+                        Value = i.ToString()
                     });
                 }
                 i++;
@@ -482,27 +482,135 @@ namespace SigOSO_PBD.Controllers
             return items;
         }
 
+        public List<SelectListItem> getListaUnidades()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            try
+            {
+                NpgsqlDataReader unidades = DBConector.SELECT("SELECT id_unidad, nombre_unidad, abreviatura_unidad FROM unidad_material");
+
+
+                while (unidades.Read())
+                {
+                    items.Add(new SelectListItem
+                    {
+                        Text = unidades.GetString(1),
+                        Value = unidades.GetInt32(0).ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = DBConector.msjError,
+                    Value = "-1"
+                });
+            }
+            return items;
+        }
+
 
         public string generarTablaUnidadesMedida()
         {
-            NpgsqlDataReader unidades = DBConector.SELECT("SELECT nombre_unidad, abreviatura_unidad FROM unidad_material");
+            string respuesta;
+            try
+            {
+                NpgsqlDataReader unidades = DBConector.SELECT("SELECT nombre_unidad, abreviatura_unidad FROM unidad_material");
+                respuesta = "<table class='table contenedor_lista_servicios'>";
+                respuesta += "<thead>";
+                respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre unidad</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'>Abreviatura unidad</td>";
+                respuesta += "</tr>";
+                respuesta += "</thead>";
+                while (unidades.Read())
+                {
+                    respuesta += "<tr class='fila_contenedor_lista_servicios'>";
+                    respuesta += "<td class='columna_contenedor_lista_servicios1'>" + unidades.GetString(unidades.GetOrdinal("nombre_unidad")) + "</td>";
+                    respuesta += "<td class='columna_contenedor_lista_servicios2'>" + unidades.GetString(unidades.GetOrdinal("abreviatura_unidad")) + "</td>";
+                    respuesta += "</tr>";
+                }
+                respuesta += "</table>";
+            }
+            catch (Exception ex)
+            {
+                respuesta = DBConector.msjError;
+            }
+            return respuesta;
+        }
+
+        public string generarTablaMaterialGenericos()
+        {
+            NpgsqlDataReader materialesGen = DBConector.SELECT("SELECT nombre_tipo_material, glosa_tipo_material, nombre_unidad FROM material_generico NATURAL JOIN unidad_material");
             string respuesta = "<table class='table contenedor_lista_servicios'>";
             respuesta += "<thead>";
             respuesta += "<tr class='fila_contenedor_lista_servicios_titulos'>";
-            respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre unidad</td>";
-            respuesta += "<td class='columna_contenedor_lista_servicios2'>Abreviatura unidad</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios1'>Nombre material</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios2'>Glosa material</td>";
+            respuesta += "<td class='columna_contenedor_lista_servicios2'>Unidad de medida</td>";
             respuesta += "</tr>";
             respuesta += "</thead>";
-            while (unidades.Read())
+            while (materialesGen.Read())
             {
                 respuesta += "<tr class='fila_contenedor_lista_servicios'>";
-                respuesta += "<td class='columna_contenedor_lista_servicios1'>" + unidades.GetString(unidades.GetOrdinal("nombre_unidad")) + "</td>";
-                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + unidades.GetString(unidades.GetOrdinal("abreviatura_unidad")) + "</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios1'>" + materialesGen.GetString(materialesGen.GetOrdinal("nombre_tipo_material")) + "</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + materialesGen.GetString(materialesGen.GetOrdinal("glosa_tipo_material")) + "</td>";
+                respuesta += "<td class='columna_contenedor_lista_servicios2'>" + materialesGen.GetString(materialesGen.GetOrdinal("nombre_unidad")) + "</td>";
                 respuesta += "</tr>";
             }
             respuesta += "</table>";
             return respuesta;
         }
+
+
+        [HttpGet]
+        public ActionResult MantMaterialGenericos()
+        {
+            ViewBag.lista_unidades = getListaUnidades();
+            ViewBag.tabla = generarTablaMaterialGenericos();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult MantMaterialGenericos(MaterialGenericoModel nvoMat)
+        {
+            ViewBag.tabla = generarTablaMaterialGenericos();
+            ViewBag.lista_unidades = getListaUnidades();
+
+            if (ModelState.IsValid)
+            {
+                NpgsqlDataReader lector = null;
+                string query = "INSERT INTO material_generico (nombre_tipo_material, glosa_tipo_material, id_unidad) VALUES ('" + nvoMat.nombre + "', '" + nvoMat.glosa_material + "', '"+nvoMat.id_unidad+"')";
+                try
+                {
+                    string query2 = "SELECT nombre_tipo_material FROM material_generico WHERE nombre_tipo_material ILIKE '" + nvoMat.nombre + "'";
+                    lector = DBConector.SELECT(query2);
+                    if (lector.HasRows)
+                    {
+                        ModelState.AddModelError("nombre", "Ya existe este material genérico");
+                        lector.Dispose();
+                        ViewBag.respuestaPost = "";
+                        return View(nvoMat);
+                    }
+                    int cantidadInsertada = DBConector.INSERT(query);
+                    ViewBag.respuestaPost = "Se ha agregado correctamente el material genérico";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+                }
+                return RedirectToAction("MantMaterialGenericos", "home");
+            }
+            else
+            {
+                return View(nvoMat);
+            }
+
+        }
+
 
         [HttpGet]
         public ActionResult MantUnidadesMedida()
@@ -548,7 +656,6 @@ namespace SigOSO_PBD.Controllers
                 return View(nvaUnidad);
             }
 
-            
         }
 
 
