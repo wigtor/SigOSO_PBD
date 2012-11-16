@@ -213,7 +213,7 @@ namespace SigOSO_PBD.Controllers
             }
             if (!Int32.TryParse(nvoTrabajador.agno_ini_contrato, out agno_contrato))
             {
-                ModelState.AddModelError("agno_ini_contrato", "No ha seleccionado un año");
+                ModelState.AddModelError("agno_ini_contrato", "El año introducido no es válido");
                 return View(nvoTrabajador);
             }
 
@@ -224,12 +224,24 @@ namespace SigOSO_PBD.Controllers
                 return View(nvoTrabajador);
             }
 
+            if (agno_contrato < 1900 || agno_contrato > 2100)
+            {
+                ModelState.AddModelError("agno_ini_contrato", "Que año más extraño, ¿Está seguro?");
+                return View(nvoTrabajador);
+            }
+
+            if (mesContrato < 1 || mesContrato > 12)
+            {
+                ModelState.AddModelError("mes_ini_contrato", "El més seleccionado no es válido");
+                return View(nvoTrabajador);
+            }
+
             if (ModelState.IsValid)
             {
                 
-                string fecha_ini_contrato = nvoTrabajador.dia_ini_contrato+"-"+nvoTrabajador.mes_ini_contrato+nvoTrabajador.agno_ini_contrato;
+                string fecha_ini_contrato = nvoTrabajador.dia_ini_contrato+"-"+nvoTrabajador.mes_ini_contrato+"-"+nvoTrabajador.agno_ini_contrato;
 
-                string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, ciudad_trabajador, fecha_ini_contrato_trabajador) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '" + nvoTrabajador.ciudad + "', '"+fecha_ini_contrato+"')";
+                string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, fecha_ini_contrato_trabajador, esta_activo) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '"+fecha_ini_contrato+"', 'TRUE')";
                 try
                 {
                     string query2 = "SELECT rut_trabajador FROM trabajador WHERE rut_trabajador = '" + nvoTrabajador.rut + "'";
@@ -278,11 +290,14 @@ namespace SigOSO_PBD.Controllers
             int i = 1;
             foreach (String temp in ci.MonthNames)
             {
-                items.Add(new SelectListItem
+                if (i <= 12)
                 {
-                    Text = temp,
-                    Value = i+""
-                });
+                    items.Add(new SelectListItem
+                    {
+                        Text = temp,
+                        Value = i + ""
+                    });
+                }
                 i++;
             }
             return items;

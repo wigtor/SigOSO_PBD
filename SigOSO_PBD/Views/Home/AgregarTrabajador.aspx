@@ -36,13 +36,7 @@
             
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.correo, new { @class = "text" })%>
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.correo)%>
-
-
-        <label>Ciudad</label>
-
-            <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.ciudad, new { @class = "text" })%>
-            <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.ciudad)%>
-
+        
         <label>Comuna</label>
 
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.comuna, new { @class = "text" })%>
