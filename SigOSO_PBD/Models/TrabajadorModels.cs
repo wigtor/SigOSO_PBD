@@ -29,6 +29,17 @@ namespace SigOSO_PBD.Models
         [Required]
         [Display(Name = "año inicio contrato")]
         public string agno_ini_contrato { get; set; }
+
+
+        [Display(Name = "día fin contrato")]
+        public string dia_fin_contrato { get; set; }
+
+        [Display(Name = "mes fin contrato")]
+        public string mes_fin_contrato { get; set; }
+
+        [Display(Name = "año fin contrato")]
+        public string agno_fin_contrato { get; set; }
+
     }
 
     

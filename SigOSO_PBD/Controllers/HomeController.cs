@@ -190,11 +190,23 @@ namespace SigOSO_PBD.Controllers
             return items;
         }
 
+
+        //Para visualizar
+        [HttpGet]
+        public ActionResult AgregarTrabajador()
+        {
+
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            return View();
+        }
+
+
         [HttpPost]
         public ActionResult AgregarTrabajador(agregarTrabajadorModel nvoTrabajador)
         {
 
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
             ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
@@ -269,6 +281,173 @@ namespace SigOSO_PBD.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult ModificarTrabajador()
+        {
+            
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ModificarTrabajador(agregarTrabajadorModel trabajadorMod, string btn_submit, string es_activo)
+        {
+            
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+
+            if (btn_submit == null)
+            {
+                return View(trabajadorMod);
+            }
+
+            if (btn_submit.Equals("Cargar")) //Se esta cargando un trabajador
+            {
+                if (ModelState.IsValidField("rut"))
+                {
+                    string query = "SELECT * FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
+                    NpgsqlDataReader lector = DBConector.SELECT(query);
+                    if (lector.Read())
+                    {
+                        ModelState.Clear();
+                        trabajadorMod.rut = lector.GetInt32(lector.GetOrdinal("rut_trabajador")).ToString();
+                        trabajadorMod.nombre = lector.GetString(lector.GetOrdinal("nombre_trabajador"));
+                        trabajadorMod.id_perfil = lector.GetInt32(lector.GetOrdinal("id_perfil")).ToString();
+                        trabajadorMod.telefono1 = lector.GetString(lector.GetOrdinal("tel1_trabajador"));
+                        trabajadorMod.telefono2 = lector.GetString(lector.GetOrdinal("tel2_trabajador"));
+                        trabajadorMod.correo = lector.GetString(lector.GetOrdinal("mail_trabajador"));
+                        trabajadorMod.direccion = lector.GetString(lector.GetOrdinal("direccion_trabajador"));
+                        trabajadorMod.comuna = lector.GetString(lector.GetOrdinal("comuna_trabajador"));
+                        trabajadorMod.iniciales = lector.GetString(lector.GetOrdinal("iniciales_trabajador"));
+                        DateTime fecha_ini_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_ini_contrato_trabajador"));
+                        DateTimeFormatInfo dtinfo = new CultureInfo("es-ES", false).DateTimeFormat;
+                        trabajadorMod.dia_ini_contrato = fecha_ini_contrato.Day.ToString();
+                        trabajadorMod.mes_ini_contrato = dtinfo.GetMonthName(fecha_ini_contrato.Month);
+                        trabajadorMod.agno_ini_contrato = fecha_ini_contrato.Year.ToString();
+                        DateTime fecha_fin_contrato = lector.GetDateTime(lector.GetOrdinal("fecha_fin_contrato_trabajador"));
+                        trabajadorMod.dia_fin_contrato = fecha_fin_contrato.Day.ToString();
+                        trabajadorMod.mes_fin_contrato = fecha_fin_contrato.Month.ToString();
+                        trabajadorMod.agno_fin_contrato = fecha_fin_contrato.Year.ToString();
+
+
+                        ViewBag.trabajadorActivo = lector.GetBoolean(lector.GetOrdinal("esta_activo"));
+                        return View(trabajadorMod);
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("rut", "El rut insertado no existe");
+                    }
+                    lector.Dispose();
+
+                }
+                else
+                {
+                    string mensaje = "El rut ingresado no es válido";
+                    ModelState.Clear();
+                    ModelState.AddModelError("rut", mensaje);
+                }
+            }
+            else if (btn_submit.Equals("Guardar cambios")) //Se presionó el botón para guardar cambios
+            {
+                bool es_activoBool = true;
+                if (es_activo.Equals("false"))
+                {
+                    es_activoBool = false;
+                    //SI ES FALSO ENTONCES HAY QUE COMPROBAR SI YA PERTENECE A UNA CUADRILLA
+                }
+
+                string fecha_fin_contrato;
+                int diaEscogido, mesContrato, agno_contrato, diasDelMes;
+                if (trabajadorMod.dia_fin_contrato != null || trabajadorMod.mes_fin_contrato != null || trabajadorMod.agno_fin_contrato != null)
+                {
+
+                    if (!Int32.TryParse(trabajadorMod.dia_fin_contrato, out diaEscogido))
+                    {
+                        ModelState.AddModelError("dia_fin_contrato", "No ha seleccionado un día del mes");
+                        return View(trabajadorMod);
+                    }
+                    if (!Int32.TryParse(trabajadorMod.mes_fin_contrato, out mesContrato))
+                    {
+                        ModelState.AddModelError("mes_fin_contrato", "No ha seleccionado un mes");
+                        return View(trabajadorMod);
+                    }
+                    if (!Int32.TryParse(trabajadorMod.agno_fin_contrato, out agno_contrato))
+                    {
+                        ModelState.AddModelError("agno_fin_contrato", "El año introducido no es válido");
+                        return View(trabajadorMod);
+                    }
+
+                    diasDelMes = DateTime.DaysInMonth(agno_contrato, mesContrato);
+                    if (diasDelMes < diaEscogido)
+                    {
+                        ModelState.AddModelError("dia_fin_contrato", "El día seleccionado no es válido para el més seleccionado");
+                        return View(trabajadorMod);
+                    }
+
+                    if (agno_contrato < 1900 || agno_contrato > 2100)
+                    {
+                        ModelState.AddModelError("agno_fin_contrato", "Que año más extraño, ¿Está seguro?");
+                        return View(trabajadorMod);
+                    }
+
+                    if (mesContrato < 1 || mesContrato > 12)
+                    {
+                        ModelState.AddModelError("mes_fin_contrato", "El més seleccionado no es válido");
+                        return View(trabajadorMod);
+                    }
+
+                    fecha_fin_contrato = trabajadorMod.dia_fin_contrato + "-" + trabajadorMod.mes_fin_contrato + "-" + trabajadorMod.agno_fin_contrato;
+                    
+                }
+                else
+                {
+                    fecha_fin_contrato = null;
+                }
+
+
+                if (ModelState.IsValid)
+                {
+                    string query = "UPDATE trabajador SET id_perfil='" + trabajadorMod.id_perfil + "', nombre_trabajador='" + trabajadorMod.nombre + "', iniciales_trabajador='" + trabajadorMod.iniciales + "', direccion_trabajador='" + trabajadorMod.direccion + "', comuna_trabajador='" + trabajadorMod.comuna + "', tel1_trabajador='" + trabajadorMod.telefono1 + "', tel2_trabajador='" + trabajadorMod.telefono2 + "', mail_trabajador='" + trabajadorMod.correo + "', esta_activo='" + es_activoBool + "'";
+                    if (fecha_fin_contrato != null)
+                    {
+                        query +=  ", fecha_fin_contrato_trabajador='" + fecha_fin_contrato + "'";
+                    }
+                    query += " WHERE rut_trabajador='" + trabajadorMod.rut + "'";
+
+
+                    try
+                    {
+                        int cantidadInsertada = DBConector.UPDATE(query);
+
+                        ViewBag.respuestaPost = "Se han guardado correctamente los datos del trabajador";
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+                    }
+
+                    return RedirectToAction("Index", "home");
+                }
+                else
+                {
+                    return View(trabajadorMod);
+                }
+
+
+            }
+            else //Se presionó cualquier otra cosa, no se usa
+            {
+
+            }
+            return View();
+        }
+
+
+
         public List<SelectListItem> getListaDias()
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -286,7 +465,7 @@ namespace SigOSO_PBD.Controllers
         public List<SelectListItem> getListaMeses()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            DateTimeFormatInfo ci = new CultureInfo("es-CL").DateTimeFormat;
+            DateTimeFormatInfo ci = new CultureInfo("es-ES").DateTimeFormat;
             int i = 1;
             foreach (String temp in ci.MonthNames)
             {
@@ -303,17 +482,7 @@ namespace SigOSO_PBD.Controllers
             return items;
         }
 
-        //Para visualizar
-        [HttpGet]
-        public ActionResult AgregarTrabajador()
-        {
-            
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
-            ViewBag.listaDias = getListaDias();
-            ViewBag.listaMeses = getListaMeses();
-
-            return View();
-        }
+        
 
 
 
