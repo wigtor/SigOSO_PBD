@@ -14,7 +14,10 @@ namespace SigOSO_PBD.Models
         [StringLength(40, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 0)]
         public string giro { get; set; }
 
-        
+        [Required]
+        [StringLength(30, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 2)]
+        [Display(Name = "Ciudad")]
+        public string ciudad { get; set; }
     }
 
     

@@ -76,7 +76,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+<<<<<<< HEAD
+    <Compile Include="Models\dbConection.cs" />
+=======
     <Compile Include="Models\ClienteModels.cs" />
+    <Compile Include="Models\TrabajadorModels.cs" />
+    <Compile Include="Models\PersonaModels.cs" />
+    <Compile Include="Models\ServicioModels.cs" />
+>>>>>>> 790dcc3099fa04b6fa4bd95ffc65224f27a03272
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -127,11 +134,8 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
     <Content Include="Views\Home\AgregarCliente.aspx" />
-<<<<<<< HEAD
     <Content Include="Views\Home\MantServiciosPrestados.aspx" />
-=======
     <Content Include="Views\Home\ModificarCliente.aspx" />
->>>>>>> 5e3850398151b6bc40af62886a2ce0941d667403
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\JefeBodega\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\CambiarEstadoOTI.aspx" />

@@ -146,7 +146,7 @@
                     <div class="dropdown-menu">
                         <div>
                             <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Unidades de medida", "ManUnidadesMedida", "Home", null, new { @id = "BotonMantUnidadesMedida", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                <%:Html.ActionLink("Unidades de medida", "MantUnidadesMedida", "Home", null, new { @id = "BotonMantUnidadesMedida", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                         <div>
