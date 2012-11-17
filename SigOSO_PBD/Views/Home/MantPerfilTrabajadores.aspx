@@ -11,6 +11,7 @@
 
 
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Crear perfil trabajador</legend>
             <label>Nombre del cargo</label>
@@ -29,7 +30,9 @@
                 <input id="btn_agregarUnidad" type="submit" value="Agregar Unidad" />
             </div>
         </fieldset>
+        </div>
 
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Lista de cargos o perfiles</legend>
                 <%if (ViewBag.tabla != null) {                      
@@ -37,7 +40,7 @@
                 }                                                     
                 %>
         </fieldset>
-
+        </div>
             
 
     </form>

@@ -9,6 +9,7 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     <form id="form1" method="post" style="height: auto;">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Crear nuevo servicio</legend>
                 <label>Nombre Servicio</label>            
@@ -30,7 +31,9 @@
                     <input id="btn_agregarServicio" type="submit" value="Agregar Servicio" />
                 </div>
         </fieldset>
+        </div>
     
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Lista Servicios</legend>
                 <%if (ViewBag.tabla != null) {                      
@@ -38,7 +41,7 @@
                 }                                                     
                 %>
         </fieldset>
-    
+        </div>
     
     </form>
 

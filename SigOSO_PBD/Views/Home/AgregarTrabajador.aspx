@@ -13,6 +13,7 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <label>Nombre</label>
               
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.nombre, new { @class = "text" })%>
@@ -68,9 +69,11 @@
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.agno_ini_contrato)%>
    
 
-    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
-        align="center">
-        <input id="btn_agregarTrabajador" type="submit" value="Agregar Trabajador" />
+        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
+            align="center">
+            <input id="btn_agregarTrabajador" type="submit" value="Agregar Trabajador" />
+        </div>
+
         </div>
     </form>
 </asp:Content>

@@ -11,6 +11,7 @@
 
 
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Seleccionar el cliente</legend>
             <label>Rut cliente</label>
@@ -36,7 +37,7 @@
                 <%: Html.TextBox("nombreCliente", nombre_cliente, new { @class = "text", @readonly = "true" })%>
                 <%: Html.ValidationMessage("nombreCliente")%>
         </fieldset>
-
+        </div>
 
             <div>
                 <% if (ViewBag.respuestaPost!= null) {%>
@@ -47,7 +48,7 @@
         
     
 
-        
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Datos de contrato</legend>
                 <label>Fecha inicio contrato</label>
@@ -73,39 +74,42 @@
                     <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.agno_caducidad_contrato)%>
                 
                 <div class="fieldsetInterno">
-                    <fieldset>
-                        <legend>Servicios a prestar en contrato</legend>
+                <fieldset>
+                    <legend>Servicios a prestar en contrato</legend>
                     
-                        <label>Seleccione un servicio para agregar</label>
-                            <%: Html.DropDownList("listaServicios", (List<SelectListItem>)ViewBag.listaServicios, new { @style = "width: 70%;" })%>
+                    <label>Seleccione un servicio para agregar</label>
+                        <%: Html.DropDownList("listaServicios", (List<SelectListItem>)ViewBag.listaServicios, new { @style = "width: 70%;" })%>
 
-                        <label>Precio referencia del servicio</label>
-                            <%: Html.TextBox("precioReferencia", "", new { @class = "text", @style = "width: 100px;", @readonly = "true" })%>
+                    <label>Precio referencia del servicio</label>
+                        <%: Html.TextBox("precioReferencia", "", new { @class = "text", @style = "width: 100px;", @readonly = "true" })%>
                         
-                        <label>Precio acordado en contrato</label>
-                            <%: Html.TextBox("precioPorContrato", "", new { @class = "text", @style = "width: 100px;"})%>
+                    <label>Precio acordado en contrato</label>
+                        <%: Html.TextBox("precioPorContrato", "", new { @class = "text", @style = "width: 100px;"})%>
 
 
-                        <label>Condición para servicio</label>
-                            <%: Html.TextArea("condicion_servicio") %>
+                    <label>Condición para servicio</label>
+                        <%: Html.TextArea("condicion_servicio") %>
 
-                        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">
-                            <input id="btn_agregarCondicion" type="button" name="btn_agregarCondicion" value="Agregar servicio" />
-                        </div>
+                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">
+                        <input id="btn_agregarCondicion" type="button" name="btn_agregarCondicion" value="Agregar servicio" />
+                    </div>
 
-                    </fieldset>
+                </fieldset>
+                </div>
 
-                    <fieldset>
-                        <legend>Servicios del contrato</legend>
-                        <%if (ViewBag.tabla != null) {                      
-                            Response.Write(ViewBag.tabla);                       
-                        }                                                     
-                        %>
-                    </fieldset>
+                <div class="fieldsetInterno">
+                <fieldset>
+                    <legend>Servicios del contrato</legend>
+                    <%if (ViewBag.tabla != null) {                      
+                        Response.Write(ViewBag.tabla);                       
+                    }                                                     
+                    %>
+                </fieldset>
                 </div>
 
                 
         </fieldset>
+        </div>
 
     </form>    
 </asp:Content>

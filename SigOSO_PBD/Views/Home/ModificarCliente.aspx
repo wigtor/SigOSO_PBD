@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
 
-
+    <div class="fieldsetInterno">
     <form id="form1" method="post">
         <label>Rut</label>
               
@@ -69,5 +69,7 @@
             <input id="btn_modificarCliente" name="btn_submit" type="submit" value="Guardar cambios" />
         </div>
     </form>
+    </div>
+
 </asp:Content>
 

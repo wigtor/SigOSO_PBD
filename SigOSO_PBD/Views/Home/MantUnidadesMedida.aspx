@@ -11,6 +11,7 @@
 
 
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Ingresar nueva unidad</legend>
             <label>Nombre</label>            
@@ -32,7 +33,9 @@
                 <input id="btn_agregarUnidad" type="submit" value="Agregar Unidad" />
             </div>
         </fieldset>
+        </div>
 
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Lista de unidades</legend>
                 <%if (ViewBag.tabla != null) {                      
@@ -40,7 +43,7 @@
                 }                                                     
                 %>
         </fieldset>
-
+        </div>
             
 
     </form>

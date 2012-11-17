@@ -13,6 +13,7 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <label>Nombre</label>
               
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.nombre, new { @class = "text", @readonly="true" })%>
@@ -61,9 +62,11 @@
            
 
 
-    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
+        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
-        <input id="btn_eliminarTrabajador" type="submit" name="btn_submit" value="Eliminar" />
+            <input id="btn_eliminarTrabajador" type="submit" name="btn_submit" value="Eliminar" />
+        </div>
+    
         </div>
     </form>
 </asp:Content>

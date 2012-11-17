@@ -11,6 +11,7 @@
 
 
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Agregar nuevo material</legend>
             <label>Nombre</label>
@@ -35,7 +36,9 @@
                 <input id="btn_agregarMaterial" type="submit" value="Agregar Material" />
             </div>
         </fieldset>
+        </div>
 
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Lista de materiales genéricos</legend>
                 <%if (ViewBag.tabla != null) {                      
@@ -43,7 +46,7 @@
                 }                                                     
                 %>
         </fieldset>
-
+        </div>
             
 
     </form>
