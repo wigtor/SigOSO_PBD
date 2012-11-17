@@ -23,10 +23,7 @@
                 <label>Factor bono</label>    
                     <%: Html.TextBoxFor(nvoServicio => nvoServicio.factorBono)%>
                     <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.factorBono)%>
-
-                <div>
-                    <%: ViewBag.respuestaPost%>
-                </div>   
+ 
                 <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                     <input id="btn_agregarServicio" type="submit" value="Agregar Servicio" />
                 </div>

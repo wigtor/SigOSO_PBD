@@ -43,5 +43,18 @@
             </div>
         </div>
     </div>
+
+    <!-- CODIGO QUE MUESTRA EL MENSAJE DESPUES DE UNA QUERY O ACCIÓN CUALQUIERA-->
+    <script type="text/javascript">
+        <%
+            if (ViewBag.respuestaPost!= null) {%>
+                var mensaje = <% Response.Write("\""+ViewBag.respuestaPost+"\""); %>;
+                if (mensaje != "") {
+                    alert(mensaje);
+                }
+            <%}
+         %>
+    
+    </script>
 </body>
 </html>

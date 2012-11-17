@@ -49,21 +49,6 @@
             <%: Html.TextBoxFor(nvoCliente => nvoCliente.correo)%>
             <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.correo)%>
 
-        <div>
-            <% if (ViewBag.respuestaPost!= null) {%>
-                <%: ViewBag.respuestaPost %>
-            <%}
-                %>
-        </div>
-        
-
-        <div>
-            <% if (ViewBag.respuestaPost!= null) {%>
-                <%: ViewBag.respuestaPost %>
-            <%}
-             %>
-        </div>
-
         <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
             <input id="btn_modificarCliente" name="btn_submit" type="submit" value="Guardar cambios" />

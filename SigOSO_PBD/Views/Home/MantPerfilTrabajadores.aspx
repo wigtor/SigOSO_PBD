@@ -18,14 +18,6 @@
                 <%: Html.TextBoxFor(nvoPerfil => nvoPerfil.nombre, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvoPerfil => nvoPerfil.nombre)%>
             
-
-            <div>
-                <% if (ViewBag.respuestaPost!= null) {%>
-                    <%: ViewBag.respuestaPost %>
-                <%}
-                    %>
-            </div>
-
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                 <input id="btn_agregarUnidad" type="submit" value="Agregar Unidad" />
             </div>

@@ -22,13 +22,6 @@
                 <%: Html.TextBoxFor(nvaUnidad => nvaUnidad.abreviatura, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvaUnidad => nvaUnidad.abreviatura)%>
 
-            <div>
-                <% if (ViewBag.respuestaPost!= null) {%>
-                    <%: ViewBag.respuestaPost %>
-                <%}
-                    %>
-            </div>
-
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                 <input id="btn_agregarUnidad" type="submit" value="Agregar Unidad" />
             </div>

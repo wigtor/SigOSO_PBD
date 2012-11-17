@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
-
+    
 
     <form id="form1" method="post">
         <div class="fieldsetInterno">
@@ -39,14 +39,6 @@
         </fieldset>
         </div>
 
-            <div>
-                <% if (ViewBag.respuestaPost!= null) {%>
-                    <%: ViewBag.respuestaPost %>
-                <%}
-                    %>
-            </div>
-        
-    
 
         <div class="fieldsetInterno">
         <fieldset>

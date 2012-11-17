@@ -14,7 +14,7 @@ namespace SigOSO_PBD.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            //ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
         }
@@ -58,7 +58,9 @@ namespace SigOSO_PBD.Controllers
                     lector.Dispose();
                     lector.Close();
                 }
-                return RedirectToAction("AgregarCliente", "home");
+
+                return View();
+                //return RedirectToAction("AgregarCliente", "home");
             }
             else
             {
@@ -158,7 +160,8 @@ namespace SigOSO_PBD.Controllers
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                     }
 
-                    return RedirectToAction("Index", "home");
+                    return View();
+                    //return RedirectToAction("Index", "home");
                 }
                 else
                 {
@@ -302,7 +305,8 @@ namespace SigOSO_PBD.Controllers
                     lector.Dispose();
                     lector.Close();
                 }
-                return RedirectToAction("AgregarTrabajador", "home");
+                return View();
+                //return RedirectToAction("AgregarTrabajador", "home");
             }
             else
             {
@@ -318,7 +322,7 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             ViewBag.listaServicios = getAllServicios();
-
+            //ViewBag.respuestaPost = "holaaa!! ;)";
 
             return View();
         }
@@ -554,7 +558,8 @@ namespace SigOSO_PBD.Controllers
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                     }
 
-                    return RedirectToAction("Index", "home");
+                    return View();
+                    //return RedirectToAction("Index", "home");
                 }
                 else
                 {
@@ -676,7 +681,9 @@ namespace SigOSO_PBD.Controllers
                 
 
             }
-            return RedirectToAction("EliminarTrabajador", "home");
+
+            return View();
+            //return RedirectToAction("EliminarTrabajador", "home");
         }
 
         public List<SelectListItem> getListaDias()
@@ -986,7 +993,9 @@ namespace SigOSO_PBD.Controllers
                     lector.Dispose();
                     lector.Close();
                 }
-                return RedirectToAction("MantMaterialGenericos", "home");
+
+                return View();
+                //return RedirectToAction("MantMaterialGenericos", "home");
             }
             else
             {
@@ -1041,7 +1050,8 @@ namespace SigOSO_PBD.Controllers
                     lector.Close();
                 }
 
-                return RedirectToAction("MantUnidadesMedida", "home");
+                return View();
+                //return RedirectToAction("MantUnidadesMedida", "home");
             }
             else
             {
@@ -1095,7 +1105,9 @@ namespace SigOSO_PBD.Controllers
                     lector.Dispose();
                     lector.Close();
                 }
-                return RedirectToAction("MantperfilTrabajadores", "home");
+
+                return View();
+                //return RedirectToAction("MantperfilTrabajadores", "home");
             }
             else
             {
@@ -1170,7 +1182,9 @@ namespace SigOSO_PBD.Controllers
                     }
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "Se ha creado correctamente el servicio";
-                    return RedirectToAction("MantServiciosPrestados", "home");
+
+                    return View();
+                    //return RedirectToAction("MantServiciosPrestados", "home");
                 }
                 catch (Exception ex)
                 {
@@ -1209,30 +1223,7 @@ namespace SigOSO_PBD.Controllers
 
         public string cargaUnidades()
         {
-            string resultado = "";
-            NpgsqlConnection con = new NpgsqlConnection("Server=localhost;Port=5432;UserId=SigOSO_user;Password=pbd2012;Database=SigOSO");
-            try
-            {
-                con.Open();
-
-            }
-            catch (Exception)
-            {
-                return DBConector.msjError;
-            }
-            //Un insert o un update o un delete
-            /*
-            NpgsqlCommand comando = new NpgsqlCommand("INSERT INTO unidad_material (nombre_unidad, abreviatura_unidad) VALUES ('kilogramos', 'kg')", con);
-            int resultado = comando.ExecuteNonQuery();
-            */
-
-            //Un select
-            NpgsqlCommand comando = new NpgsqlCommand("SELECT * FROM unidad_material", con);
-            NpgsqlDataReader resultQuery =  comando.ExecuteReader();
-            if (resultQuery.Read()) {       
-                resultado = resultQuery.GetString(1);
-            }
-            return resultado;
+            return "NADA";
 
         }
     }

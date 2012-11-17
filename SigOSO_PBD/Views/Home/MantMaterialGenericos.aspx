@@ -25,13 +25,6 @@
                 <%: Html.TextAreaFor(nvoMat => nvoMat.glosa_material, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvoMat => nvoMat.glosa_material)%>
 
-            <div>
-                <% if (ViewBag.respuestaPost!= null) {%>
-                    <%: ViewBag.respuestaPost %>
-                <%}
-                    %>
-            </div>
-
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                 <input id="btn_agregarMaterial" type="submit" value="Agregar Material" />
             </div>
