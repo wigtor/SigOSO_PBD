@@ -14,7 +14,7 @@ namespace SigOSO_PBD.classes
         private static string conectionString = "Server=localhost;Port=5432;UserId=SigOSO_user;Password=pbd2012;Database=SigOSO";
         public static string msjError = "Error al realizar la petición a la base de datos";
         public static NpgsqlConnection con = null;
-        public static Mutex mutexGetCon = new Mutex();
+        private static Mutex mutexGetCon = new Mutex();
         public static NpgsqlConnection getConection() {
             mutexGetCon.WaitOne();
             try
