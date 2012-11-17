@@ -24,10 +24,8 @@ namespace SigOSO_PBD.Models
         [StringLength(50, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}", MinimumLength = 2)]
         [Display(Name = "Factor bono")]
         public string factorBono { get; set; }
-
-     
-
     }
 
-    
+
+
 }

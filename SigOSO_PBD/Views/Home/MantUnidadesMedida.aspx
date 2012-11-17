@@ -35,7 +35,9 @@
 
         <fieldset>
             <legend>Lista de unidades</legend>
-                <%if (ViewBag.tabla != null) {                      
+                <%if (ViewBag.tabla != null) {   
+                      
+                                                         
                     Response.Write(ViewBag.tabla);                       
                 }                                                     
                 %>
