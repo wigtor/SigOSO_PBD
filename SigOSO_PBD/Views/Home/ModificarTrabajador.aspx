@@ -1,17 +1,13 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.agregarTrabajadorModel>" %>
 
-<script runat="server">
 
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        
-    }
-</script>
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
     Modificar trabajador
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
+
+    <div class="fieldsetInterno">
     <form id="form1" method="post">
         <label>Nombre</label>
               
@@ -93,6 +89,8 @@
         <input id="btn_agregarTrabajador" type="submit" name="btn_submit" value="Guardar cambios" />
         </div>
     </form>
+    </div>
+
 </asp:Content>
 
 

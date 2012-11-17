@@ -11,6 +11,7 @@
 
 
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Ingresar nueva unidad</legend>
             <label>Nombre</label>            
@@ -21,18 +22,13 @@
                 <%: Html.TextBoxFor(nvaUnidad => nvaUnidad.abreviatura, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvaUnidad => nvaUnidad.abreviatura)%>
 
-            <div>
-                <% if (ViewBag.respuestaPost!= null) {%>
-                    <%: ViewBag.respuestaPost %>
-                <%}
-                    %>
-            </div>
-
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                 <input id="btn_agregarUnidad" type="submit" value="Agregar Unidad" />
             </div>
         </fieldset>
+        </div>
 
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Lista de unidades</legend>
                 <%if (ViewBag.tabla != null) {   
@@ -42,7 +38,7 @@
                 }                                                     
                 %>
         </fieldset>
-
+        </div>
             
 
     </form>

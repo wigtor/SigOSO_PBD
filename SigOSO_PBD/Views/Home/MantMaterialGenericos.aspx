@@ -11,9 +11,10 @@
 
 
     <form id="form1" method="post">
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Agregar nuevo material</legend>
-            <label>Nombre</label>            
+            <label>Nombre</label>
                 <%: Html.TextBoxFor(nvoMat => nvoMat.nombre, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvoMat => nvoMat.nombre)%>
 
@@ -24,18 +25,13 @@
                 <%: Html.TextAreaFor(nvoMat => nvoMat.glosa_material, new { @class = "text" })%>
                 <%: Html.ValidationMessageFor(nvoMat => nvoMat.glosa_material)%>
 
-            <div>
-                <% if (ViewBag.respuestaPost!= null) {%>
-                    <%: ViewBag.respuestaPost %>
-                <%}
-                    %>
-            </div>
-
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                 <input id="btn_agregarMaterial" type="submit" value="Agregar Material" />
             </div>
         </fieldset>
+        </div>
 
+        <div class="fieldsetInterno">
         <fieldset>
             <legend>Lista de materiales genéricos</legend>
                 <%if (ViewBag.tabla != null) {                      
@@ -43,7 +39,7 @@
                 }                                                     
                 %>
         </fieldset>
-
+        </div>
             
 
     </form>

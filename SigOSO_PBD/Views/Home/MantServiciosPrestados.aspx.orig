@@ -8,11 +8,17 @@
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
+<<<<<<< HEAD
      
 
 
     <form action="" id="form1" method="post" style="height: auto;">
         <fieldset class="condetenedor_agregar_servicio">
+=======
+    <form id="form1" method="post" style="height: auto;">
+        <div class="fieldsetInterno">
+        <fieldset>
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
             <legend>Crear nuevo servicio</legend>
                 <label>Nombre Servicio</label>            
                     <%: Html.TextBoxFor(nvoServicio => nvoServicio.nombreServicio)%>
@@ -25,7 +31,11 @@
                 <label>Factor bono</label>    
                     <%: Html.TextBoxFor(nvoServicio => nvoServicio.factorBono)%>
                     <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.factorBono)%>
- 
+<<<<<<< HEAD
+
+                <div>
+                    <%: ViewBag.respuestaPost%>
+                </div>   
                 
                 <label>Visibilidad</label>
                 <% bool vis1=false;
@@ -34,10 +44,14 @@
                        
                    } %>  
                     <%: Html.CheckBox("visibilidad", vis1)%>
+=======
+ 
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
                 <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                     <input id="btn_agregar_servicio" name="btn_submit" type="submit" value="Agregar Servicio" />
                 </div>
         </fieldset>
+<<<<<<< HEAD
 
         <fieldset class="condetenedor_modificar_servicio">
             <legend>Modificar servicio</legend>
@@ -67,17 +81,25 @@
                     <input id="btn_modificar_servicio" name="btn_submit" type="submit" value="Guardar cambios" />
                 </div>
         </fieldset>
-        </div>
 
+=======
+        </div>
+    
         <div class="fieldsetInterno">
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
         <fieldset>
             <legend>Lista Servicios</legend>
                 <%if (ViewBag.tabla != null) {                      
                     Response.Write(ViewBag.tabla);                       
                 }                                                     
                 %>
+<<<<<<< HEAD
         </fieldset>        
+=======
+        </fieldset>
         </div>
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
+    
     </form>
      <%if (ViewBag.ScriptOcultar != null)
        {

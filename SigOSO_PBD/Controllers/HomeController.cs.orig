@@ -1065,10 +1065,23 @@ namespace SigOSO_PBD.Controllers
         public ActionResult MantperfilTrabajadores()
         {
 
+<<<<<<< HEAD
+        private string cargar_tabla_MantServicioPrestados(){
+            NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
+            string respuesta = "<table class='table table-hover'>";
+            respuesta += "<thead>";
+            respuesta += "<tr>";
+            respuesta += "<td>Nombre servicio</td>";
+            respuesta += "<td>Precio pizarra</td>";
+            respuesta += "<td>Factor bono</td>";
+            respuesta += "<td>Visible</td>";
+            respuesta += "<td>Editar</td>";
+            respuesta += "</thead>";
+            respuesta += "</tr>";
+            while (servicios.Read())
+=======
             ViewBag.tabla = generarTablaPerfilesTrabajadores();
 
-        [HttpGet]
-        public ActionResult MantServiciosPrestados()
             return View();
         }
 
@@ -1079,6 +1092,7 @@ namespace SigOSO_PBD.Controllers
             ViewBag.tabla = generarTablaPerfilesTrabajadores();
 
             if (ModelState.IsValid)
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
             {
                 NpgsqlDataReader lector = null;
                 string query = "INSERT INTO perfil_trabajador (nombre_cargo) VALUES ('" + nvoCargo.nombre + "')";
@@ -1101,6 +1115,18 @@ namespace SigOSO_PBD.Controllers
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
+<<<<<<< HEAD
+                respuesta += "<td>" + "<input id='" + servicios.GetInt32(servicios.GetOrdinal("id_servicio")).ToString() + "' name='btn_submit' type='submit' value='Editar " + servicios.GetInt32(servicios.GetOrdinal("id_servicio")).ToString() + "'/>" + "</td>";
+                respuesta += "</tr>";
+            }
+            respuesta += "</table>";
+            return respuesta;
+        }
+
+
+        public string ocultarModificar() {
+            return "<script>$('.condetenedor_modificar_servicio').hide()</script>";
+=======
 
                 if (lector != null)
                 {
@@ -1129,11 +1155,35 @@ namespace SigOSO_PBD.Controllers
             ViewBag.respuestaPost = "";
             
             ViewBag.tabla = generarTablaServicios();
-        }
-
-
-        public string ocultarModificar() {
-            return "<script>$('.condetenedor_modificar_servicio').hide()</script>";
+            return View();
+            /*ViewBag.respuestaPost = "";
+            NpgsqlDataReader servicios = DBConector.SELECT("SELECT * FROM servicio");
+            string respuesta="<div class='contenedor_lista_servicios'>";
+            respuesta += "<div class='fila_contenedor_lista_servicios_titulos'>";
+                respuesta += "<div class='columna_contenedor_lista_servicios1'>Nombre servicio</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios2'>Precio pizarra</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios3'>Factor bono</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios4'>Visible</div>";
+                respuesta += "<div class='columna_contenedor_lista_servicios5'>Editar</div>";
+            respuesta += "</div>";
+            while(servicios.Read()){
+                respuesta += "<div class='fila_contenedor_lista_servicios'>";
+                    respuesta += "<div class='columna_contenedor_lista_servicios1'>" + servicios.GetString(servicios.GetOrdinal("nombre_servicio")) + "</div>";
+                    respuesta += "<div class='columna_contenedor_lista_servicios2'>" + servicios.GetInt32(servicios.GetOrdinal("precio_pizarra")).ToString() + "</div>";
+                    respuesta += "<div class='columna_contenedor_lista_servicios3'>" + servicios.GetDouble(servicios.GetOrdinal("factor_bono_trabajador")).ToString() + "</div>";
+                    if (servicios.GetBoolean(servicios.GetOrdinal("visibilidad_servicio")))
+                    {
+                        respuesta += "<div class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox' disabled='true' checked>" + "</div>";
+                    }else{
+                        respuesta += "<div class='columna_contenedor_lista_servicios4'>" + "<input type='checkbox'>" + "</div>";
+                    }
+                    respuesta += "<div class='columna_contenedor_lista_servicios5'>" + "boton editar" + "</div>";
+                respuesta += "</div>";
+            }
+            respuesta += "</div>";
+            ViewBag.tabla = respuesta;
+            return View();*/
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
         }
 
         public string ocultarAgregar()
@@ -1154,6 +1204,7 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult MantServiciosPrestados(agregarServicioModel nvoServicio, string btn_submit, string visibilidad)
         {
+<<<<<<< HEAD
             if (btn_submit == null)
             {
                 ViewBag.respuestaPost = "";
@@ -1163,22 +1214,18 @@ namespace SigOSO_PBD.Controllers
 
             if (btn_submit.Equals("Agregar Servicio"))
             {
-            ViewBag.respuestaPost = "";
-            ViewBag.tabla = generarTablaServicios();
-
                 if (ModelState.IsValid)
                 {
                     string query = "INSERT INTO servicio (nombre_servicio, precio_pizarra, factor_bono_trabajador, visibilidad_servicio) VALUES ('" + nvoServicio.nombreServicio + "','" + nvoServicio.precioPizarra + "','" + nvoServicio.factorBono + "','" + visibilidad + "')";
-                NpgsqlDataReader lector = null;
                     try
                     {
                         string query2 = "SELECT nombre_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
-                    lector = DBConector.SELECT(query2);
+                        NpgsqlDataReader lector = DBConector.SELECT(query2);
                         if (lector.HasRows)
                         {
                             ModelState.AddModelError("Nombre servicio", "Ya existe un servicio con ese nombre");
                             lector.Dispose();
-                        lector.Close();
+                            ViewBag.ScriptOcultar = ocultarModificar();
                             ViewBag.tabla = cargar_tabla_MantServicioPrestados();
                             ViewBag.respuestaPost = "";
                             return View(nvoServicio);
@@ -1186,38 +1233,60 @@ namespace SigOSO_PBD.Controllers
                         int cantidadInsertada = DBConector.INSERT(query);
                         ViewBag.ScriptOcultar = ocultarModificar();                        
                         ViewBag.respuestaPost = "Se ha creado correctamente el servicio";
-
-                    return View();
-                    //return RedirectToAction("MantServiciosPrestados", "home");
+                        ViewBag.tabla = cargar_tabla_MantServicioPrestados();
+                        return RedirectToAction("MantServiciosPrestados", "home");
                     }
                     catch (Exception ex)
                     {
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
+                    }
+=======
+            ViewBag.respuestaPost = "";
+            ViewBag.tabla = generarTablaServicios();
+
+            if (ModelState.IsValid)
+            {
+                string activado = "true";
+                string query = "INSERT INTO servicio (nombre_servicio, precio_pizarra, factor_bono_trabajador, visibilidad_servicio) VALUES ('" + nvoServicio.nombreServicio + "','" + nvoServicio.precioPizarra + "','" + nvoServicio.factorBono + "','" + activado + "')";
+                NpgsqlDataReader lector = null;
+                try
+                {
+                    string query2 = "SELECT nombre_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
+                    lector = DBConector.SELECT(query2);
+                    if (lector.HasRows)
+                    {
+                        ModelState.AddModelError("rut", "Ya existe un servicio con ese nombre");
+                        lector.Dispose();
+                        lector.Close();
+                        ViewBag.respuestaPost = "";
+                        return View(nvoServicio);
+                    }
+                    int cantidadInsertada = DBConector.INSERT(query);
+                    ViewBag.respuestaPost = "Se ha creado correctamente el servicio";
+
+                    return View();
+                    //return RedirectToAction("MantServiciosPrestados", "home");
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
+                }
+                else
+                {
+<<<<<<< HEAD
+                    ViewBag.ScriptOcultar = ocultarModificar();
+                    ViewBag.tabla = cargar_tabla_MantServicioPrestados();
+                    ViewBag.respuestaPost = "";
+                    return View(nvoServicio);
+=======
+                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
                 if (lector != null)
                 {
                     lector.Dispose();
                     lector.Close();
-                }
-                }
-                else
-                {
-                    ViewBag.ScriptOcultar = ocultarModificar();
-                    ViewBag.tabla = cargar_tabla_MantServicioPrestados();
-                    ViewBag.respuestaPost = "";
-                    return View(nvoServicio);
+>>>>>>> a29474072164a7f3364f2c7add3309af0c50e46e
                 }
             }
             if (btn_submit.Split(' ')[0].Equals("Editar"))
             {
-            }
-            else 
-            {
-                ViewBag.respuestaPost = "";
-                return View(nvoServicio);
-            }
-            return View(nvoServicio);
-        }
 
                 string query = "SELECT *  FROM servicio WHERE id_servicio='" + btn_submit.Split(' ')[1]+"';";
                 NpgsqlDataReader lector = DBConector.SELECT(query);

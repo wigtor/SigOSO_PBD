@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
 
-
+    <div class="fieldsetInterno">
     <form id="form1" method="post">
         <label>Rut</label>
               
@@ -18,7 +18,7 @@
             <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.rut)%>
             
         <label>Nombre</label>            
-            <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre, new {@class="text"})%>
+            <%: Html.TextBoxFor(nvoCliente => nvoCliente.nombre, new { @class = "text", @readonly = "true" })%>
             <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.nombre)%>
             
         <label>Giro</label>
@@ -49,25 +49,12 @@
             <%: Html.TextBoxFor(nvoCliente => nvoCliente.correo)%>
             <%: Html.ValidationMessageFor(nvoCliente => nvoCliente.correo)%>
 
-        <div>
-            <% if (ViewBag.respuestaPost!= null) {%>
-                <%: ViewBag.respuestaPost %>
-            <%}
-                %>
-        </div>
-        
-
-        <div>
-            <% if (ViewBag.respuestaPost!= null) {%>
-                <%: ViewBag.respuestaPost %>
-            <%}
-             %>
-        </div>
-
         <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" 
         align="center">
             <input id="btn_modificarCliente" name="btn_submit" type="submit" value="Guardar cambios" />
         </div>
     </form>
+    </div>
+
 </asp:Content>
 
