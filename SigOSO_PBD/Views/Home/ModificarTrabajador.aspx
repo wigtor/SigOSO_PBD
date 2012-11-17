@@ -1,12 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.agregarTrabajadorModel>" %>
 
-<script runat="server">
 
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        
-    }
-</script>
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
     Modificar trabajador
 </asp:Content>

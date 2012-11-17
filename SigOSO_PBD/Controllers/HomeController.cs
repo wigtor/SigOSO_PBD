@@ -314,6 +314,12 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult agregarContrato()
         {
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            ViewBag.listaServicios = getAllServicios();
+
+
             return View();
         }
 
@@ -321,6 +327,10 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar)
         {
+            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            ViewBag.listaServicios = getAllServicios();
 
             if (btn_cargar == null)
             {
@@ -339,13 +349,13 @@ namespace SigOSO_PBD.Controllers
                         if (lector.Read())
                         {
                             ModelState.Clear();
-                            ViewBag.rutCliente = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
+                            //ViewBag.rutCliente = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
+                            nvoContrato.rutCliente = lector.GetInt32(lector.GetOrdinal("rut_cliente")).ToString();
                             ViewBag.nombreCliente = lector.GetString(lector.GetOrdinal("nombre_cliente"));
-
 
                             lector.Dispose();
                             lector.Close();
-                            return View();
+                            return View(nvoContrato);
                         }
                         else
                         {
@@ -735,6 +745,41 @@ namespace SigOSO_PBD.Controllers
                 unidades.Close();
             }
             return items;
+        }
+
+        public List<SelectListItem> getAllServicios()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            NpgsqlDataReader unidades = null;
+            try
+            {
+                unidades = DBConector.SELECT("SELECT id_servicio, nombre_servicio, precio_pizarra FROM servicio");
+
+
+                while (unidades.Read())
+                {
+                    items.Add(new SelectListItem
+                    {
+                        Text = unidades.GetString(1),
+                        Value = unidades.GetInt32(0).ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = DBConector.msjError,
+                    Value = "-1"
+                });
+            }
+            if (unidades != null)
+            {
+                unidades.Dispose();
+                unidades.Close();
+            }
+            return items;
+
         }
 
 

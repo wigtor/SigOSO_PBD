@@ -162,6 +162,14 @@ a.leftNavLink:hover {font-size:13px; color:#76b900; text-decoration:underline;}
 ul.leftNavUL {margin:0; padding:0; list-style-type:none;}
 ul.leftNavUL li {margin-bottom:6px; line-height:15px}
 
+.fieldsetInterno 
+{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+
+
 /* Para menu ocultables*/
 .posthidden {display:none}
 .postshown {display:inline}
@@ -354,3 +362,4 @@ div#title {
     width: 50%;
     display: inline;
 }
+

@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\DBConector.cs" />
+    <Compile Include="classes\funciones.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JefeBodegaController.cs" />
@@ -76,14 +77,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-<<<<<<< HEAD
-    <Compile Include="Models\dbConection.cs" />
-=======
     <Compile Include="Models\ClienteModels.cs" />
+    <Compile Include="Models\agregarContrato.cs" />
+    <Compile Include="Models\PerfilModels.cs" />
+    <Compile Include="Models\MaterialGenericoModels.cs" />
+    <Compile Include="Models\UnidadModels.cs" />
     <Compile Include="Models\TrabajadorModels.cs" />
     <Compile Include="Models\PersonaModels.cs" />
     <Compile Include="Models\ServicioModels.cs" />
->>>>>>> 790dcc3099fa04b6fa4bd95ffc65224f27a03272
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,15 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
     <Content Include="Views\Home\AgregarCliente.aspx" />
+<<<<<<< HEAD
+    <Content Include="Views\Home\agregarContrato.aspx" />
+=======
+    <Content Include="Views\Home\EliminarTrabajador.aspx" />
+>>>>>>> d59985bd0e8023cf6a627f7d141375bcbed2e5d8
+    <Content Include="Views\Home\MantPerfilTrabajadores.aspx" />
+    <Content Include="Views\Home\MantMaterialGenericos.aspx" />
+    <Content Include="Views\Home\MantUnidadesMedida.aspx" />
+    <Content Include="Views\Home\ModificarTrabajador.aspx" />
     <Content Include="Views\Home\MantServiciosPrestados.aspx" />
     <Content Include="Views\Home\ModificarCliente.aspx" />
     <Content Include="Views\Home\Index.aspx" />
