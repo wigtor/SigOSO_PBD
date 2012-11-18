@@ -48,25 +48,25 @@
                             
                             Response.Write("<td>&nbsp;");
                             %>
-                                <%: Html.CheckBox(temp.nombre+"___GEN", temp.general_activo) %>
+                                <%: Html.CheckBox("nombreTabla___"+temp.nombre+"___GEN", temp.general_activo) %>
                             <%
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
                             %>
-                                <%: Html.CheckBox(temp.nombre+"___INS", temp.insert_activo) %>
+                                <%: Html.CheckBox("nombreTabla___" + temp.nombre + "___INS", temp.insert_activo)%>
                             <%
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
                             %>
-                                <%: Html.CheckBox(temp.nombre+"___UPD", temp.update_activo) %>
+                                <%: Html.CheckBox("nombreTabla___" + temp.nombre + "___UPD", temp.update_activo)%>
                             <%
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
                             %>
-                                <%: Html.CheckBox(temp.nombre+"___DEL", temp.delete_activo) %>
+                                <%: Html.CheckBox("nombreTabla___" + temp.nombre + "___DEL", temp.delete_activo)%>
                             <%
                             Response.Write("</td>");
                             
@@ -76,8 +76,16 @@
                 %>
 
             </table>
+            <div>
+                <%
+                    if (ViewBag.mensaje != null)
+                    {
+                        Response.Write(ViewBag.mensaje);
+                    }
+                     %>
+            </div>
             <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
-                <input id="btn_guardar" type="submit" value="guardar cambios" />
+                <input id="btn_guardar" type="submit" name="btn_guardar" value="guardar cambios" />
             </div>
         </div>
     </form>

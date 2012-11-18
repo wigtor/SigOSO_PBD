@@ -7,6 +7,7 @@ using Npgsql;
 using SigOSO_PBD.classes;
 using SigOSO_PBD.Models;
 using System.Globalization;
+using System.Collections.Specialized;
 
 namespace SigOSO_PBD.Controllers
 {
@@ -1397,6 +1398,37 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult confAuditoria()
         {
+            ViewBag.tabla = cargaTablaAuditoria();
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult confAuditoria(string btn_guardar)
+        {
+            string identificadorParamValido = "nombreTabla___";
+            NameValueCollection col = Request.Params;
+            string nombreParam, valorParam, nombreTabla, stringTemp, tipo_operacion;
+            for (int i = 0; i < Request.Params.Count; i++ )
+            {
+                
+                nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
+                if (!nombreParam.Contains(identificadorParamValido))
+                {
+                    continue;
+                }
+                valorParam = col.Get(i); //Con esto accedo al valor del parámetro
+
+                //Acá se tiene algo válido
+                stringTemp = nombreParam.Substring(identificadorParamValido.Length);
+                tipo_operacion = stringTemp.Substring(stringTemp.IndexOf("___"));
+                nombreTabla = stringTemp.Substring(0, stringTemp.IndexOf("___"));
+
+                //Llamo a un procedimiento almacenado pasandole la tabla y el valorParam
+
+
+                //ViewBag.mensaje += " " + nombreTabla + "=" + valorParam;
+            }
             ViewBag.tabla = cargaTablaAuditoria();
             return View();
 
