@@ -1337,21 +1337,42 @@ namespace SigOSO_PBD.Controllers
 
 
         //AUDITORÍA
+
+        public List<string> getTablasDB()
+        {
+            List<string> result = new List<string>();
+            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name NOT LIKE '%auditoria%' ORDER BY table_name";
+            NpgsqlDataReaderWithConection lector = null;
+            try {
+                lector = DBConector.SELECT(query);
+                while (lector.Read())
+                {
+                    result.Add(lector.GetString(0));
+                }
+            }
+            catch (Exception ex) {
+
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return result;
+        }
+
         public List<logModel> cargaTablaAuditoria()
         {
-            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name NOT LIKE '%auditoria%'";
             string query2Part = "SELECT general_activo, insert_activo, update_activo, delete_Activo FROM tablas_auditoria WHERE nombre_tabla='";
-            string nombreTabla;
-            NpgsqlDataReaderWithConection lector = null;
+            
+            
             NpgsqlDataReaderWithConection lector2 = null;
             List<logModel> resultadoAuditoria = new List<logModel>();
             logModel logTem;
             try
             {
-                lector = DBConector.SELECT(query);
-                while (lector.Read())
+                List<string> listaTablas = getTablasDB();
+                foreach (string nombreTabla in listaTablas)
                 {
-                    nombreTabla = lector.GetString(0);
                     logTem = new logModel();
                     logTem.nombre = nombreTabla;
 
@@ -1370,27 +1391,17 @@ namespace SigOSO_PBD.Controllers
                         logTem.update_activo = false;
                         logTem.delete_activo = false;
                     }
-                    lector2.Dispose();
-                    lector2.Close();
-                    lector2.closeConection();
+                    lector2.CloseTodo();
                     resultadoAuditoria.Add(logTem);
                 }
-                lector.Dispose();
-                lector.Close();
-                lector.closeConection();
             }
             catch (Exception ex)
             {
                 return resultadoAuditoria;
             }
-            if (lector != null)
+            if (lector2 != null)
             {
-                lector.Dispose();
-                lector.Close();
-                lector.closeConection();
-                lector2.Dispose();
-                lector2.Close();
-                lector2.closeConection();
+                lector2.CloseTodo();
             }
             return resultadoAuditoria;
         }
@@ -1407,27 +1418,109 @@ namespace SigOSO_PBD.Controllers
         public ActionResult confAuditoria(string btn_guardar)
         {
             string identificadorParamValido = "nombreTabla___";
+            string SEPARADOR = "___";
+            NpgsqlDataReaderWithConection ejecutorSp = null;
             NameValueCollection col = Request.Params;
             string nombreParam, valorParam, nombreTabla, stringTemp, tipo_operacion;
             for (int i = 0; i < Request.Params.Count; i++ )
             {
                 
                 nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
-                if (!nombreParam.Contains(identificadorParamValido))
+                if (!nombreParam.Contains(identificadorParamValido)) //Con esto omito los parámetros que no me importan
                 {
                     continue;
                 }
                 valorParam = col.Get(i); //Con esto accedo al valor del parámetro
+                if (valorParam.Contains("true"))
+                {
+                    valorParam = "true";
+                }
 
                 //Acá se tiene algo válido
                 stringTemp = nombreParam.Substring(identificadorParamValido.Length);
-                tipo_operacion = stringTemp.Substring(stringTemp.IndexOf("___"));
-                nombreTabla = stringTemp.Substring(0, stringTemp.IndexOf("___"));
+                tipo_operacion = stringTemp.Substring(stringTemp.IndexOf(SEPARADOR)+SEPARADOR.Length);
+                nombreTabla = stringTemp.Substring(0, stringTemp.IndexOf(SEPARADOR));
 
                 //Llamo a un procedimiento almacenado pasandole la tabla y el valorParam
+                try
+                {
+                    ejecutorSp = DBConector.SELECT("SELECT sp_update_conf_auditoria('" + nombreTabla + "', '" + tipo_operacion + "', " + valorParam + ")");
+                    ejecutorSp.CloseTodo();
+                    if (valorParam.Equals("true"))
+                    {
+                        //Create trigger
+                        if (tipo_operacion.Equals("UPD"))
+                            ejecutorSp = DBConector.SELECT("CREATE TRIGGER trigg_audit_upd AFTER UPDATE ON " + nombreTabla + " FOR EACH ROW EXECUTE PROCEDURE sp_auditoria_ins()");
+                        else if (tipo_operacion.Equals("INS"))
+                            ejecutorSp = DBConector.SELECT("CREATE TRIGGER trigg_audit_ins AFTER INSERT ON " + nombreTabla + " FOR EACH ROW EXECUTE PROCEDURE sp_auditoria_ins()");
+                        else if (tipo_operacion.Equals("DEL"))
+                            ejecutorSp = DBConector.SELECT("CREATE TRIGGER trigg_audit_del AFTER DELETE ON " + nombreTabla + " FOR EACH ROW EXECUTE PROCEDURE sp_auditoria_ins()");
+                        else if (tipo_operacion.Equals("GEN"))
+                        {
+                            ejecutorSp = DBConector.SELECT("SELECT count(update_activo) FROM tablas_auditoria WHERE nombre_tabla = nombreTabla AND update_activo = TRUE");
+                            ejecutorSp.Read();
+                            if (ejecutorSp.GetInt32(0) > 0)
+                            {
+                                ejecutorSp.CloseTodo();
+                                ejecutorSp = DBConector.SELECT("CREATE TRIGGER trigg_audit_upd AFTER UPDATE ON "+nombreTabla+" FOR EACH ROW EXECUTE PROCEDURE sp_auditoria_ins()");
+                                ejecutorSp.CloseTodo();
+                            }
 
+                            ejecutorSp = DBConector.SELECT("SELECT count(insert_activo) FROM tablas_auditoria WHERE nombre_tabla = nombreTabla AND insert_activo = TRUE");
+                            ejecutorSp.Read();
+                            if (ejecutorSp.GetInt32(0) > 0)
+                            {
+                                ejecutorSp.CloseTodo();
+                                ejecutorSp = DBConector.SELECT("CREATE TRIGGER trigg_audit_ins AFTER INSERT ON " + nombreTabla + " FOR EACH ROW EXECUTE PROCEDURE sp_auditoria_ins()");
+                                ejecutorSp.CloseTodo();
+                            }
+
+                            ejecutorSp = DBConector.SELECT("SELECT count(delete_activo) FROM tablas_auditoria WHERE nombre_tabla = nombreTabla AND delete_activo = TRUE");
+                            ejecutorSp.Read();
+                            if (ejecutorSp.GetInt32(0) > 0)
+                            {
+                                ejecutorSp.CloseTodo();
+                                ejecutorSp = DBConector.SELECT("CREATE TRIGGER trigg_audit_del AFTER DELETE ON " + nombreTabla + " FOR EACH ROW EXECUTE PROCEDURE sp_auditoria_ins()");
+                                ejecutorSp.CloseTodo();
+                            }
+                        }
+                        ejecutorSp.CloseTodo();
+                    }
+                    else
+                    {
+                        //DELETE TRIGGER
+                        if (tipo_operacion.Equals("UPD"))
+                            ejecutorSp = DBConector.SELECT("DROP TRIGGER IF EXISTS trigg_audit_upd ON " + nombreTabla);
+                        else if (tipo_operacion.Equals("INS"))
+                            ejecutorSp = DBConector.SELECT("DROP TRIGGER IF EXISTS trigg_audit_ins ON " + nombreTabla); 
+                        else if (tipo_operacion.Equals("DEL"))
+                            ejecutorSp = DBConector.SELECT("DROP TRIGGER IF EXISTS trigg_audit_del ON " + nombreTabla);
+                        else if (tipo_operacion.Equals("GEN"))
+                        {
+                            ejecutorSp = DBConector.SELECT("DROP TRIGGER IF EXISTS trigg_audit_upd ON " + nombreTabla);
+                            ejecutorSp.CloseTodo();
+                            ejecutorSp = DBConector.SELECT("DROP TRIGGER IF EXISTS trigg_audit_ins ON " + nombreTabla);
+                            ejecutorSp.CloseTodo();
+                            ejecutorSp = DBConector.SELECT("DROP TRIGGER IF EXISTS trigg_audit_del ON " + nombreTabla);
+                            ejecutorSp.CloseTodo();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.respuestaPost = DBConector.msjError;
+                }
+                if (ejecutorSp != null)
+                {
+                    ejecutorSp.CloseTodo();
+                    ejecutorSp = null;
+                }
 
                 //ViewBag.mensaje += " " + nombreTabla + "=" + valorParam;
+            }
+            if (ViewBag.respuestaPost != null)
+            {
+                ViewBag.respuestaPost = "Se han guardado correctamente los cambios";
             }
             ViewBag.tabla = cargaTablaAuditoria();
             return View();
@@ -1435,7 +1528,58 @@ namespace SigOSO_PBD.Controllers
         }
 
 
-    }
+        [HttpGet]
+        public ActionResult verAuditoria()
+        {
+            //ViewBag.tabla = cargaTablaAuditoria();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            List<string> listaTablas = getTablasDB();
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (string nombreTabla in listaTablas)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = nombreTabla,
+                    Value = nombreTabla
+                });
+            }
+            items.Add(new SelectListItem
+            {
+                Text = "Todas",
+                Value = "Todas"
+            });
+            ViewBag.listaTablas = items;
 
+
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "INSERT",
+                Value = "I"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "UPDATE",
+                Value = "U"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "DELETE",
+                Value = "D"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "Todas",
+                Value = "Todas"
+            });
+            ViewBag.listaOperaciones = items;
+
+
+            return View();
+
+        }
+
+    }
 
 }

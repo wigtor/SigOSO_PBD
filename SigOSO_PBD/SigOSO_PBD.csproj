@@ -79,6 +79,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\agregarContrato.cs" />
+    <Compile Include="Models\DatosAuditoriaModels.cs" />
     <Compile Include="Models\logModels.cs" />
     <Compile Include="Models\PerfilModels.cs" />
     <Compile Include="Models\MaterialGenericoModels.cs" />
@@ -138,6 +139,7 @@
     <Content Include="Views\Home\AgregarCliente.aspx" />
     <Content Include="Views\Home\agregarContrato.aspx" />
     <Content Include="Views\Home\confAuditoria.aspx" />
+    <Content Include="Views\Home\verAuditoria.aspx" />
     <Content Include="Views\Home\EliminarTrabajador.aspx" />
     <Content Include="Views\Home\MantPerfilTrabajadores.aspx" />
     <Content Include="Views\Home\MantMaterialGenericos.aspx" />

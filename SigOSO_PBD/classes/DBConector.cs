@@ -74,7 +74,6 @@ namespace SigOSO_PBD.classes
             return filasCambiadas;
         }
 
-
     }
 
     public class NpgsqlDataReaderWithConection
@@ -144,6 +143,12 @@ namespace SigOSO_PBD.classes
             {
                 return lector.HasRows;
             }
+        }
+        public void CloseTodo()
+        {
+            lector.Dispose();
+            lector.Close();
+            conexion.Close();
         }
     }
 }
