@@ -205,6 +205,10 @@ input[type="password"] {
     color: #444;
     width: 40%;
 }
+input[type="checkbox"] 
+{
+    width: 20px;
+}
 
 select {
     border: 1px solid #ccc;

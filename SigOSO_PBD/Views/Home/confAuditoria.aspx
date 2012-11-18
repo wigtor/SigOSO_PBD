@@ -47,19 +47,27 @@
                             Response.Write("</td>");
                             
                             Response.Write("<td>&nbsp;");
-                            Response.Write(temp.general_activo);
+                            %>
+                                <%: Html.CheckBox(temp.nombre+"___GEN", temp.general_activo) %>
+                            <%
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write(temp.insert_activo);
+                            %>
+                                <%: Html.CheckBox(temp.nombre+"___INS", temp.insert_activo) %>
+                            <%
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write(temp.update_activo);
+                            %>
+                                <%: Html.CheckBox(temp.nombre+"___UPD", temp.update_activo) %>
+                            <%
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write(temp.delete_activo);
+                            %>
+                                <%: Html.CheckBox(temp.nombre+"___DEL", temp.delete_activo) %>
+                            <%
                             Response.Write("</td>");
                             
                             Response.Write("</tr>");

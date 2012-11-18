@@ -13,86 +13,137 @@ namespace SigOSO_PBD.classes
     {
         private static string conectionString = "Server=localhost;Port=5432;UserId=SigOSO_user;Password=pbd2012;Database=SigOSO";
         public static string msjError = "Error al realizar la petición a la base de datos";
-        public static NpgsqlConnection con = null;
-        private static Mutex mutexGetCon = new Mutex();
-        public static NpgsqlConnection getConection() {
-            mutexGetCon.WaitOne();
-            try
-            {
-                if (DBConector.con == null)
-                {
-                    DBConector.con = new NpgsqlConnection(DBConector.conectionString);
-                    DBConector.con.Open();
-                }
-                else if (DBConector.con.State != System.Data.ConnectionState.Open)
-                {
-                    DBConector.con.Open();
-                }
-            }
-            catch (Exception ex)
-            {
-                mutexGetCon.ReleaseMutex();
-                throw ex;
 
-            }
-            mutexGetCon.ReleaseMutex();
-            return DBConector.con;
-        }
-
-        public static NpgsqlDataReader SELECT(string query) {
-            NpgsqlConnection conexion = DBConector.getConection();
-            //conexion.Open();
+        public static NpgsqlDataReaderWithConection SELECT(string query)
+        {
+            NpgsqlConnection conexion = new NpgsqlConnection(DBConector.conectionString);
+            conexion.Open();
 
             //Un select
             NpgsqlCommand comando = new NpgsqlCommand(query, conexion);
             NpgsqlDataReader resultQuery =  comando.ExecuteReader();
-            
-            return resultQuery;
+            NpgsqlDataReaderWithConection resultado = new NpgsqlDataReaderWithConection();
+
+            resultado.conexion = conexion;
+            resultado.lector = resultQuery;
+
+            comando.Dispose();
+            return resultado;
 
         }
 
         public static int UPDATE(string query)
         {
-            NpgsqlConnection conexion = DBConector.getConection();
-            //conexion.Open();
+            NpgsqlConnection conexion = new NpgsqlConnection(DBConector.conectionString);
+            conexion.Open();
 
 
             NpgsqlCommand comando = new NpgsqlCommand(query, conexion);
             int filasCambiadas = comando.ExecuteNonQuery();
 
             comando.Dispose();
-            //conexion.Close();
+            conexion.Close();
             return filasCambiadas;
         }
 
         public static int DELETE(string query)
         {
-            NpgsqlConnection conexion = DBConector.getConection();
-            //conexion.Open();
+            NpgsqlConnection conexion = new NpgsqlConnection(DBConector.conectionString);
+            conexion.Open();
 
 
             NpgsqlCommand comando = new NpgsqlCommand(query, conexion);
             int filasCambiadas = comando.ExecuteNonQuery();
 
             comando.Dispose();
-            //conexion.Close();
+            conexion.Close();
             return filasCambiadas;
         }
 
         public static int INSERT(string query)
         {
-            NpgsqlConnection conexion = DBConector.getConection();
-            //conexion.Open();
+            NpgsqlConnection conexion = new NpgsqlConnection(DBConector.conectionString);
+            conexion.Open();
 
 
             NpgsqlCommand comando = new NpgsqlCommand(query, conexion);
             int filasCambiadas = comando.ExecuteNonQuery();
 
             comando.Dispose();
-            //conexion.Close();
+            conexion.Close();
             return filasCambiadas;
         }
 
 
+    }
+
+    public class NpgsqlDataReaderWithConection
+    {
+        
+        public NpgsqlConnection conexion;
+        public NpgsqlDataReader lector;
+
+        public void closeConection()
+        {
+            conexion.Close();
+        }
+
+        public bool Read()
+        {
+            return lector.Read();
+        }
+
+        public bool GetBoolean(int i)
+        {
+            return lector.GetBoolean(i);
+        }
+
+        public string GetString(int i)
+        {
+            return lector.GetString(i);
+        }
+
+        public int GetInt32(int i)
+        {
+            return lector.GetInt32(i);
+        }
+
+        public float GetFloat(int i)
+        {
+            return lector.GetFloat(i);
+        }
+
+        public double GetDouble(int i)
+        {
+            return lector.GetDouble(i);
+        }
+
+        public DateTime GetDateTime(int i)
+        {
+            return lector.GetDateTime(i);
+        }
+
+        public int GetOrdinal(string Name)
+        {
+            return lector.GetOrdinal(Name);
+        }
+
+        public void Dispose()
+        {
+            lector.Dispose();
+        }
+
+        public void Close()
+        {
+            lector.Close();
+        }
+
+        public bool HasRows
+        {
+            get
+            {
+                return lector.HasRows;
+            }
+        }
     }
 }

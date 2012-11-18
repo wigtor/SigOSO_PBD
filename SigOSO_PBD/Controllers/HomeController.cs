@@ -34,7 +34,7 @@ namespace SigOSO_PBD.Controllers
             if (ModelState.IsValid)
             {
                 string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente, ciudad_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '" + nvoCliente.correo + "', '"+nvoCliente.ciudad+"')";
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 try
                 {
                     string query2 = "SELECT rut_cliente FROM cliente WHERE rut_cliente = '" + nvoCliente.rut + "'";
@@ -43,6 +43,7 @@ namespace SigOSO_PBD.Controllers
                         ModelState.AddModelError( "rut", "Ya existe un cliente con ese rut");
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                         ViewBag.respuestaPost = "";
                         return View(nvoCliente);
                     }
@@ -57,6 +58,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
 
                 return View();
@@ -97,7 +99,7 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValidField("rut"))
                 {
                     string query = "SELECT * FROM cliente WHERE rut_cliente = '" + clienteMod.rut + "'";
-                    NpgsqlDataReader lector = null;
+                    NpgsqlDataReaderWithConection lector = null;
                     try
                     {
                         lector = DBConector.SELECT(query);
@@ -115,6 +117,7 @@ namespace SigOSO_PBD.Controllers
                             clienteMod.giro = lector.GetString(lector.GetOrdinal("giro_cliente"));
                             lector.Dispose();
                             lector.Close();
+                            lector.closeConection();
                             return View(clienteMod);
                         }
                         else
@@ -131,6 +134,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                     }
                 }
                 else
@@ -180,7 +184,7 @@ namespace SigOSO_PBD.Controllers
         public List<SelectListItem> getListaPerfilesTrabajadores()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            NpgsqlDataReader servicios = null;
+            NpgsqlDataReaderWithConection servicios = null;
             try
             {
                 servicios = DBConector.SELECT("SELECT id_perfil, nombre_cargo FROM perfil_trabajador");
@@ -212,6 +216,7 @@ namespace SigOSO_PBD.Controllers
             {
                 servicios.Dispose();
                 servicios.Close();
+                servicios.closeConection();
             }
             return items;
         }
@@ -280,7 +285,7 @@ namespace SigOSO_PBD.Controllers
                 string fecha_ini_contrato = nvoTrabajador.dia_ini_contrato+"-"+nvoTrabajador.mes_ini_contrato+"-"+nvoTrabajador.agno_ini_contrato;
 
                 string query = "INSERT INTO trabajador (id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, direccion_trabajador, comuna_trabajador, tel1_trabajador, tel2_trabajador, mail_trabajador, fecha_ini_contrato_trabajador, esta_activo) VALUES ( '" + nvoTrabajador.id_perfil + "','" + nvoTrabajador.rut + "', '" + nvoTrabajador.nombre + "', '" + nvoTrabajador.iniciales + "', '" + nvoTrabajador.direccion + "', '" + nvoTrabajador.comuna + "', '" + nvoTrabajador.telefono1 + "', '" + nvoTrabajador.telefono2 + "', '" + nvoTrabajador.correo + "', '"+fecha_ini_contrato+"', 'TRUE')";
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 try
                 {
                     string query2 = "SELECT rut_trabajador FROM trabajador WHERE rut_trabajador = '" + nvoTrabajador.rut + "'";
@@ -290,6 +295,7 @@ namespace SigOSO_PBD.Controllers
                         ModelState.AddModelError("rut", "Ya existe un trabajador con ese rut");
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                         ViewBag.respuestaPost = "";
                         return View(nvoTrabajador);
                     }
@@ -304,6 +310,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
                 return View();
                 //return RedirectToAction("AgregarTrabajador", "home");
@@ -346,7 +353,7 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValidField("rutCliente"))
                 {
                     string query = "SELECT rut_cliente, nombre_cliente FROM cliente WHERE rut_cliente = '" + nvoContrato.rutCliente + "'";
-                    NpgsqlDataReader lector = null;
+                    NpgsqlDataReaderWithConection lector = null;
                     try
                     {
                         lector = DBConector.SELECT(query);
@@ -359,6 +366,7 @@ namespace SigOSO_PBD.Controllers
 
                             lector.Dispose();
                             lector.Close();
+                            lector.closeConection();
                             return View(nvoContrato);
                         }
                         else
@@ -375,6 +383,7 @@ namespace SigOSO_PBD.Controllers
                     if (lector != null) {
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                     }
                 }
                 else
@@ -422,7 +431,7 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValidField("rut"))
                 {
                     string query = "SELECT * FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
-                    NpgsqlDataReader lector = null;
+                    NpgsqlDataReaderWithConection lector = null;
                     try
                     {
                         lector = DBConector.SELECT(query);
@@ -453,6 +462,7 @@ namespace SigOSO_PBD.Controllers
 
                             lector.Dispose();
                             lector.Close();
+                            lector.closeConection();
                             return View(trabajadorMod);
                         }
                         else
@@ -470,6 +480,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                     }
                 }
                 else
@@ -602,7 +613,7 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValidField("rut"))
                 {
                     string query = "SELECT * FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
-                    NpgsqlDataReader lector = null;
+                    NpgsqlDataReaderWithConection lector = null;
                     try
                     {
                         lector = DBConector.SELECT(query);
@@ -636,6 +647,7 @@ namespace SigOSO_PBD.Controllers
 
                             lector.Dispose();
                             lector.Close();
+                            lector.closeConection();
                             return View(trabajadorMod);
                         }
                         else
@@ -650,7 +662,8 @@ namespace SigOSO_PBD.Controllers
 
                     }
                     lector.Dispose();
-                    lector.Close(); 
+                    lector.Close();
+                    lector.closeConection();
                 }
                 else
                 {
@@ -723,7 +736,7 @@ namespace SigOSO_PBD.Controllers
         public List<SelectListItem> getListaUnidades()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            NpgsqlDataReader unidades = null;
+            NpgsqlDataReaderWithConection unidades = null;
             try
             {
                 unidades = DBConector.SELECT("SELECT id_unidad, nombre_unidad, abreviatura_unidad FROM unidad_material");
@@ -750,6 +763,7 @@ namespace SigOSO_PBD.Controllers
             {
                 unidades.Dispose();
                 unidades.Close();
+                unidades.closeConection();
             }
             return items;
         }
@@ -757,7 +771,7 @@ namespace SigOSO_PBD.Controllers
         public List<SelectListItem> getAllServicios()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            NpgsqlDataReader unidades = null;
+            NpgsqlDataReaderWithConection unidades = null;
             try
             {
                 unidades = DBConector.SELECT("SELECT id_servicio, nombre_servicio, precio_pizarra FROM servicio");
@@ -784,6 +798,7 @@ namespace SigOSO_PBD.Controllers
             {
                 unidades.Dispose();
                 unidades.Close();
+                unidades.closeConection();
             }
             return items;
 
@@ -792,7 +807,7 @@ namespace SigOSO_PBD.Controllers
 
         public string generarTablaPerfilesTrabajadores() {
             string respuesta;
-            NpgsqlDataReader perfiles = null;
+            NpgsqlDataReaderWithConection perfiles = null;
             try
             {
                 perfiles = DBConector.SELECT("SELECT nombre_cargo FROM perfil_trabajador");
@@ -818,6 +833,7 @@ namespace SigOSO_PBD.Controllers
             {
                 perfiles.Dispose();
                 perfiles.Close();
+                perfiles.closeConection();
             }
             return respuesta;
         }
@@ -827,7 +843,7 @@ namespace SigOSO_PBD.Controllers
         public string generarTablaUnidadesMedida()
         {
             string respuesta;
-            NpgsqlDataReader unidades = null;
+            NpgsqlDataReaderWithConection unidades = null;
             try
             {
                 unidades = DBConector.SELECT("SELECT nombre_unidad, abreviatura_unidad FROM unidad_material");
@@ -857,6 +873,7 @@ namespace SigOSO_PBD.Controllers
             {
                 unidades.Dispose();
                 unidades.Close();
+                unidades.closeConection();
             }
             return respuesta;
         }
@@ -864,7 +881,7 @@ namespace SigOSO_PBD.Controllers
         public string generarTablaMaterialGenericos()
         {
             string respuesta = "";
-            NpgsqlDataReader materialesGen = null;
+            NpgsqlDataReaderWithConection materialesGen = null;
             try {
                 materialesGen = DBConector.SELECT("SELECT nombre_tipo_material, glosa_tipo_material, nombre_unidad FROM material_generico NATURAL JOIN unidad_material");
                 respuesta = "<table class='table contenedor_lista_servicios'>";
@@ -893,6 +910,7 @@ namespace SigOSO_PBD.Controllers
             {
                 materialesGen.Dispose();
                 materialesGen.Close();
+                materialesGen.closeConection();
             }
             return respuesta;
         }
@@ -919,7 +937,7 @@ namespace SigOSO_PBD.Controllers
 
             if (ModelState.IsValid)
             {
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 string query = "INSERT INTO material_generico (nombre_tipo_material, glosa_tipo_material, id_unidad) VALUES ('" + nvoMat.nombre + "', '" + nvoMat.glosa_material + "', '"+nvoMat.id_unidad+"')";
                 try
                 {
@@ -930,6 +948,7 @@ namespace SigOSO_PBD.Controllers
                         ModelState.AddModelError("nombre", "Ya existe este material genérico");
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                         ViewBag.respuestaPost = "";
                         return View(nvoMat);
                     }
@@ -945,6 +964,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
 
                 return View();
@@ -975,7 +995,7 @@ namespace SigOSO_PBD.Controllers
 
             if (ModelState.IsValid)
             {
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 string query = "INSERT INTO unidad_material (nombre_unidad, abreviatura_unidad) VALUES ('"+nvaUnidad.nombre+"', '"+nvaUnidad.abreviatura+"')";
                 try
                 {
@@ -986,6 +1006,7 @@ namespace SigOSO_PBD.Controllers
                         ModelState.AddModelError("nombre", "Ya existe esta unidad de medida");
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                         ViewBag.respuestaPost = "";
                         return View(nvaUnidad);
                     }
@@ -1001,6 +1022,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
 
                 return View();
@@ -1031,7 +1053,7 @@ namespace SigOSO_PBD.Controllers
 
             if (ModelState.IsValid)
             {
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 string query = "INSERT INTO perfil_trabajador (nombre_cargo) VALUES ('" + nvoCargo.nombre + "')";
                 try
                 {
@@ -1042,6 +1064,7 @@ namespace SigOSO_PBD.Controllers
                         ModelState.AddModelError("nombre", "Ya existe este perfil de trabajador");
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                         ViewBag.respuestaPost = "";
                         return View(nvoCargo);
                     }
@@ -1057,6 +1080,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
 
                 return View();
@@ -1076,7 +1100,7 @@ namespace SigOSO_PBD.Controllers
         public string generarTablaServicios()
         {
             string respuesta = "";
-            NpgsqlDataReader servicios = null;
+            NpgsqlDataReaderWithConection servicios = null;
             try
             {
                 servicios = DBConector.SELECT("SELECT * FROM servicio");
@@ -1118,6 +1142,7 @@ namespace SigOSO_PBD.Controllers
             {
                 servicios.Dispose();
                 servicios.Close();
+                servicios.closeConection();
             }
             return respuesta;
         }
@@ -1145,7 +1170,7 @@ namespace SigOSO_PBD.Controllers
             {
                 string activado = visibilidad1;
                 string query = "INSERT INTO servicio (nombre_servicio, precio_pizarra, factor_bono_trabajador, visibilidad_servicio) VALUES ('" + nvoServicio.nombreServicio + "','" + nvoServicio.precioPizarra + "','" + nvoServicio.factorBono + "','" + activado + "')";
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 try
                 {
                     string query2 = "SELECT nombre_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
@@ -1155,6 +1180,7 @@ namespace SigOSO_PBD.Controllers
                         ModelState.AddModelError("nombreServicio", "Ya existe un servicio con ese nombre");
                         lector.Dispose();
                         lector.Close();
+                        lector.closeConection();
                         ViewBag.ScriptOcultar = ocultarModificarServicios();
                         ViewBag.respuestaPost = "";
                         ViewBag.tabla = generarTablaServicios();
@@ -1174,6 +1200,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
             }
             ViewBag.ScriptOcultar = ocultarModificarServicios();
@@ -1184,7 +1211,7 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult cargarServicio(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio) {
             string query = "SELECT * FROM servicio WHERE id_servicio='" + btn_submit.Split(' ')[1] + "'";
-            NpgsqlDataReader lector = null;
+            NpgsqlDataReaderWithConection lector = null;
             try
             {
                 lector = DBConector.SELECT(query);
@@ -1216,6 +1243,7 @@ namespace SigOSO_PBD.Controllers
             {
                 lector.Dispose();
                 lector.Close();
+                lector.closeConection();
             }
             ViewBag.ScriptOcultar = ocultarAgregarServicios();
             ViewBag.respuestaPost = "";
@@ -1230,7 +1258,7 @@ namespace SigOSO_PBD.Controllers
             {
                 string activado = visibilidad2;
                 string query = "UPDATE servicio SET nombre_servicio= " + nvoServicio.nombreServicio + ", precio_pizarra=" + nvoServicio.nombreServicio + ", factor_bono_trabajador=" + nvoServicio.factorBono + ", visibilidad_servicio=" + activado + " WHERE id_servicio=" + id_servicio;
-                NpgsqlDataReader lector = null;
+                NpgsqlDataReaderWithConection lector = null;
                 try
                 {
                     string query2 = "SELECT id_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
@@ -1242,6 +1270,7 @@ namespace SigOSO_PBD.Controllers
                             ModelState.AddModelError("nombreServicio", "Ya existe un servicio con ese nombre");
                             lector.Dispose();
                             lector.Close();
+                            lector.closeConection();
                             ViewBag.ScriptOcultar = ocultarModificarServicios();
                             ViewBag.respuestaPost = "";
                             ViewBag.tabla = generarTablaServicios();                         
@@ -1263,6 +1292,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                 }
             }
             ViewBag.ScriptOcultar = ocultarModificarServicios();
@@ -1309,10 +1339,10 @@ namespace SigOSO_PBD.Controllers
         public List<logModel> cargaTablaAuditoria()
         {
             string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name NOT LIKE '%auditoria%'";
-            string query2Part = "SELECT general_activo, insert_activo, update_activo, delete_Activo WHERE nombre_tabla='";
+            string query2Part = "SELECT general_activo, insert_activo, update_activo, delete_Activo FROM tablas_auditoria WHERE nombre_tabla='";
             string nombreTabla;
-            NpgsqlDataReader lector = null;
-            NpgsqlDataReader lector2 = null;
+            NpgsqlDataReaderWithConection lector = null;
+            NpgsqlDataReaderWithConection lector2 = null;
             List<logModel> resultadoAuditoria = new List<logModel>();
             logModel logTem;
             try
@@ -1341,11 +1371,12 @@ namespace SigOSO_PBD.Controllers
                     }
                     lector2.Dispose();
                     lector2.Close();
-
+                    lector2.closeConection();
+                    resultadoAuditoria.Add(logTem);
                 }
                 lector.Dispose();
                 lector.Close();
-
+                lector.closeConection();
             }
             catch (Exception ex)
             {
@@ -1355,8 +1386,10 @@ namespace SigOSO_PBD.Controllers
             {
                 lector.Dispose();
                 lector.Close();
+                lector.closeConection();
                 lector2.Dispose();
                 lector2.Close();
+                lector2.closeConection();
             }
             return resultadoAuditoria;
         }
