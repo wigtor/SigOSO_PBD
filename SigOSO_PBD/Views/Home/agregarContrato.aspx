@@ -94,7 +94,7 @@
                     <legend>Servicios del contrato</legend>
                     <%if (ViewBag.tabla != null) {                      
                         Response.Write(ViewBag.tabla);                       
-                    }                                                     
+                    }
                     %>
                 </fieldset>
                 </div>

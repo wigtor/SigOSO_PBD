@@ -1256,6 +1256,74 @@ namespace SigOSO_PBD.Controllers
             return "NADA";
 
         }
+
+
+
+        //AUDITORÍA
+        public List<logModel> cargaTablaAuditoria()
+        {
+            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name NOT LIKE '%auditoria%'";
+            string query2Part = "SELECT general_activo, insert_activo, update_activo, delete_Activo WHERE nombre_tabla='";
+            string nombreTabla;
+            NpgsqlDataReader lector = null;
+            NpgsqlDataReader lector2 = null;
+            List<logModel> resultadoAuditoria = new List<logModel>();
+            logModel logTem;
+            try
+            {
+                lector = DBConector.SELECT(query);
+                while (lector.Read())
+                {
+                    nombreTabla = lector.GetString(0);
+                    logTem = new logModel();
+                    logTem.nombre = nombreTabla;
+
+                    lector2 = DBConector.SELECT(query2Part+nombreTabla+"'");
+                    if (lector2.Read())
+                    {
+                        logTem.general_activo = lector2.GetBoolean(0);
+                        logTem.insert_activo = lector2.GetBoolean(1);
+                        logTem.update_activo = lector2.GetBoolean(2);
+                        logTem.delete_activo = lector2.GetBoolean(3);
+                    }
+                    else
+                    {
+                        logTem.general_activo = false;
+                        logTem.insert_activo = false;
+                        logTem.update_activo = false;
+                        logTem.delete_activo = false;
+                    }
+                    lector2.Dispose();
+                    lector2.Close();
+
+                }
+                lector.Dispose();
+                lector.Close();
+
+            }
+            catch (Exception ex)
+            {
+                return resultadoAuditoria;
+            }
+            if (lector != null)
+            {
+                lector.Dispose();
+                lector.Close();
+                lector2.Dispose();
+                lector2.Close();
+            }
+            return resultadoAuditoria;
+        }
+
+        [HttpGet]
+        public ActionResult confAuditoria()
+        {
+            ViewBag.tabla = cargaTablaAuditoria();
+            return View();
+
+        }
+
+
     }
 
 
