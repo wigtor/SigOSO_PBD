@@ -33,7 +33,7 @@
                        vis1=(bool)ViewBag.VisibilidadServicio;
                        
                    } %>  
-                    <%: Html.CheckBox("visibilidad", vis1)%>
+                    <%: Html.CheckBox("visibilidad1", vis1)%>
                 <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
                     <input id="btn_agregar_servicio" name="btn_submit" type="submit" value="Agregar Servicio" />
                 </div>
@@ -59,7 +59,7 @@
                        vis2=(bool)ViewBag.VisibilidadServicio;
                        
                    } %>  
-                    <%: Html.CheckBox("visibilidad", vis2)%>
+                    <%: Html.CheckBox("visibilidad2", vis2)%>
                 <div>
                     <%: ViewBag.respuestaPost%>
                 </div>   
