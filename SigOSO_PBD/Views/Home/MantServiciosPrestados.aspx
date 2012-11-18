@@ -78,7 +78,14 @@
                 %>
         </fieldset>        
         </div>
+    <%if (ViewBag.id_servicio != null)
+      {
+          Response.Write(ViewBag.id_servicio);                       
+    }                                                     
+    %>
+
     </form>
+
      <%if (ViewBag.ScriptOcultar != null)
        {
            Response.Write(ViewBag.ScriptOcultar);                       
