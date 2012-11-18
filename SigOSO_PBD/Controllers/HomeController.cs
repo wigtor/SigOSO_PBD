@@ -1446,6 +1446,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     ejecutorSp = DBConector.SELECT("SELECT sp_update_conf_auditoria('" + nombreTabla + "', '" + tipo_operacion + "', " + valorParam + ")");
                     ejecutorSp.CloseTodo();
+                    /*
                     if (valorParam.Equals("true"))
                     {
                         //Create trigger
@@ -1505,6 +1506,7 @@ namespace SigOSO_PBD.Controllers
                             ejecutorSp.CloseTodo();
                         }
                     }
+                    */
                 }
                 catch (Exception ex)
                 {
