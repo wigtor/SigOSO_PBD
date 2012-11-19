@@ -46,6 +46,11 @@ namespace SigOSO_PBD.Models
         [Display(Name = "agno_fin")]
         [StringLength(40, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 0)]
         public string agno_fin { get; set; }
+
+        [Required]
+        [Display(Name = "cuantosVer")]
+        public string cuantosVer { get; set; }
+        
     }
 
     public class DatoLogForTabla

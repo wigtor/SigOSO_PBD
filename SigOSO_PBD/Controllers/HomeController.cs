@@ -1564,6 +1564,9 @@ namespace SigOSO_PBD.Controllers
             objeto.mes_ini = DateTime.Now.Month.ToString();
             objeto.dia_ini = DateTime.Now.Day.ToString();
 
+            
+            ViewBag.cuantosDatosVer = getIntervaloLimit();
+
             return View(objeto);
 
         }
@@ -1596,11 +1599,47 @@ namespace SigOSO_PBD.Controllers
 
             if (btn_cargar.Equals("Cargar"))
             {
-                ViewBag.tablaLogs = getLogAuditoria(objeto.nombreTabla, objeto.operacion, objeto.dia_ini + "-" + objeto.mes_ini + "-" + objeto.agno_ini, objeto.dia_fin + "-" + objeto.mes_fin + "-" + objeto.agno_fin);
+                ViewBag.tablaLogs = getLogAuditoria(objeto.nombreTabla, objeto.operacion, objeto.dia_ini + "-" + objeto.mes_ini + "-" + objeto.agno_ini, objeto.dia_fin + "-" + objeto.mes_fin + "-" + objeto.agno_fin, objeto.cuantosVer);
             }
+
+            ViewBag.cuantosDatosVer = getIntervaloLimit();
+
+
 
             return View(objeto);
 
+        }
+
+
+        public List<SelectListItem> getIntervaloLimit()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "10",
+                Value = "10"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "50",
+                Value = "50"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "100",
+                Value = "100"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "500",
+                Value = "500"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "Todos",
+                Value = "Todos"
+            });
+            return items;
         }
 
 
@@ -1632,15 +1671,17 @@ namespace SigOSO_PBD.Controllers
             return items;
         }
 
-        public List<DatoLogForTabla> getLogAuditoria(string nombreTabla, string operacion, string fechaIni, string fechaFin)
+        public List<DatoLogForTabla> getLogAuditoria(string nombreTabla, string operacion, string fechaIni, string fechaFin, string cuantosVer)
         {
             List<DatoLogForTabla> resultado = new List<DatoLogForTabla>();
             DatoLogForTabla temp;
             NpgsqlDataReaderWithConection lector = null;
-            string query = "SELECT nombre_tabla, log_timestamp, accion, datos_anteriores, datos_nuevos FROM log_auditoria WHERE";
+            string query = "SELECT nombre_tabla, log_timestamp, operacion, datos_anteriores, datos_nuevos FROM log_auditoria";
             bool si = false;
             try
             {
+                
+                query += " WHERE";
                 if (!nombreTabla.Equals("Todas"))
                 {
                     query += " nombre_tabla='" + nombreTabla + "'";
@@ -1650,14 +1691,19 @@ namespace SigOSO_PBD.Controllers
                 {
                     if (si)
                         query += " AND";
-                    query += " accion='"+operacion[0]+"'";
+                    query += " operacion='"+operacion[0]+"'";
                     si = true;
                 }
+                
 
+                //Agrego las comprobaciones de rangos de fecha
+                if (si)
+                    query += " AND";
+                query += " log_timestamp > timestamp '" + fechaIni + "' AND log_timestamp < timestamp '" + fechaFin + " 23:59:59'";
 
-                if (!si)
+                if (!cuantosVer.Equals("Todos"))
                 {
-                    query += " log_timestamp > timestamp '" + fechaIni + "' AND log_timestamp < timestamp '" + fechaFin + " 23:59:59'";
+                    query += " LIMIT " + cuantosVer;
                 }
 
                 lector = DBConector.SELECT(query);

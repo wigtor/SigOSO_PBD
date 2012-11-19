@@ -39,6 +39,9 @@
                 <%: Html.TextBoxFor(datosAuditoria => datosAuditoria.agno_fin, new { @class = "text", @style = "width: 60px;" })%>
                 <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.agno_fin)%>
 
+            <label>Mostrar máximo:</label>
+            <%: Html.DropDownList("cuantosVer", (List<SelectListItem>)ViewBag.cuantosDatosVer, new { @style = "width: 100px;" })%>
+            resultados
         </fieldset>
 
             
