@@ -1657,7 +1657,7 @@ namespace SigOSO_PBD.Controllers
 
                 if (!si)
                 {
-                    query += " TRUE";
+                    query += " log_timestamp > timestamp '" + fechaIni + "' AND log_timestamp < timestamp '" + fechaFin + " 23:59:59'";
                 }
 
                 lector = DBConector.SELECT(query);

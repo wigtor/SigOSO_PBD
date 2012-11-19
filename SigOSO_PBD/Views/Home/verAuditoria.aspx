@@ -81,7 +81,14 @@
                 <%  if (ViewBag.tablaLogs != null)
                     {
                         List<SigOSO_PBD.Models.DatoLogForTabla> tabla = (List<SigOSO_PBD.Models.DatoLogForTabla>)ViewBag.tablaLogs;
+                        if (tabla.Count == 0) {
+                            Response.Write("<tr>");
 
+                            Response.Write("<td>&nbsp; La busqueda no arrojó resultados");
+                            Response.Write("</td>");
+                            Response.Write("</tr>");
+                        }
+                        
                         foreach (SigOSO_PBD.Models.DatoLogForTabla temp in tabla)
                         {
                             Response.Write("<tr>");
