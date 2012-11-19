@@ -1546,7 +1546,14 @@ namespace SigOSO_PBD.Controllers
                     Value = nombreTabla
                 });
             }
+            items.Add(new SelectListItem
+            {
+                Text = "Todas",
+                Value = "Todas"
+            });
             
+
+            ViewBag.listaTablas = items;
             ViewBag.listaOperaciones = getListaOperaciones();
             DatosAuditoriaModel objeto = new DatosAuditoriaModel();
             objeto.agno_fin = DateTime.Now.Year.ToString();
@@ -1578,6 +1585,7 @@ namespace SigOSO_PBD.Controllers
                     Value = nombreTabla
                 });
             }
+            ViewBag.listaTablas = items;
 
             ViewBag.listaOperaciones = getListaOperaciones();
 
@@ -1594,13 +1602,6 @@ namespace SigOSO_PBD.Controllers
         public List<SelectListItem> getListaOperaciones()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem
-            {
-                Text = "Todas",
-                Value = "Todas"
-            });
-            ViewBag.listaTablas = items;
-
 
             items = new List<SelectListItem>();
             items.Add(new SelectListItem
@@ -1631,9 +1632,23 @@ namespace SigOSO_PBD.Controllers
             List<DatoLogForTabla> resultado = new List<DatoLogForTabla>();
             DatoLogForTabla temp;
             NpgsqlDataReaderWithConection lector = null;
-            string query = "SELECT nombre_tabla, log_timestamp, accion, datos_anteriores, datos_nuevos FROM log_auditoria";
+            string query = "SELECT nombre_tabla, log_timestamp, accion, datos_anteriores, datos_nuevos FROM log_auditoria WHERE";
+            bool si = false;
             try
             {
+                if (!nombreTabla.Equals("Todas"))
+                {
+                    query += " nombre_tabla='" + nombreTabla + "'";
+                    si = true;
+                }
+                if (!operacion.Equals("Todas"))
+                {
+                    if (si)
+                        query += " AND";
+                    query += " accion='"+operacion[0]+"'";
+                    si = true;
+                }
+
                 lector = DBConector.SELECT(query);
                 while (lector.Read())
                 {

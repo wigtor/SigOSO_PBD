@@ -99,13 +99,13 @@
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write("<textarea cols=\"20\" rows=\"2\">");
+                            Response.Write("<textarea cols=\"15\" rows=\"3\" width=\"160px\">");
                             Response.Write(temp.datosAntes);
                             Response.Write("</textarea>");
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write("<textarea cols=\"20\" rows=\"2\">");
+                            Response.Write("<textarea cols=\"15\" rows=\"3\" width=\"160px\">");
                             Response.Write(temp.datosDespues);
                             Response.Write("</textarea>");
                             Response.Write("</td>");
