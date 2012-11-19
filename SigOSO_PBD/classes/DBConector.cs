@@ -94,37 +94,54 @@ namespace SigOSO_PBD.classes
 
         public bool GetBoolean(int i)
         {
+            if (lector.IsDBNull(i))
+                return false;
             return lector.GetBoolean(i);
         }
 
         public string GetString(int i)
         {
+            if (lector.IsDBNull(i))
+                return "";
             return lector.GetString(i);
         }
 
         public int GetInt32(int i)
         {
+            if (lector.IsDBNull(i))
+                return 0;
             return lector.GetInt32(i);
         }
 
         public float GetFloat(int i)
         {
+            if (lector.IsDBNull(i))
+                return 0;
             return lector.GetFloat(i);
         }
 
         public double GetDouble(int i)
         {
+            if (lector.IsDBNull(i))
+                return 0;
             return lector.GetDouble(i);
         }
 
         public DateTime GetDateTime(int i)
         {
+            if (lector.IsDBNull(i))
+                return new DateTime();
             return lector.GetDateTime(i);
         }
 
         public int GetOrdinal(string Name)
         {
             return lector.GetOrdinal(Name);
+        }
+
+        public bool IsDBNull(int i)
+        {
+            return lector.IsDBNull(i);
         }
 
         public void Dispose()

@@ -1679,8 +1679,14 @@ namespace SigOSO_PBD.Controllers
                     {
                         temp.operacion = "INSERT";
                     }
-                    temp.datosAntes = lector.GetString(3);
-                    temp.datosDespues = lector.GetString(4);
+                    if (lector.IsDBNull(3))
+                        temp.datosAntes = "";
+                    else 
+                        temp.datosAntes = lector.GetString(3);
+                    if (lector.IsDBNull(4))
+                        temp.datosDespues = "";
+                    else 
+                        temp.datosDespues = lector.GetString(4);
                     resultado.Add(temp);
                 }
                 

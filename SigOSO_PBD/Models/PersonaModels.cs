@@ -45,9 +45,8 @@ namespace SigOSO_PBD.Models
         public string nombre { get; set; }
 
         [Required]
-        //[StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} dígitos de longitud y máximo {1}", MinimumLength = 7)]
+        [StringLength(10, ErrorMessage = "El {0} ingresado no es válido", MinimumLength = 7)]
         [Display(Name = "Rut")]
-        [Range(1000000, 1000000000, ErrorMessage = "El {0} ingresado no es válido")]
         public string rut { get; set; }
 
     }
