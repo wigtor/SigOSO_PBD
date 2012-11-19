@@ -15,7 +15,7 @@
         <fieldset>
             <legend>Datos de consulta</legend>
             <label>Nombre Tabla</label>
-                <%: Html.DropDownList("Tablas", (List<SelectListItem>)ViewBag.listaTablas, new { @style = "width: 170px;" })%>
+                <%: Html.DropDownList("nombreTabla", (List<SelectListItem>)ViewBag.listaTablas, new { @style = "width: 170px;" })%>
 
             <label>Operación</label>
                 <%: Html.DropDownList("operacion", (List<SelectListItem>)ViewBag.listaOperaciones, new { @style = "width: 130px;" })%>
@@ -59,29 +59,30 @@
                 <tr>
                     <td>
                         &nbsp;
-                        Nombre tabla
+                        <b>Nombre tabla</b>
                     </td>
                     <td>
                         &nbsp;
-                        Operación
+                        <b>Operación</b>
                     </td>
                     <td>
                         &nbsp;
-                        Timestamp
+                        <b>Timestamp</b>
                     </td>
                     <td>
                         &nbsp;
-                        Datos antes
+                        <b>Datos antes</b>
                     </td>
                     <td>
                         &nbsp;
-                        Datos despues
+                        <b>Datos despues</b>
                     </td>
                 </tr>
-                <%  if (ViewBag.tabla != null) {
-                        List<SigOSO_PBD.Models.DatosAuditoriaModel> tabla = (List<SigOSO_PBD.Models.DatosAuditoriaModel>)ViewBag.tabla;
+                <%  if (ViewBag.tablaLogs != null)
+                    {
+                        List<SigOSO_PBD.Models.DatoLogForTabla> tabla = (List<SigOSO_PBD.Models.DatoLogForTabla>)ViewBag.tablaLogs;
 
-                        foreach (SigOSO_PBD.Models.DatosAuditoriaModel temp in tabla)
+                        foreach (SigOSO_PBD.Models.DatoLogForTabla temp in tabla)
                         {
                             Response.Write("<tr>");
                             
@@ -98,11 +99,15 @@
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write(temp.datos_anteriores);
+                            Response.Write("<textarea cols=\"20\" rows=\"2\">");
+                            Response.Write(temp.datosAntes);
+                            Response.Write("</textarea>");
                             Response.Write("</td>");
 
                             Response.Write("<td>&nbsp;");
-                            Response.Write(temp.datos_posteriores);
+                            Response.Write("<textarea cols=\"20\" rows=\"2\">");
+                            Response.Write(temp.datosDespues);
+                            Response.Write("</textarea>");
                             Response.Write("</td>");
                             
                             Response.Write("</tr>");

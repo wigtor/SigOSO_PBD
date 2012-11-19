@@ -17,23 +17,23 @@
                 <tr>
                     <td>
                         &nbsp;
-                        Nombre tabla
+                        <b>Nombre tabla</b>
                     </td>
                     <td>
                         &nbsp;
-                        Registro activo
+                        <b>Registro activo</b>
                     </td>
                     <td>
                         &nbsp;
-                        INSERT
+                        <b>INSERT</b>
                     </td>
                     <td>
                         &nbsp;
-                        UPDATE
+                        <b>UPDATE</b>
                     </td>
                     <td>
                         &nbsp;
-                        DELETE
+                        <b>DELETE</b>
                     </td>
                 </tr>
                 <%  if (ViewBag.tabla != null) {

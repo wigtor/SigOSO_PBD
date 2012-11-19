@@ -1546,6 +1546,54 @@ namespace SigOSO_PBD.Controllers
                     Value = nombreTabla
                 });
             }
+            
+            ViewBag.listaOperaciones = getListaOperaciones();
+            DatosAuditoriaModel objeto = new DatosAuditoriaModel();
+            objeto.agno_fin = DateTime.Now.Year.ToString();
+            objeto.mes_fin = DateTime.Now.Month.ToString();
+            objeto.dia_fin = DateTime.Now.Day.ToString();
+
+            objeto.agno_ini = DateTime.Now.Year.ToString();
+            objeto.mes_ini = DateTime.Now.Month.ToString();
+            objeto.dia_ini = DateTime.Now.Day.ToString();
+
+            return View(objeto);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult verAuditoria(DatosAuditoriaModel objeto, string btn_cargar)
+        {
+            //ViewBag.tabla = cargaTablaAuditoria();
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
+            List<string> listaTablas = getTablasDB();
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (string nombreTabla in listaTablas)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = nombreTabla,
+                    Value = nombreTabla
+                });
+            }
+
+            ViewBag.listaOperaciones = getListaOperaciones();
+
+            if (btn_cargar.Equals("Cargar"))
+            {
+                ViewBag.tablaLogs = getLogAuditoria(objeto.nombreTabla, objeto.operacion, objeto.dia_ini + "-" + objeto.mes_ini + "-" + objeto.agno_ini, objeto.dia_fin + "-" + objeto.mes_fin + "-" + objeto.agno_fin);
+            }
+
+            return View(objeto);
+
+        }
+
+
+        public List<SelectListItem> getListaOperaciones()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem
             {
                 Text = "Todas",
@@ -1575,11 +1623,53 @@ namespace SigOSO_PBD.Controllers
                 Text = "Todas",
                 Value = "Todas"
             });
-            ViewBag.listaOperaciones = items;
+            return items;
+        }
 
+        public List<DatoLogForTabla> getLogAuditoria(string nombreTabla, string operacion, string fechaIni, string fechaFin)
+        {
+            List<DatoLogForTabla> resultado = new List<DatoLogForTabla>();
+            DatoLogForTabla temp;
+            NpgsqlDataReaderWithConection lector = null;
+            string query = "SELECT nombre_tabla, log_timestamp, accion, datos_anteriores, datos_nuevos FROM log_auditoria";
+            try
+            {
+                lector = DBConector.SELECT(query);
+                while (lector.Read())
+                {
+                    temp = new DatoLogForTabla();
+                    temp.nombreTabla = lector.GetString(0);
+                    temp.timestamp = lector.GetDateTime(1).ToString();
+                    temp.operacion = lector.GetString(2);
+                    if (temp.operacion.Equals("U"))
+                    {
+                        temp.operacion = "UPDATE";
+                    }
+                    else if (temp.operacion.Equals("D"))
+                    {
+                        temp.operacion = "DELETE";
+                    }
+                    else if (temp.operacion.Equals("I"))
+                    {
+                        temp.operacion = "INSERT";
+                    }
+                    temp.datosAntes = lector.GetString(3);
+                    temp.datosDespues = lector.GetString(4);
+                    resultado.Add(temp);
+                }
+                
 
-            return View();
+            }
+            catch (Exception ex)
+            {
 
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+
+            return resultado;
         }
 
     }
