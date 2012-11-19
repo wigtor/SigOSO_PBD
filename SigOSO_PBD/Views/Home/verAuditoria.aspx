@@ -4,7 +4,7 @@
 
 
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
-    Configurar auditoría
+    Ver auditoría
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
@@ -75,7 +75,7 @@
                     </td>
                     <td>
                         &nbsp;
-                        <b>Datos despues</b>
+                        <b>Datos después</b>
                     </td>
                 </tr>
                 <%  if (ViewBag.tablaLogs != null)
