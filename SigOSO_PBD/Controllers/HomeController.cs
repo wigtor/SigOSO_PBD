@@ -1538,6 +1538,11 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaMeses = getListaMeses();
             List<string> listaTablas = getTablasDB();
             List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "Todas",
+                Value = "Todas"
+            });
             foreach (string nombreTabla in listaTablas)
             {
                 items.Add(new SelectListItem
@@ -1546,11 +1551,6 @@ namespace SigOSO_PBD.Controllers
                     Value = nombreTabla
                 });
             }
-            items.Add(new SelectListItem
-            {
-                Text = "Todas",
-                Value = "Todas"
-            });
             
 
             ViewBag.listaTablas = items;
@@ -1577,6 +1577,11 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaMeses = getListaMeses();
             List<string> listaTablas = getTablasDB();
             List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "Todas",
+                Value = "Todas"
+            });
             foreach (string nombreTabla in listaTablas)
             {
                 items.Add(new SelectListItem
@@ -1606,6 +1611,11 @@ namespace SigOSO_PBD.Controllers
             items = new List<SelectListItem>();
             items.Add(new SelectListItem
             {
+                Text = "Todas",
+                Value = "Todas"
+            });
+            items.Add(new SelectListItem
+            {
                 Text = "INSERT",
                 Value = "I"
             });
@@ -1618,11 +1628,6 @@ namespace SigOSO_PBD.Controllers
             {
                 Text = "DELETE",
                 Value = "D"
-            });
-            items.Add(new SelectListItem
-            {
-                Text = "Todas",
-                Value = "Todas"
             });
             return items;
         }
@@ -1647,6 +1652,12 @@ namespace SigOSO_PBD.Controllers
                         query += " AND";
                     query += " accion='"+operacion[0]+"'";
                     si = true;
+                }
+
+
+                if (!si)
+                {
+                    query += " TRUE";
                 }
 
                 lector = DBConector.SELECT(query);
