@@ -20,30 +20,49 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MenuLinks" runat="server">
-    
     <div class="accordion" id="accordion2">
-
       <div class="accordion-group">
         <div class="accordion-heading accordion-heading-mapeso">        
             <div class="dropup">
                 <ul class="dropdown-submenu">
-                    <a id="BotonOrganizarCuadrilla"class="accordion-toggle barra-lateral-sub-menu" >Auditoría</a>
+                    <a id="A4"class="accordion-toggle barra-lateral-sub-menu" >Mantención</a>
                     <div class="dropdown-menu">
                         <div>
                             <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Configurar", "confAuditoria", "Home", null, new { @id = "BotonCrearCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                <%:Html.ActionLink("Unidades de medida", "MantUnidadesMedida", "Home", null, new { @id = "BotonMantUnidadesMedida", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
                         <div>
                             <div class="accordion-heading"> 
-                            <%:Html.ActionLink("Consultar", "verAuditoria", "Home", null, new { @id = "BotonModificarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                <%:Html.ActionLink("Materiales genéricos", "MantMaterialGenericos", "Home", null, new { @id = "BotonMantMaterialGenericos", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
-                    </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Estados OT", "MantEstadosOT", "Home", null, new { @id = "BotonMantEstadosOT", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Estados OTI", "MantEstadosOTI", "Home", null, new { @id = "BotonMantEstadosOTI", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Perfil trabajadores", "MantPerfilTrabajadores", "Home", null, new { @id = "BotonMantPerfilTrabajadores", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Servicios prestados", "MantServiciosPrestados", "Home", null, new { @id = "BotonMantServiciosPrestados", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                    </div>                    
                 </ul>
             </div>
         </div>
       </div>
+
 
       <div class="accordion-group">
         <div class="accordion-heading accordion-heading-mapeso">        
@@ -104,114 +123,6 @@
         </div>
       </div>
 
-      <div class="accordion-group">
-        <div class="accordion-heading accordion-heading-mapeso">
-            <%:Html.ActionLink("Estado órdenes de trabajo", "EstadosOT", "Home", null, new { @id = "BotonEstadosOT", @class = "accordion-toggle" })%>
-        </div>
-      </div>
-
-      <div class="accordion-group">
-        <div class="accordion-heading accordion-heading-mapeso">        
-            <div class="dropup">
-                <ul class="dropdown-submenu">
-                    <a id="A3"class="accordion-toggle barra-lateral-sub-menu" >Informes</a>
-                    <div class="dropdown-menu">
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Bono trabajador", "infBonoTrabajador", "Home", null, new { @id = "BotoninfBonoTrabajador", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Materiales utilizados", "infMaterialUsado", "Home", null, new { @id = "BotoninfMaterialUsado", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-        </div>
-      </div>
-
-      <div class="accordion-group">
-        <div class="accordion-heading accordion-heading-mapeso">
-            <%:Html.ActionLink("Ingreso Orden de trabajo", "ingresoOT", "Home", null, new { @id = "BotonIngresoOT", @class = "accordion-toggle" })%>
-        </div>
-      </div>
-
-      <div class="accordion-group">
-        <div class="accordion-heading accordion-heading-mapeso">        
-            <div class="dropup">
-                <ul class="dropdown-submenu">
-                    <a id="A4"class="accordion-toggle barra-lateral-sub-menu" >Mantención</a>
-                    <div class="dropdown-menu">
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Unidades de medida", "MantUnidadesMedida", "Home", null, new { @id = "BotonMantUnidadesMedida", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Materiales genéricos", "MantMaterialGenericos", "Home", null, new { @id = "BotonMantMaterialGenericos", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Estados OT", "MantEstadosOT", "Home", null, new { @id = "BotonMantEstadosOT", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Estados OTI", "MantEstadosOTI", "Home", null, new { @id = "BotonMantEstadosOTI", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Perfil trabajadores", "MantPerfilTrabajadores", "Home", null, new { @id = "BotonMantPerfilTrabajadores", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Servicios prestados", "MantServiciosPrestados", "Home", null, new { @id = "BotonMantServiciosPrestados", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                    </div>                    
-                </ul>
-            </div>
-        </div>
-      </div>
-
-      <!-- Este es igual que el que tiene el supervisor -->
-      <div class="accordion-group">
-        <div class="accordion-heading accordion-heading-mapeso">        
-            <div class="dropup">
-                <ul class="dropdown-submenu">
-                    <a id="A5"class="accordion-toggle barra-lateral-sub-menu" >Organizar Cuadrilla</a>
-                    <div class="dropdown-menu">
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Crear", "CrearCuadrilla", "Home", null, new { @id = "BotonCrearCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Home", null, new { @id = "BotonModificarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Buscar", "MantBuscarCuadrilla", "Home", null, new { @id = "BotonBuscarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="accordion-heading"> 
-                                <%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Home", null, new { @id = "BotonEliminarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
-                            </div>
-                        </div>
-                    </div>                    
-                </ul>
-            </div>
-        </div>
-      </div>
 
       <div class="accordion-group">
         <div class="accordion-heading accordion-heading-mapeso">        
@@ -239,11 +150,128 @@
                                 <%:Html.ActionLink("Eliminar", "EliminarTrabajador", "Home", null, new { @id = "BotonEliminarTrabajador", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
+
+
+
+                        <!-- Este es igual que el que tiene el supervisor -->
+                          <div class="accordion-group">
+                            <div class="accordion-heading accordion-heading-mapeso">        
+                                <div class="dropup">
+                                    <ul class="dropdown-submenu">
+                                        <a id="A5"class="accordion-toggle barra-lateral-sub-menu" >Organizar Cuadrilla</a>
+                                        <div class="dropdown-menu">
+                                            <div>
+                                                <div class="accordion-heading"> 
+                                                    <%:Html.ActionLink("Crear", "CrearCuadrilla", "Home", null, new { @id = "BotonCrearCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="accordion-heading"> 
+                                                    <%:Html.ActionLink("Modificar", "ModificarCuadrilla", "Home", null, new { @id = "BotonModificarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="accordion-heading"> 
+                                                    <%:Html.ActionLink("Buscar", "MantBuscarCuadrilla", "Home", null, new { @id = "BotonBuscarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="accordion-heading"> 
+                                                    <%:Html.ActionLink("Eliminar", "EliminarCuadrilla", "Home", null, new { @id = "BotonEliminarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                                </div>
+                                            </div>
+                                        </div>                    
+                                    </ul>
+                                </div>
+                            </div>
+                          </div>
+
+
                     </div>                    
                 </ul>
             </div>
         </div>
       </div>
+
+
+      <div class="accordion-group">
+        <div class="accordion-heading accordion-heading-mapeso">        
+            <div class="dropup">
+                <ul class="dropdown-submenu">
+                    <a id="A8"class="accordion-toggle barra-lateral-sub-menu" >Ordenes de trabajo</a>
+                    <div class="dropdown-menu">
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Ingreso Orden de trabajo", "ingresoOT", "Home", null, new { @id = "BotonIngresoOT", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                                
+                                
+                            </div>
+                        </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                 <%:Html.ActionLink("Estado órdenes de trabajo", "EstadosOT", "Home", null, new { @id = "BotonEstadosOT", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            
+                            
+                            </div>
+                        </div>
+                    </div>                    
+                </ul>
+            </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="accordion-group">
+        <div class="accordion-heading accordion-heading-mapeso">        
+            <div class="dropup">
+                <ul class="dropdown-submenu">
+                    <a id="A3"class="accordion-toggle barra-lateral-sub-menu" >Informes</a>
+                    <div class="dropdown-menu">
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Bono trabajador", "infBonoTrabajador", "Home", null, new { @id = "BotoninfBonoTrabajador", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Materiales utilizados", "infMaterialUsado", "Home", null, new { @id = "BotoninfMaterialUsado", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+      </div>
+
+
+     
+
+      
+
+      <div class="accordion-group">
+        <div class="accordion-heading accordion-heading-mapeso">        
+            <div class="dropup">
+                <ul class="dropdown-submenu">
+                    <a id="BotonOrganizarCuadrilla"class="accordion-toggle barra-lateral-sub-menu" >Auditoría</a>
+                    <div class="dropdown-menu">
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Configurar", "confAuditoria", "Home", null, new { @id = "BotonCrearCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                            <%:Html.ActionLink("Consultar", "verAuditoria", "Home", null, new { @id = "BotonModificarCuadrilla", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+      </div>
+
 
    </div>
 </asp:Content>

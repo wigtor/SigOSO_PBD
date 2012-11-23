@@ -42,5 +42,20 @@ namespace SigOSO_PBD.Models
 
     }
 
-    
+    public class buscarTrabajadorModel
+    {
+        [Display(Name = "rut")]
+        [StringLength(10, ErrorMessage = "El {0} ingresado no es válido", MinimumLength = 0)]
+        public string rut_trabajador { get; set; }
+
+        [Display(Name = "Nombre trabajador")]
+        public string nombre_trabajador { get; set; }
+    }
+
+    public class ListarTrabajadorModel : PersonaModel
+    {
+        [Display(Name = "estado")]
+        public string estado { get; set; }
+
+    }
 }

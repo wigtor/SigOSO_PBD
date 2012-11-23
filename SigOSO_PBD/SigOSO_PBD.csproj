@@ -139,6 +139,7 @@
     <Content Include="Views\Home\AgregarCliente.aspx" />
     <Content Include="Views\Home\agregarContrato.aspx" />
     <Content Include="Views\Home\confAuditoria.aspx" />
+    <Content Include="Views\Home\CrearCuadrilla.aspx" />
     <Content Include="Views\Home\verAuditoria.aspx" />
     <Content Include="Views\Home\EliminarTrabajador.aspx" />
     <Content Include="Views\Home\MantPerfilTrabajadores.aspx" />

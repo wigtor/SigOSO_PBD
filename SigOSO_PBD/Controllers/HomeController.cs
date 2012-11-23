@@ -51,7 +51,7 @@ namespace SigOSO_PBD.Controllers
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "Se ha creado correctamente el cliente";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -128,7 +128,7 @@ namespace SigOSO_PBD.Controllers
                         }
                         
                     }
-                    catch (Exception ex) {
+                    catch (Exception) {
 
                     }
                     if (lector != null)
@@ -160,7 +160,7 @@ namespace SigOSO_PBD.Controllers
 
                         ViewBag.respuestaPost = "Se han guardado correctamente los datos del cliente";
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                     }
@@ -204,7 +204,7 @@ namespace SigOSO_PBD.Controllers
                 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 items.Add(new SelectListItem
                 {
@@ -303,7 +303,7 @@ namespace SigOSO_PBD.Controllers
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "Se ha creado correctamente el trabajador";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -376,7 +376,7 @@ namespace SigOSO_PBD.Controllers
                             ModelState.AddModelError("rutCliente", "El rut insertado no existe");
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
 
@@ -472,7 +472,7 @@ namespace SigOSO_PBD.Controllers
                             ModelState.AddModelError("rut", "El rut insertado no existe");
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
 
@@ -565,7 +565,7 @@ namespace SigOSO_PBD.Controllers
 
                         ViewBag.respuestaPost = "Se han guardado correctamente los datos del trabajador";
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                     }
@@ -657,7 +657,7 @@ namespace SigOSO_PBD.Controllers
                             ModelState.AddModelError("rut", "El rut insertado no existe");
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
 
@@ -683,7 +683,7 @@ namespace SigOSO_PBD.Controllers
                         string query = "DELETE FROM trabajador WHERE rut_trabajador = '" + trabajadorMod.rut + "'";
                         DBConector.DELETE(query);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
 
@@ -752,7 +752,7 @@ namespace SigOSO_PBD.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 items.Add(new SelectListItem
                 {
@@ -787,7 +787,7 @@ namespace SigOSO_PBD.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 items.Add(new SelectListItem
                 {
@@ -826,7 +826,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 respuesta += "</table>";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 respuesta = DBConector.msjError;
             }
@@ -866,7 +866,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 respuesta += "</table>";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 respuesta = DBConector.msjError;
             }
@@ -903,7 +903,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 respuesta += "</table>";
             }
-            catch (Exception ex) {
+            catch (Exception) {
 
             }
 
@@ -956,7 +956,7 @@ namespace SigOSO_PBD.Controllers
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "Se ha agregado correctamente el material genérico";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -1014,7 +1014,7 @@ namespace SigOSO_PBD.Controllers
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "Se ha agregado correctamente la unidad de medida";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -1072,7 +1072,7 @@ namespace SigOSO_PBD.Controllers
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "Se ha agregado correctamente el perfil de trabajador";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -1134,7 +1134,7 @@ namespace SigOSO_PBD.Controllers
                 }
                 respuesta += "</table>";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 respuesta = DBConector.msjError;
             }
@@ -1193,7 +1193,7 @@ namespace SigOSO_PBD.Controllers
                     ViewBag.tabla = generarTablaServicios();
                     return View();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -1236,7 +1236,7 @@ namespace SigOSO_PBD.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
             }
@@ -1285,7 +1285,7 @@ namespace SigOSO_PBD.Controllers
                     ViewBag.id_servicio = "<input name='id_servicio'  type='submit' value='" + btn_submit.Split(' ')[1] + "'/>";
                     return View();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
                 }
@@ -1350,7 +1350,7 @@ namespace SigOSO_PBD.Controllers
                     result.Add(lector.GetString(0));
                 }
             }
-            catch (Exception ex) {
+            catch (Exception) {
 
             }
             if (lector != null)
@@ -1395,7 +1395,7 @@ namespace SigOSO_PBD.Controllers
                     resultadoAuditoria.Add(logTem);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return resultadoAuditoria;
             }
@@ -1508,7 +1508,7 @@ namespace SigOSO_PBD.Controllers
                     }
                     */
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.respuestaPost = DBConector.msjError;
                 }
@@ -1738,7 +1738,7 @@ namespace SigOSO_PBD.Controllers
                 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1749,6 +1749,15 @@ namespace SigOSO_PBD.Controllers
 
             return resultado;
         }
+
+
+
+
+        public ActionResult CrearCuadrilla()
+        {
+            return View();
+        }
+
 
     }
 
