@@ -933,7 +933,7 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult MantMaterialGenericos(MaterialGenericoModel nvoMat)
         {
-            ViewBag.tabla = generarTablaMaterialGenericos();
+            
             ViewBag.lista_unidades = getListaUnidades();
 
             if (ModelState.IsValid)
@@ -951,6 +951,7 @@ namespace SigOSO_PBD.Controllers
                         lector.Close();
                         lector.closeConection();
                         ViewBag.respuestaPost = "";
+                        ViewBag.tabla = generarTablaMaterialGenericos();
                         return View(nvoMat);
                     }
                     int cantidadInsertada = DBConector.INSERT(query);
@@ -968,11 +969,13 @@ namespace SigOSO_PBD.Controllers
                     lector.closeConection();
                 }
 
+                ViewBag.tabla = generarTablaMaterialGenericos();
                 return View();
                 //return RedirectToAction("MantMaterialGenericos", "home");
             }
             else
             {
+                ViewBag.tabla = generarTablaMaterialGenericos();
                 return View(nvoMat);
             }
 
@@ -992,7 +995,7 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult MantUnidadesMedida(agregarUnidadModel nvaUnidad)
         {
-            ViewBag.tabla = generarTablaUnidadesMedida();
+            
 
             if (ModelState.IsValid)
             {
@@ -1009,6 +1012,7 @@ namespace SigOSO_PBD.Controllers
                         lector.Close();
                         lector.closeConection();
                         ViewBag.respuestaPost = "";
+                        ViewBag.tabla = generarTablaUnidadesMedida();
                         return View(nvaUnidad);
                     }
                     int cantidadInsertada = DBConector.INSERT(query);
@@ -1026,11 +1030,13 @@ namespace SigOSO_PBD.Controllers
                     lector.closeConection();
                 }
 
+                ViewBag.tabla = generarTablaUnidadesMedida();
                 return View();
                 //return RedirectToAction("MantUnidadesMedida", "home");
             }
             else
             {
+                ViewBag.tabla = generarTablaUnidadesMedida();
                 return View(nvaUnidad);
             }
 
@@ -1050,7 +1056,7 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult MantperfilTrabajadores(perfilTrabajadorModel nvoCargo)
         {
-            ViewBag.tabla = generarTablaPerfilesTrabajadores();
+            
 
             if (ModelState.IsValid)
             {
@@ -1067,6 +1073,7 @@ namespace SigOSO_PBD.Controllers
                         lector.Close();
                         lector.closeConection();
                         ViewBag.respuestaPost = "";
+                        ViewBag.tabla = generarTablaPerfilesTrabajadores();
                         return View(nvoCargo);
                     }
                     int cantidadInsertada = DBConector.INSERT(query);
@@ -1084,11 +1091,13 @@ namespace SigOSO_PBD.Controllers
                     lector.closeConection();
                 }
 
+                ViewBag.tabla = generarTablaPerfilesTrabajadores();
                 return View();
                 //return RedirectToAction("MantperfilTrabajadores", "home");
             }
             else
             {
+                ViewBag.tabla = generarTablaPerfilesTrabajadores();
                 return View(nvoCargo);
             }
 
