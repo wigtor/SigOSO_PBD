@@ -151,8 +151,23 @@ namespace SigOSO_PBD.Models
         }
 
 
-        public static string crearCuadrilla(List<int> listaAgregadosSesion) {
-            string query = "SELECT * FROM trabajador";
+        public static string crearCuadrilla(List<int> listaAgregadosSesion, out bool satisfactorio) {
+            
+            if (listaAgregadosSesion.Count < 2)
+            {
+                satisfactorio = false;
+                return "No puede crear una cuadrilla de menos de 2 trabajadores";
+            }
+            string query = "SELECT sp_new_cuadrilla(ARRAY[";
+            foreach (int temp in listaAgregadosSesion)
+            {
+                if (!temp.Equals(listaAgregadosSesion[0]))
+                {
+                    query += ", ";
+                }
+                query += temp;
+            }
+            query += "])";
 
             string mensaje = "";
             NpgsqlDataReaderWithConection lector = null;
@@ -161,20 +176,26 @@ namespace SigOSO_PBD.Models
                 lector = DBConector.SELECT(query);
                 if (lector.Read())
                 {
-
-
-
-
-
-                    mensaje = "Se ha creado la cuadrilla satisfactoriamente";
+                    if (lector.GetBoolean(0))
+                    {
+                        satisfactorio = true;
+                        mensaje = "Se ha creado la cuadrilla satisfactoriamente";
+                    }
+                    else
+                    {
+                        satisfactorio = true;
+                        mensaje = "No se ha podido crear la cuadrilla";
+                    }
                 }
                 else
                 {
+                    satisfactorio = false;
                     mensaje =  "Ha ocurrido un error al crear la cuadrilla";
                 }
             }
             catch (Exception ex)
             {
+                satisfactorio = false;
                 mensaje = "Ha ocurrido un error al crear la cuadrilla";
             }
             if (lector != null)

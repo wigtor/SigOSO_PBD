@@ -1885,13 +1885,27 @@ namespace SigOSO_PBD.Controllers
             }
             else //Se presionó el botón crear_cuadrilla
             {
-                List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
-                string respuesta = ListarTrabajadorModel.crearCuadrilla(listaAgregadosSesion);
-
-                listaAgregadosSesion.Clear();
-                Session["listaAgregadosCuadrilla"] = null;
+                string respuesta = "";
+                if (Session["listaAgregadosCuadrilla"] != null)
+                {
+                    List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                    bool satisfactorio = false;
+                    respuesta = ListarTrabajadorModel.crearCuadrilla(listaAgregadosSesion, out satisfactorio);
+                    if (satisfactorio)
+                    {
+                        listaAgregadosSesion.Clear();
+                        Session["listaAgregadosCuadrilla"] = null;
+                    }
+                }
+                else
+                {
+                    respuesta = "No ha agregado trabajadores para formar la cuadrilla";
+                }
+                
                 ViewBag.respuestaPost = respuesta;
             }
+
+
 
             if (Session["listaAgregadosCuadrilla"] != null)
             {
