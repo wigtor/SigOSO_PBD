@@ -44,7 +44,7 @@
         <div class="fieldsetInterno">
         <fieldset>
             <legend>Resultados de búsqueda de trabajadores</legend>
-                <table align="center" style="width: 100%">
+            <table align="center" style="width: 100%">
                 <tr>
                     <td>
                         <b>Rut</b></td>
@@ -82,7 +82,7 @@
                             Response.Write("</td>");
 
                             Response.Write("<td>");
-                            Response.Write("<input id=\"editar_" + temp.rut + "\" name=\"editar_" + temp.rut + "\" type=\"button\" value=\"Agregar\" >");
+                            Response.Write("<input id=\"agregar_" + temp.rut + "\" name=\"editar_" + temp.rut + "\" type=\"button\" value=\"Agregar\" >");
                             Response.Write("</td>");
 
 
@@ -100,10 +100,74 @@
         <div class="fieldsetInterno">
         <fieldset>
             <legend>Trabajadores que integrarán la cuadrilla</legend>
-                
+            <table align="center" style="width: 100%">
+                <tr>
+                    <td>
+                        <b>Jefe</b></td>
+                    <td>
+                        <b>Rut</b></td>
+                    <td>
+                        <b>Nombre</b></td>
+                    <td>
+                        <b>Teléfonos</b></td>
+                    <td>
+                        <b>Estado</b></td>
+                    <td>
+                        <b>Acción</b></td>
+                </tr>
+                <%
+                    if (ViewBag.listaTrabajadores != null)
+                    {
+                        List<SigOSO_PBD.Models.ListarTrabajadorModel> resultados = (List<SigOSO_PBD.Models.ListarTrabajadorModel>)ViewBag.listaTrabajadores;
+                        foreach (SigOSO_PBD.Models.ListarTrabajadorModel temp in resultados)
+                        {
+                            Response.Write("<tr>");
+
+                            Response.Write("<td>");
+                            if (temp.Equals(resultados[0]))
+                            {
+                                Response.Write("Si");
+                            }
+                            else
+                            {
+                                Response.Write("No");
+                            }
+                            Response.Write("</td>");
+                            
+                            Response.Write("<td>");
+                            Response.Write(temp.rut);
+                            Response.Write("</td>");
+
+                            Response.Write("<td>");
+                            Response.Write(temp.nombre);
+                            Response.Write("</td>");
+
+                            Response.Write("<td>");
+                            Response.Write(temp.telefono1 + "</br>"+temp.telefono2);
+                            Response.Write("</td>");
+
+                            Response.Write("<td>");
+                            Response.Write(temp.estado);
+                            Response.Write("</td>");
+
+                            Response.Write("<td>");
+                            Response.Write("<input id=\"editar_" + temp.rut + "\" name=\"quitar_" + temp.rut + "\" type=\"submit\" value=\"Quitar\" />");
+                            Response.Write("</td>");
+
+
+                            Response.Write("</tr>");
+                        }
+
+                    }
+                %>
+            </table>
 
 
         </fieldset>
+        </div>
+
+        <div>
+            <input id="btn_crear_cuadrilla" name="btn_crear_cuadrilla" type="submit" value="Crear cuadrilla" /> 
         </div>
 
     </form>    
