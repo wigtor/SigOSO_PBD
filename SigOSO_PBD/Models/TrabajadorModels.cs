@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using SigOSO_PBD.classes;
 
 namespace SigOSO_PBD.Models
 {
@@ -44,6 +45,7 @@ namespace SigOSO_PBD.Models
 
     public class buscarTrabajadorModel
     {
+
         [Display(Name = "rut")]
         [StringLength(10, ErrorMessage = "El {0} ingresado no es válido", MinimumLength = 0)]
         public string rut_trabajador { get; set; }
@@ -56,6 +58,56 @@ namespace SigOSO_PBD.Models
     {
         [Display(Name = "estado")]
         public string estado { get; set; }
+
+
+        [Display(Name = "id")]
+        public string id_trabajador { get; set; }
+
+        public static List<ListarTrabajadorModel> getTrabajadoresForTable(string palabraBusqueda, string criterioBusqueda)
+        {
+            string query = "SELECT id_trabajador, id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, fecha_ini_contrato_trabajador, fecha_fin_contrato_trabajador, esta_activo, mail_trabajador, tel1_trabajador, tel2_trabajador, direccion_trabajador, comuna_trabajador FROM trabajador";
+            if (criterioBusqueda != null) {
+                query += " WHERE "+criterioBusqueda+"::text ILIKE '%"+palabraBusqueda+"%'";
+            }
+
+
+            List<ListarTrabajadorModel> resultado = new List<ListarTrabajadorModel>();
+            ListarTrabajadorModel temp;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                lector = DBConector.SELECT(query);
+                while (lector.Read())
+                {
+                    temp = new ListarTrabajadorModel();
+                    temp.id_trabajador = lector["id_trabajador"];
+                    temp.rut = lector["rut_trabajador"];
+                    temp.nombre = lector["nombre_trabajador"];
+                    temp.telefono1 = lector["tel1_trabajador"];
+                    temp.telefono2 = lector["tel2_trabajador"];
+                    temp.estado = lector["esta_activo"];
+                    
+                    resultado.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                temp = new ListarTrabajadorModel();
+                temp.id_trabajador = "0";
+                temp.nombre = "Error en la base de datos";
+                temp.telefono1 = "0";
+                temp.telefono2 = "0";
+                temp.estado = "Error en la DB";
+                resultado.Add(temp);
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return resultado;
+
+
+        }
 
     }
 }

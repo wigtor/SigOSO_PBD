@@ -1752,9 +1752,58 @@ namespace SigOSO_PBD.Controllers
 
 
 
-
+        [HttpGet]
         public ActionResult CrearCuadrilla()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CrearCuadrilla(string rut_trabajador, string nombre_trabajador, string btn_cargar)
+        {
+            if (btn_cargar != null)
+            {
+                ModelState.Clear();
+                if (rut_trabajador == null)
+                {
+                    ModelState.AddModelError("rut_trabajador", "No ha ingresado un rut");
+                }
+
+                if (nombre_trabajador == null)
+                {
+                    ModelState.AddModelError("nombre_trabajador", "No ha ingresado un nombre");
+                }
+
+                if ((rut_trabajador != null) && (nombre_trabajador != null))
+                {
+
+                    if ((rut_trabajador.Trim().Length == 0) && (nombre_trabajador.Trim().Length == 0))
+                    {
+                        ViewBag.listaTrabajadores = ListarTrabajadorModel.getTrabajadoresForTable(null, null);
+                    }
+                    else if (nombre_trabajador.Trim().Length > 0) //puso nombre entonces
+                    {
+                        ViewBag.listaTrabajadores = ListarTrabajadorModel.getTrabajadoresForTable(nombre_trabajador, "nombre_trabajador");
+                    }
+
+                    else if (rut_trabajador.Trim().Length > 0) //puso rut entonces
+                    {
+                        int rut_int = 0;
+                        if (Int32.TryParse(rut_trabajador, out rut_int))
+                        {
+                            ViewBag.listaTrabajadores = ListarTrabajadorModel.getTrabajadoresForTable(rut_trabajador, "rut_trabajador");
+
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rut_trabajador", "El rut ingresado no es válido");
+                        }
+                    }
+                }
+
+            }
+
             return View();
         }
 

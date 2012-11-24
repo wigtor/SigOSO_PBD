@@ -144,6 +144,19 @@ namespace SigOSO_PBD.classes
             return lector.IsDBNull(i);
         }
 
+        public string this[string nombreColumna]
+        {
+            get
+            {
+                object resultado = lector[nombreColumna];
+                if (resultado == null)
+                {
+                    return "";
+                }
+                return resultado.ToString();
+            }
+        }
+
         public void Dispose()
         {
             lector.Dispose();

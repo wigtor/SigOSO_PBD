@@ -14,6 +14,9 @@
         <div class="fieldsetInterno">
         <fieldset>
             <legend>Buscar trabajador</legend>
+            <div>
+                Escriba un rut de trabajador o su nombre para realizar una búsqueda, no inctroduzca nada para mostrarlos todos.
+            </div>
             <label>Rut trabajador</label>
                 <%
                     string rut_ingresado = "";
@@ -23,7 +26,6 @@
                     }
                 %>
                 <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.rut_trabajador, new { @class = "text" })%>
-                <input id="Submit1" type="submit" name="btn_cargar" value="Cargar"/>
                 <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.rut_trabajador)%>
 
             <label>Nombre trabajador</label>
@@ -31,6 +33,7 @@
                 <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.nombre_trabajador, new { @class = "text" })%>
                 <%: Html.ValidationMessage("nombreCliente")%>
         </fieldset>
+        <input id="Submit1" type="submit" name="btn_cargar" value="Cargar"/>
         </div>
 
         <div>
@@ -79,7 +82,7 @@
                             Response.Write("</td>");
 
                             Response.Write("<td>");
-                            Response.Write("<input id=\"editar_" + temp.rut + "\" name=\"editar_" + temp.rut + "\" type=\"button\" >");
+                            Response.Write("<input id=\"editar_" + temp.rut + "\" name=\"editar_" + temp.rut + "\" type=\"button\" value=\"Agregar\" >");
                             Response.Write("</td>");
 
 
