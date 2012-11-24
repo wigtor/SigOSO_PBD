@@ -116,9 +116,9 @@
                         <b>Acción</b></td>
                 </tr>
                 <%
-                    if (ViewBag.listaTrabajadores != null)
+                    if (ViewBag.listaTrabajadoresAgregados != null)
                     {
-                        List<SigOSO_PBD.Models.ListarTrabajadorModel> resultados = (List<SigOSO_PBD.Models.ListarTrabajadorModel>)ViewBag.listaTrabajadores;
+                        List<SigOSO_PBD.Models.ListarTrabajadorModel> resultados = (List<SigOSO_PBD.Models.ListarTrabajadorModel>)ViewBag.listaTrabajadoresAgregados;
                         foreach (SigOSO_PBD.Models.ListarTrabajadorModel temp in resultados)
                         {
                             Response.Write("<tr>\n");

@@ -1764,13 +1764,22 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult CrearCuadrilla()
         {
+            //Para borrar los datos de creaciones pasadas
+            if (Session["listaAgregadosCuadrilla"] != null)
+            {
+                List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                listaAgregadosSesion.Clear();
+                Session["listaAgregadosCuadrilla"] = null;
+            }
+
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult CrearCuadrilla(string rut_trabajador, string nombre_trabajador, string btn_cargar)
+        public ActionResult CrearCuadrilla(string rut_trabajador, string nombre_trabajador, string btn_cargar, string btn_crear_cuadrilla)
         {
-            if (btn_cargar != null)
+            if (btn_crear_cuadrilla == null) //Si se presionó cualquier botón distinto del de crear cuadrilla 
             {
                 ModelState.Clear();
                 if (rut_trabajador == null)
@@ -1811,10 +1820,102 @@ namespace SigOSO_PBD.Controllers
                     }
                 }
 
+
+                //Agrego a la lista de agregados en caso que se haya presionado un botón agregar
+                NameValueCollection col = Request.Params;
+                int rutInt = 0;
+                string nombreParam = "", valorParam = "", rutStr;
+                for (int i = 0; i < Request.Params.Count; i++)
+                {
+
+                    nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
+                    if (nombreParam.Contains("agregar_")) //Con esto omito los parámetros que no me importan
+                    {
+                        valorParam = col.Get(i); //Con esto accedo al valor del parámetro, debiese tener el texto del botón
+
+                        //Acá ya se que botón de agregar fue el presionado
+                        rutStr = nombreParam.Substring("agregar_".Length);
+                        if (Int32.TryParse(rutStr, out rutInt))
+                        {
+                            if (Session["listaAgregadosCuadrilla"] == null)
+                            {
+                                Session["listaAgregadosCuadrilla"] = new List<int>();
+                            }
+                            
+                            List<int> listaTemp = (List<int>)Session["listaAgregadosCuadrilla"];
+                            if (listaTemp.Contains(rutInt))
+                            {
+                                ViewBag.respuestaPost = "Ya ha agregado al trabajador con rut: " + rutInt + " a la lista";
+                            }
+                            else
+                            {
+                                listaTemp.Add(rutInt);
+                                ViewBag.respuestaPost = "Se ha agregado el trabajador con rut: " + rutInt + " a la lista";
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.respuestaPost = "No fue posible agregar el trabajador, problemas con su rut";
+
+                        }
+                        break;
+                    }
+                    else if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
+                    {
+                        if (Session["listaAgregadosCuadrilla"] != null)
+                        {
+                            rutStr = nombreParam.Substring("quitar_".Length);
+                            if (Int32.TryParse(rutStr, out rutInt))
+                            {
+                                List<int> listaTemp = (List<int>)Session["listaAgregadosCuadrilla"];
+                                if (listaTemp.Remove(rutInt))
+                                {
+                                    ViewBag.respuestaPost = "Se ha quitado el trabajador de la lista que conformará la cuadrilla";
+                                }
+                                else
+                                {
+                                    ViewBag.respuestaPost = "El trabajador que desea quitar no estaba agregado a la lista";
+                                }
+                            }
+                        }
+                    }
+                }
+
+
             }
+            else //Se presionó el botón crear_cuadrilla
+            {
+                List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                string respuesta = ListarTrabajadorModel.crearCuadrilla(listaAgregadosSesion);
+
+                listaAgregadosSesion.Clear();
+                Session["listaAgregadosCuadrilla"] = null;
+                ViewBag.respuestaPost = respuesta;
+            }
+
+            if (Session["listaAgregadosCuadrilla"] != null)
+            {
+                List<ListarTrabajadorModel> listaTrabajadoresAgregados = new List<ListarTrabajadorModel>();
+                List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                ListarTrabajadorModel temp;
+                foreach (int rut in listaAgregadosSesion)
+                {
+                    temp = ListarTrabajadorModel.getTrabajadorByRut(rut);
+                    if (temp != null)
+                    {
+                        listaTrabajadoresAgregados.Add(temp);
+                    }
+                }
+                ViewBag.listaTrabajadoresAgregados = listaTrabajadoresAgregados;
+            }
+            
 
             return View();
         }
+
+
+
+
 
 
     }

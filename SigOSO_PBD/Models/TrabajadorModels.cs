@@ -109,5 +109,82 @@ namespace SigOSO_PBD.Models
 
         }
 
+        public static ListarTrabajadorModel getTrabajadorByRut(int rut)
+        {
+            string query = "SELECT id_trabajador, id_perfil, rut_trabajador, nombre_trabajador, iniciales_trabajador, fecha_ini_contrato_trabajador, fecha_fin_contrato_trabajador, esta_activo, mail_trabajador, tel1_trabajador, tel2_trabajador, direccion_trabajador, comuna_trabajador FROM trabajador";
+            query += " WHERE rut_trabajador = " + rut;
+            ListarTrabajadorModel temp = null;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                lector = DBConector.SELECT(query);
+                if (lector.Read())
+                {
+                    temp = new ListarTrabajadorModel();
+                    temp.id_trabajador = lector["id_trabajador"];
+                    temp.rut = lector["rut_trabajador"];
+                    temp.nombre = lector["nombre_trabajador"];
+                    temp.telefono1 = lector["tel1_trabajador"];
+                    temp.telefono2 = lector["tel2_trabajador"];
+                    temp.estado = lector["esta_activo"];
+
+                }
+                else {
+                    temp = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                temp = new ListarTrabajadorModel();
+                temp.id_trabajador = "0";
+                temp.nombre = "Error en la base de datos";
+                temp.telefono1 = "0";
+                temp.telefono2 = "0";
+                temp.estado = "Error en la DB";
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return temp;
+
+        }
+
+
+        public static string crearCuadrilla(List<int> listaAgregadosSesion) {
+            string query = "SELECT * FROM trabajador";
+
+            string mensaje = "";
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                lector = DBConector.SELECT(query);
+                if (lector.Read())
+                {
+
+
+
+
+
+                    mensaje = "Se ha creado la cuadrilla satisfactoriamente";
+                }
+                else
+                {
+                    mensaje =  "Ha ocurrido un error al crear la cuadrilla";
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Ha ocurrido un error al crear la cuadrilla";
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+
+            return mensaje;
+        }
     }
+
+    
 }
