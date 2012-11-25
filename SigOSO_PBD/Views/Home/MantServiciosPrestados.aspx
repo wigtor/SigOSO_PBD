@@ -12,8 +12,9 @@
 
 
     <form action="" id="form1" method="post" style="height: auto;">
-        <fieldset class="condetenedor_agregar_servicio">
-            <legend>Crear nuevo servicio</legend>
+        <fieldset>
+            <legend class="condetenedor_agregar_servicio">Crear nuevo servicio</legend>
+            <legend class="condetenedor_modificar_servicio">Modificar servicio</legend>
                 <label>Nombre Servicio</label>            
                     <%: Html.TextBoxFor(nvoServicio => nvoServicio.nombreServicio)%>
                     <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.nombreServicio)%>
@@ -34,40 +35,15 @@
                        
                    } %>  
                     <%: Html.CheckBox("visibilidad1", vis1)%>
-                <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
+                <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center" class="condetenedor_agregar_servicio">
                     <input id="btn_agregar_servicio" name="btn_submit" type="submit" value="Agregar Servicio" />
                 </div>
-        </fieldset>
-
-        <fieldset class="condetenedor_modificar_servicio">
-            <legend>Modificar servicio</legend>
-                <label>Nombre Servicio</label>            
-                    <%: Html.TextBoxFor(nvoServicio => nvoServicio.nombreServicio)%>
-                    <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.nombreServicio)%>
-
-                <label>Precio pizarra</label>  
-                    <%: Html.TextBoxFor(nvoServicio => nvoServicio.precioPizarra)%>
-                    <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.precioPizarra)%>
-
-                <label>Factor bono</label>    
-                    <%: Html.TextBoxFor(nvoServicio => nvoServicio.factorBono)%>
-                    <%: Html.ValidationMessageFor(nvoServicio => nvoServicio.factorBono)%>
-
-                <label>Visibilidad</label>
-                <% bool vis2=false;
-                    if(ViewBag.VisibilidadServicio!=null){
-                       vis2=(bool)ViewBag.VisibilidadServicio;
-                       
-                   } %>  
-                    <%: Html.CheckBox("visibilidad2", vis2)%>
-                <div>
-                    <%: ViewBag.respuestaPost%>
-                </div>   
-                <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center">
+                <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;" align="center" class="condetenedor_modificar_servicio">
                     <input id="btn_modificar_servicio" name="btn_submit" type="submit" value="Guardar cambios" />
                 </div>
         </fieldset>
-        </div>
+
+
 
         <div class="fieldsetInterno">
         <fieldset>
