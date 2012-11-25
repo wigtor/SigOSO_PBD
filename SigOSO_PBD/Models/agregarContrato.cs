@@ -25,6 +25,7 @@ namespace SigOSO_PBD.Models
         [StringLength(2, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 1)]
         public string mes_ini_contrato { get; set; }
 
+
         [Display(Name = "agno_ini_contrato")]
         [StringLength(4, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 1)]
         public string agno_ini_contrato { get; set; }
@@ -118,6 +119,93 @@ namespace SigOSO_PBD.Models
             }
             return resultado;
         }
+
+
+        public static string getNombreCliente(int rut, out bool bienHecho) {
+            string query = "SELECT nombre_cliente FROM cliente WHERE rut_cliente = '" + rut + "'";
+            string resultado = "";
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                lector = DBConector.SELECT(query);
+                if (lector.Read())
+                {
+                    bienHecho = true;
+                    resultado = lector["nombre_cliente"];
+
+                }
+                else
+                {
+                    bienHecho = false;
+                    resultado = "";
+                }
+            }
+            catch (Exception)
+            {
+                bienHecho = false;
+                resultado = "";
+
+            }
+            if (lector != null)
+            {
+                lector.Dispose();
+                lector.Close();
+                lector.closeConection();
+            }
+            return resultado;
+        }
+
+
+        public static int insertContrato(int rut_cliente, string fecha_inicio, string fecha_termino, string descripcion, List<ServicioListado> listaServicios)
+        {
+            NpgsqlDataReaderWithConection id_clienteLector = null;
+            int resultado = 0;
+            int id_cliente = 0;
+            try
+            {
+                string query;
+                id_clienteLector = DBConector.SELECT("SELECT id_cliente FROM cliente WHERE rut_cliente=" + rut_cliente);
+
+                if (id_clienteLector.Read())
+                {
+                    id_cliente = id_clienteLector.GetInt32(0);
+                }
+                if (fecha_termino != null)
+                {
+                    query = "INSERT INTO contrato(id_cliente, fecha_inicio_contrato, fecha_caducidad_contrato, breve_descripcion) VALUES ('";
+                    query += id_cliente + "', '";
+                    query += fecha_inicio + "', '";
+                    query += fecha_termino + "', '";
+                    query += descripcion + "'";
+                }
+                else
+                {
+                    query = "INSERT INTO contrato(id_cliente, fecha_inicio_contrato, breve_descripcion) VALUES ('";
+                    query += id_cliente + "', '";
+                    query += fecha_inicio + "', '";
+                    query += descripcion + "')";
+                }
+                if (id_clienteLector != null)
+                {
+                    id_clienteLector.CloseTodo();
+
+                }
+
+                resultado = DBConector.INSERT(query);
+
+            }
+            catch (Exception)
+            {
+                resultado = -1;
+            }
+
+            //ACÁ HAGO UNA LLAMADA A LA FUNCIÓN QUE CREA LA RELACIÓN DE SERVICIOS CON CONTRATOS EN LA BASE DE DATOS
+
+
+            return resultado;
+
+        }
+
     }
 
 
@@ -155,6 +243,8 @@ namespace SigOSO_PBD.Models
             return resultado;
 
         }
+
+        
     }
     
 }

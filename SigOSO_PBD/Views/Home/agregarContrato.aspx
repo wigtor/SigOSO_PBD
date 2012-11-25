@@ -9,6 +9,24 @@
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
     
+    <script type="text/javascript">
+        function cambiaTieneFechaFinal(checkbox) {
+            var dia = document.getElementById('dia_caducidad_contrato');
+            var mes = document.getElementById('mes_caducidad_contrato');
+            var agno = document.getElementById('agno_caducidad_contrato');
+            if (checkbox.checked == true) {
+                dia.readOnly = false;
+                mes.readOnly = false;
+                agno.readOnly = false;
+            }
+            else {
+                dia.readOnly = true;
+                mes.readOnly = true;
+                agno.readOnly = true;
+            }
+
+        }
+    </script>
 
     <form id="form1" method="post">
         <div class="fieldsetInterno">
@@ -56,7 +74,7 @@
 
 
                 <label>Fecha caducidad contrato</label>
-                    <%: Html.CheckBox("tieneTermino_contrato", false) %>
+                    <%: Html.CheckBox("tieneTermino_contrato", false, new { @onchange="cambiaTieneFechaFinal(this)"})%>
                     <%: Html.DropDownList("dia_caducidad_contrato", (List<SelectListItem>)ViewBag.listaDias, new { @style = "width: 55px;", @readonly=true })%>
                     <%: Html.DropDownList("mes_caducidad_contrato", (List<SelectListItem>)ViewBag.listaMeses, new { @style = "width: 130px;", @readonly = true })%>
                     <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.dia_caducidad_contrato)%>
@@ -83,7 +101,7 @@
                     <label>Condición para servicio</label>
                         <%: Html.TextArea("condicion_servicio", new { @style="max-width: 600px; min-width: 600px;"})%>
 
-                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">
+                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  text-align="center">
                         <input id="btn_agregarServicio" type="submit" name="btn_agregarServicio" value="Agregar servicio" />
                     </div>
 
@@ -143,13 +161,13 @@
             <div class="fieldsetInterno">
                 <fieldset>
                     <legend>Descripción del contrato</legend>
-                    <%: Html.TextArea("descripcion_contrato", new { @style="max-width: 600px; min-width: 600px;"})%>
+                    <%: Html.TextAreaFor(nvoContrato => nvoContrato.breve_descripcion, new { @style="max-width: 600px; min-width: 600px;"})%>
                 </fieldset>
             </div>    
         </fieldset>
         </div>
-        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">
-            <input id="btn_agregarContrato" type="button" name="btn_agregarContrato" value="Agregar contrato" />
+        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  text-align="center">
+            <input id="btn_agregarContrato" type="submit" name="btn_agregarContrato" value="Agregar contrato" />
         </div>
     </form>    
 </asp:Content>

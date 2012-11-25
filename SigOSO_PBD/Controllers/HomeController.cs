@@ -341,13 +341,27 @@ namespace SigOSO_PBD.Controllers
 
 
         [HttpPost] //NO TERMINADO
-        public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar, string btn_agregarServicio, string precioPorContrato, string condicion_servicio)
+        public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar, string btn_agregarServicio, string precioPorContrato, string condicion_servicio, string btn_agregarContrato, string tieneTermino_contrato)
         {
             ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             ViewBag.listaServicios = Contrato.getAllServicios();
-            ViewBag.precioReferencia = "0";
+            int idServicio = 0;
+            if (Int32.TryParse(nvoContrato.servicioSeleccionado, out idServicio))
+            {
+                //ViewBag.selectedServicio = idServicio.ToString();
+                if (idServicio > 0)
+                {
+                    ViewBag.precioReferencia = Contrato.getPrecioServicio(idServicio).ToString();
+                }
+                else
+                    ViewBag.precioReferencia = "0";
+            }
+            else
+            {
+                ViewBag.precioReferencia = "0";
+            }
 
             if (btn_cargar != null)
             {
@@ -358,38 +372,20 @@ namespace SigOSO_PBD.Controllers
                 {
                     if (ModelState.IsValidField("rutCliente"))
                     {
-                        string query = "SELECT rut_cliente, nombre_cliente FROM cliente WHERE rut_cliente = '" + nvoContrato.rutCliente + "'";
-                        NpgsqlDataReaderWithConection lector = null;
-                        try
-                        {
-                            lector = DBConector.SELECT(query);
-                            if (lector.Read())
-                            {
-                                ModelState.Clear();
-                                nvoContrato.rutCliente = lector["rut_cliente"];
-                                ViewBag.nombreCliente = lector["nombre_cliente"];
-
-                                lector.Dispose();
-                                lector.Close();
-                                lector.closeConection();
-                                return View(nvoContrato);
-                            }
-                            else
+                        int rut = 0;
+                        bool satisf = false;
+                        if (!Int32.TryParse(nvoContrato.rutCliente, out rut)) {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rutCliente", "El rut ingresado no es válido");
+                            ViewBag.nombreCliente = "";
+                        }
+                        else {
+                            ViewBag.nombreCliente = Contrato.getNombreCliente(rut, out satisf);
+                            if (!satisf)
                             {
                                 ModelState.Clear();
                                 ModelState.AddModelError("rutCliente", "El rut insertado no existe");
                             }
-                        }
-                        catch (Exception)
-                        {
-                            ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
-
-                        }
-                        if (lector != null)
-                        {
-                            lector.Dispose();
-                            lector.Close();
-                            lector.closeConection();
                         }
                     }
                     else
@@ -398,6 +394,10 @@ namespace SigOSO_PBD.Controllers
                         ModelState.Clear();
                         ModelState.AddModelError("rutCliente", mensaje);
                     }
+
+
+                    
+
                 }
             }
             else if (btn_agregarServicio != null)
@@ -422,7 +422,11 @@ namespace SigOSO_PBD.Controllers
                     string mensaje = "El precio del servicio no es válido";
                     ModelState.AddModelError("precioPorContrato", mensaje);
                 }
-                
+                else if (enteroTemp < 0)
+                {
+                    string mensaje = "El precio del servicio no es válido";
+                    ModelState.AddModelError("precioPorContrato", mensaje);
+                }
                 else
                 {
 
@@ -437,6 +441,17 @@ namespace SigOSO_PBD.Controllers
                         listaTemp = (List<ServicioListado>)Session["listaServicios"];
                     }
 
+                    idServicio = 0;
+                    if (Int32.TryParse(nvoContrato.servicioSeleccionado, out idServicio))
+                    {
+                        //ViewBag.selectedServicio = idServicio.ToString();
+                        ViewBag.precioReferencia = Contrato.getPrecioServicio(idServicio).ToString();
+                    }
+                    else
+                    {
+                        ViewBag.precioReferencia = "0";
+                    }
+
                     ServicioListado servicioNvo = new ServicioListado();
                     servicioNvo.descripcion = condicion_servicio;
                     int idServicioSeleccionado = 0;
@@ -447,6 +462,109 @@ namespace SigOSO_PBD.Controllers
                     listaTemp.Add(servicioNvo);
                     ViewBag.listaServiciosAgregados = listaTemp;
                 }
+            }
+            else if (btn_agregarContrato != null) //Agrego el contrato
+            {
+                if (ModelState.IsValidField("rutCliente"))
+                {
+                    int rut = 0;
+                    bool satisf = false;
+                    if (!Int32.TryParse(nvoContrato.rutCliente, out rut))
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("rutCliente", "El rut ingresado no es válido");
+                        ViewBag.nombreCliente = "";
+                    }
+                    else
+                    {
+                        ViewBag.nombreCliente = Contrato.getNombreCliente(rut, out satisf);
+                        if (!satisf)
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError("rutCliente", "El rut insertado no existe");
+                        }
+                        else
+                        {
+                            List<ServicioListado> listaTemp;
+                            if (Session["listaServicios"] == null)
+                            {
+                                ViewBag.respuestaPost = "No posee una lista de servicios para el nuevo contrato";
+
+                            }
+                            else if (((List<ServicioListado>)Session["listaServicios"]).Count == 0)
+                            {
+                                ViewBag.respuestaPost = "Posee una lista de servicios para el nuevo contrato vacia";
+
+                            }
+                            else
+                            {
+                                listaTemp = (List<ServicioListado>)Session["listaServicios"];
+
+                                //ahora compruebo las fechas de contrato
+                                int agnoInt = 0;
+                                if (Int32.TryParse(nvoContrato.agno_ini_contrato, out agnoInt))
+                                {
+                                    if ((agnoInt >= 1900) && (agnoInt <= 2100))
+                                    {
+                                        string fecha_ini = nvoContrato.dia_ini_contrato + "-" + nvoContrato.mes_ini_contrato + "-" + nvoContrato.agno_ini_contrato;
+                                        string fecha_fin = null;
+                                        //Camino CORRECTO HASTA AHORA
+                                        if (tieneTermino_contrato.Contains("true"))
+                                        {
+                                            //Camino correcto, tomo en cuenta la fecha de fin del contrato
+                                            fecha_fin = nvoContrato.dia_caducidad_contrato + "-" + nvoContrato.mes_caducidad_contrato + "-" + nvoContrato.agno_caducidad_contrato;
+                                        }
+                                        else
+                                        {
+                                            //Camino correcto, no tomo en cuenta la fecha de fin de contrato
+                                        }
+                                        ViewBag.respuestaPost = "Se ha creado el contrato";
+                                        if (Contrato.insertContrato(rut, fecha_ini, fecha_fin, nvoContrato.breve_descripcion, listaTemp) <= 0)
+                                        {
+                                            ViewBag.respuestaPost = "No se ha podido realizar la creación del contrato";
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        ModelState.AddModelError("agno_ini_contrato", "El año de inicio de contrato no está en el rango");
+                                        
+                                    }
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("agno_ini_contrato", "El año de inicio de contrato no es válido");
+                                }
+                            }
+
+
+
+
+
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    string mensaje = "El rut ingresado no es válido";
+                    ModelState.Clear();
+                    ModelState.AddModelError("rutCliente", mensaje);
+                }
+
+
+
+                List<ServicioListado> listaTemp2 = null;
+                if (Session["listaServicios"] == null)
+                {
+                    listaTemp2 = new List<ServicioListado>();
+                    Session["listaServicios"] = listaTemp2;
+                }
+                else
+                {
+                    listaTemp2 = (List<ServicioListado>)Session["listaServicios"];
+                }
+                ViewBag.listaServiciosAgregados = listaTemp2;
             }
             else
             {
@@ -470,7 +588,8 @@ namespace SigOSO_PBD.Controllers
                                 List<ServicioListado> listaTemp = (List<ServicioListado>)Session["listaServicios"];
                                 bool encontrado = false;
                                 int posicion = 0;
-                                foreach(ServicioListado temp in listaTemp) {
+                                foreach (ServicioListado temp in listaTemp)
+                                {
                                     if (temp.id_servicio.Equals(idServStr))
                                     {
                                         encontrado = true;
@@ -498,7 +617,7 @@ namespace SigOSO_PBD.Controllers
                 ViewBag.listaServiciosAgregados = Session["listaServicios"];
 
                 ModelState.Clear();
-                int idServicio = 0;
+                idServicio = 0;
                 if (Int32.TryParse(nvoContrato.servicioSeleccionado, out idServicio))
                 {
                     //ViewBag.selectedServicio = idServicio.ToString();

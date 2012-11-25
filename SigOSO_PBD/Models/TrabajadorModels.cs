@@ -90,7 +90,7 @@ namespace SigOSO_PBD.Models
                     resultado.Add(temp);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 temp = new ListarTrabajadorModel();
                 temp.id_trabajador = "0";
@@ -133,7 +133,7 @@ namespace SigOSO_PBD.Models
                     temp = null;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 temp = new ListarTrabajadorModel();
                 temp.id_trabajador = "0";
@@ -193,7 +193,7 @@ namespace SigOSO_PBD.Models
                     mensaje =  "Ha ocurrido un error al crear la cuadrilla";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 satisfactorio = false;
                 mensaje = "Ha ocurrido un error al crear la cuadrilla";
