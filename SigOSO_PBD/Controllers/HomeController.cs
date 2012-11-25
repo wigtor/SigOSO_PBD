@@ -337,7 +337,7 @@ namespace SigOSO_PBD.Controllers
 
 
         [HttpPost] //NO TERMINADO
-        public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar, string btn_agregarCondicion, string precioPorContrato, string condicion_servicio)
+        public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar, string btn_agregarServicio, string precioPorContrato, string condicion_servicio)
         {
             ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
@@ -393,8 +393,11 @@ namespace SigOSO_PBD.Controllers
                     }
                 }
             }
-            else if (btn_agregarCondicion != null)
+            else if (btn_agregarServicio != null)
             {
+                //COMPROBAR SI HAY PRECIO ACORDADO
+
+                ModelState.Clear();
                 List<ServicioListado> listaTemp = null;
                 if (Session["listaServicios"] == null)
                 {

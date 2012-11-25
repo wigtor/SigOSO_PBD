@@ -77,14 +77,14 @@
                         <%: Html.TextBox("precioReferencia", (string)ViewBag.precioReferencia, new { @class = "text", @style = "width: 100px;", @readonly = "true" })%>
                         
                     <label>Precio acordado en contrato</label>
-                        <%: Html.TextBox("precioPorContrato", "", new { @class = "text", @style = "width: 100px;"})%>
+                        <%: Html.TextBox("precioPorContrato", (string)ViewBag.precioReferencia, new { @class = "text", @style = "width: 100px;"})%>
 
 
                     <label>Condición para servicio</label>
                         <%: Html.TextArea("condicion_servicio", new { @style="max-width: 600px; min-width: 600px;"})%>
 
                     <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">
-                        <input id="btn_agregarCondicion" type="button" name="btn_agregarCondicion" value="Agregar servicio" />
+                        <input id="btn_agregarServicio" type="submit" name="btn_agregarServicio" value="Agregar servicio" />
                     </div>
 
                 </fieldset>
@@ -93,20 +93,51 @@
                 <div class="fieldsetInterno">
                 <fieldset>
                     <legend>Servicios del contrato</legend>
+                    <table style="width: 100%">
+                        <tr>
+                            <td>
+                                <b>Servicio</b></td>
+                            <td>
+                                <b>Precio a cobrar</b></td>
+                            <td>
+                                <b>Acción</b></td>
+                        </tr>
+                        <%  if (ViewBag.listaServiciosAgregados != null)
+                            {
+                                List<SigOSO_PBD.Models.ServicioListado> resultados = (List<SigOSO_PBD.Models.ServicioListado>)ViewBag.listaServiciosAgregados;
+                                foreach (SigOSO_PBD.Models.ServicioListado temp in resultados)
+                                {
+                                    Response.Write("<tr>");
+                
+                                    Response.Write("<td>");
+                                    Response.Write(temp.id_servicio); //debe ir el nombre
+                                    Response.Write("</td>");
 
+                                    Response.Write("<td>");
+                                    Response.Write(temp.precio_acordado);
+                                    Response.Write("</td>");
 
-                    <%  if (ViewBag.listaServiciosAgregados != null)
-                        {
-                            Response.Write(ViewBag.listaServiciosAgregados);                       
-                        }
-                    %>
+                                    Response.Write("<td>");
+                                    Response.Write("<input id=\"Submit1\" name=\"quitar_" + temp.id_servicio + "\" type=\"submit\" value=\"Quitar\" />");
+                                    Response.Write("</td>");
+
+                                    Response.Write("</tr>");
+                                }
+
+                            }
+                        %>
+    </table>
+
+                    
                 </fieldset>
                 </div>
 
                 
         </fieldset>
         </div>
-
+        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">
+            <input id="btn_agregarContrato" type="button" name="btn_agregarContrato" value="Agregar contrato" />
+        </div>
     </form>    
 </asp:Content>
 
