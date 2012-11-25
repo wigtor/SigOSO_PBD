@@ -126,13 +126,20 @@
 
                             }
                         %>
-    </table>
+                    </table>
 
                     
                 </fieldset>
                 </div>
 
-                
+            
+
+            <div class="fieldsetInterno">
+                <fieldset>
+                    <legend>Descripción del contrato</legend>
+                    <%: Html.TextArea("descripcion_contrato", new { @style="max-width: 600px; min-width: 600px;"})%>
+                </fieldset>
+            </div>    
         </fieldset>
         </div>
         <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  align="center">

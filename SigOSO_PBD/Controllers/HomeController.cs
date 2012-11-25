@@ -331,7 +331,11 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaMeses = getListaMeses();
             ViewBag.listaServicios = Contrato.getAllServicios();
             ViewBag.precioReferencia = "0";
-
+            if (Session["listaServicios"] != null)
+            {
+                ((List<ServicioListado>)Session["listaServicios"]).Clear();
+                Session["listaServicios"] = null;
+            }
             return View();
         }
 
@@ -347,6 +351,9 @@ namespace SigOSO_PBD.Controllers
 
             if (btn_cargar != null)
             {
+
+                ViewBag.listaServiciosAgregados = Session["listaServicios"];
+                
                 if (btn_cargar.Equals("Cargar")) //Se esta cargando un cliente
                 {
                     if (ModelState.IsValidField("rutCliente"))
@@ -419,6 +426,53 @@ namespace SigOSO_PBD.Controllers
             }
             else
             {
+                //Verifico si es un botón "quitar"
+                NameValueCollection col = Request.Params;
+                int idServ = 0;
+                string nombreParam = "", idServStr;
+                for (int i = 0; i < Request.Params.Count; i++)
+                {
+
+                    nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
+                    if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
+                    {
+                        if (Session["listaServicios"] != null)
+                        {
+
+
+                            idServStr = nombreParam.Substring("quitar_".Length);
+                            if (Int32.TryParse(idServStr, out idServ))
+                            {
+                                List<ServicioListado> listaTemp = (List<ServicioListado>)Session["listaServicios"];
+                                bool encontrado = false;
+                                int posicion = 0;
+                                foreach(ServicioListado temp in listaTemp) {
+                                    if (temp.id_servicio.Equals(idServStr))
+                                    {
+                                        encontrado = true;
+                                        break;
+                                    }
+                                    posicion++;
+                                }
+
+                                if (encontrado)
+                                {
+                                    listaTemp.RemoveAt(posicion);
+                                    ViewBag.respuestaPost = "Se ha quitado el servicio de la lista de servicios para el contrato";
+                                }
+                                else
+                                {
+                                    ViewBag.respuestaPost = "El servicio no estaba agregado a la lista de servicios para el contrato";
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+                ViewBag.listaServiciosAgregados = Session["listaServicios"];
+
                 ModelState.Clear();
                 int idServicio = 0;
                 if (Int32.TryParse(nvoContrato.servicioSeleccionado, out idServicio))
