@@ -124,9 +124,37 @@ namespace SigOSO_PBD.Models
     public class ServicioListado
     {
         public string id_servicio { get; set; }
+        public string nombre_servicio { get; set; }
         public string precio_acordado { get; set; }
         public string descripcion { get; set; }
 
+
+        public static string getNombreServicio(int idServicio)
+        {
+            NpgsqlDataReaderWithConection precio = null;
+            string resultado = "";
+            try
+            {
+                precio = DBConector.SELECT("SELECT nombre_servicio FROM servicio WHERE id_servicio=" + idServicio);
+
+                if (precio.Read())
+                {
+                    resultado = precio.GetString(0);
+                }
+            }
+            catch (Exception)
+            {
+                resultado = "";
+            }
+            if (precio != null)
+            {
+                precio.Dispose();
+                precio.Close();
+                precio.closeConection();
+            }
+            return resultado;
+
+        }
     }
     
 }

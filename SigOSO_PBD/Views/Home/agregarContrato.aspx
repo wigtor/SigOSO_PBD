@@ -70,15 +70,15 @@
                     <legend>Servicios a prestar en contrato</legend>
                     
                     <label>Seleccione un servicio para agregar</label>
-
                         <%: Html.DropDownListFor(nvoContrato => nvoContrato.servicioSeleccionado, (List<SelectListItem>)ViewBag.listaServicios, new { @style = "width: 70%;", @onchange = "submit()" })%>
+                        <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.servicioSeleccionado)%>
 
                     <label>Precio referencia del servicio</label>
                         <%: Html.TextBox("precioReferencia", (string)ViewBag.precioReferencia, new { @class = "text", @style = "width: 100px;", @readonly = "true" })%>
                         
                     <label>Precio acordado en contrato</label>
                         <%: Html.TextBox("precioPorContrato", (string)ViewBag.precioReferencia, new { @class = "text", @style = "width: 100px;"})%>
-
+                        <%: Html.ValidationMessage("precioPorContrato")%>
 
                     <label>Condición para servicio</label>
                         <%: Html.TextArea("condicion_servicio", new { @style="max-width: 600px; min-width: 600px;"})%>
@@ -96,7 +96,9 @@
                     <table style="width: 100%">
                         <tr>
                             <td>
-                                <b>Servicio</b></td>
+                                <b>N° servicio</b></td>
+                            <td>
+                                <b>Nombre del servicio</b></td>
                             <td>
                                 <b>Precio a cobrar</b></td>
                             <td>
@@ -113,6 +115,10 @@
                                     Response.Write(temp.id_servicio); //debe ir el nombre
                                     Response.Write("</td>");
 
+                                    Response.Write("<td>");
+                                    Response.Write(temp.nombre_servicio); //debe ir el nombre
+                                    Response.Write("</td>");
+                                    
                                     Response.Write("<td>");
                                     Response.Write(temp.precio_acordado);
                                     Response.Write("</td>");

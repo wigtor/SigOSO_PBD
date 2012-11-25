@@ -402,27 +402,51 @@ namespace SigOSO_PBD.Controllers
             }
             else if (btn_agregarServicio != null)
             {
-                //COMPROBAR SI HAY PRECIO ACORDADO
-
                 ModelState.Clear();
-                List<ServicioListado> listaTemp = null;
-                if (Session["listaServicios"] == null)
+
+                //COMPROBAR SI HAY PRECIO ACORDADO
+                int enteroTemp = 0;
+                if (!Int32.TryParse(nvoContrato.servicioSeleccionado, out enteroTemp))
                 {
-                    listaTemp = new List<ServicioListado>();
-                    Session["listaServicios"] = listaTemp;
+                    string mensaje = "El servicio seleccionado no es válido";
+                    ModelState.AddModelError("servicioSeleccionado", mensaje);
                 }
+                else if (enteroTemp < 0)
+                {
+                    string mensaje = "El servicio seleccionado no es válido";
+                    ModelState.AddModelError("servicioSeleccionado", mensaje);
+
+                }
+                else if (!Int32.TryParse(precioPorContrato, out enteroTemp))
+                {
+                    string mensaje = "El precio del servicio no es válido";
+                    ModelState.AddModelError("precioPorContrato", mensaje);
+                }
+                
                 else
                 {
-                    listaTemp = (List<ServicioListado>)Session["listaServicios"];
+
+                    List<ServicioListado> listaTemp = null;
+                    if (Session["listaServicios"] == null)
+                    {
+                        listaTemp = new List<ServicioListado>();
+                        Session["listaServicios"] = listaTemp;
+                    }
+                    else
+                    {
+                        listaTemp = (List<ServicioListado>)Session["listaServicios"];
+                    }
+
+                    ServicioListado servicioNvo = new ServicioListado();
+                    servicioNvo.descripcion = condicion_servicio;
+                    int idServicioSeleccionado = 0;
+                    Int32.TryParse(nvoContrato.servicioSeleccionado, out idServicioSeleccionado);
+                    servicioNvo.nombre_servicio = ServicioListado.getNombreServicio(idServicioSeleccionado);
+                    servicioNvo.precio_acordado = precioPorContrato;
+                    servicioNvo.id_servicio = nvoContrato.servicioSeleccionado;
+                    listaTemp.Add(servicioNvo);
+                    ViewBag.listaServiciosAgregados = listaTemp;
                 }
-
-                ServicioListado servicioNvo = new ServicioListado();
-                servicioNvo.descripcion = condicion_servicio;
-                servicioNvo.precio_acordado = precioPorContrato;
-                servicioNvo.id_servicio = nvoContrato.servicioSeleccionado;
-                listaTemp.Add(servicioNvo);
-                ViewBag.listaServiciosAgregados = listaTemp;
-
             }
             else
             {
@@ -487,7 +511,7 @@ namespace SigOSO_PBD.Controllers
 
                 return View(nvoContrato);
             }
-            return View();
+            return View(nvoContrato);
         }
 
 
