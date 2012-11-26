@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 
 namespace SigOSO_PBD.Controllers
 {
+    [Authorize(Roles = "administrador")]
     public class HomeController : Controller
     {
 
