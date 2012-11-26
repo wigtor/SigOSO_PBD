@@ -1361,6 +1361,7 @@ namespace SigOSO_PBD.Controllers
                     ViewBag.VisibilidadServicio = lector.GetBoolean(lector.GetOrdinal("visibilidad_servicio"));
                     lector.Dispose();
                     lector.Close();
+                    lector.closeConection();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
                     ViewBag.respuestaPost = "";
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
@@ -1386,6 +1387,9 @@ namespace SigOSO_PBD.Controllers
             ViewBag.respuestaPost = "";
             ViewBag.tabla = agregarServicioModel.generarTablaServicios();
             Session["servicioEditar"] = id_servicio_actual;
+            lector.Dispose();
+            lector.Close();
+            lector.closeConection();
             return View(nvoServicio);
         }
 
@@ -1418,6 +1422,9 @@ namespace SigOSO_PBD.Controllers
                     ModelState.Clear();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
+                    lector.Dispose();
+                    lector.Close();
+                    lector.closeConection();
                     return View();
                 }
                 catch (Exception)
@@ -1471,6 +1478,9 @@ namespace SigOSO_PBD.Controllers
                     ModelState.Clear();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
+                    lector.Dispose();
+                    lector.Close();
+                    lector.closeConection();
                     return View();
                 }
                 catch (Exception)
