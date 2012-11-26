@@ -38,6 +38,7 @@
             <div class="span9 titulo-seccion">            
                 <asp:ContentPlaceHolder ID="TitleContent" runat="server" />            
             </div>
+            <div id="contenedor_respuesta_vista"></div>
             <div class="span9">
                 <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             </div>
@@ -49,8 +50,20 @@
         <%
             if (ViewBag.respuestaPost!= null) {%>
                 var mensaje = <% Response.Write("\""+ViewBag.respuestaPost+"\""); %>;
-                if (mensaje != "") {
-                    alert(mensaje);
+                if (mensaje != "") {                
+                    if(false){
+                        //satisfactorio
+                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Satisfactorio!</strong> "+mensaje+"</div>";
+                    }else if(false){
+                        //error
+                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Error!</strong> "+mensaje+"</div>";
+                    }else if(false){
+                        //peligro
+                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Advertencia!</strong> "+mensaje+"</div>";
+                    }else{
+                        //info
+                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";
+                    }
                 }
             <%}
          %>
