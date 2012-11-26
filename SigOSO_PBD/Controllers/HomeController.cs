@@ -340,7 +340,7 @@ namespace SigOSO_PBD.Controllers
         }
 
 
-        [HttpPost] //NO TERMINADO
+        [HttpPost]
         public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar, string btn_agregarServicio, string precioPorContrato, string condicion_servicio, string btn_agregarContrato, string tieneTermino_contrato)
         {
             ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
@@ -404,7 +404,6 @@ namespace SigOSO_PBD.Controllers
             {
                 ModelState.Clear();
 
-                //COMPROBAR SI HAY PRECIO ACORDADO
                 int enteroTemp = 0;
                 if (!Int32.TryParse(nvoContrato.servicioSeleccionado, out enteroTemp))
                 {
@@ -446,6 +445,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         //ViewBag.selectedServicio = idServicio.ToString();
                         ViewBag.precioReferencia = Contrato.getPrecioServicio(idServicio).ToString();
+                        
                     }
                     else
                     {
@@ -459,7 +459,21 @@ namespace SigOSO_PBD.Controllers
                     servicioNvo.nombre_servicio = ServicioListado.getNombreServicio(idServicioSeleccionado);
                     servicioNvo.precio_acordado = precioPorContrato;
                     servicioNvo.id_servicio = nvoContrato.servicioSeleccionado;
-                    listaTemp.Add(servicioNvo);
+                    bool esta = false;
+                    foreach (ServicioListado servTemp in listaTemp)
+                    {
+                        if (servTemp.id_servicio.Equals(servicioNvo.id_servicio)) {
+                            esta = true;
+                        }
+                    }
+                    if (esta)
+                    {
+                        ModelState.AddModelError("servicioSeleccionado", "El servicio seleccionado ya estaba agregado");
+                    }
+                    else
+                    {
+                        listaTemp.Add(servicioNvo);
+                    }
                     ViewBag.listaServiciosAgregados = listaTemp;
                 }
             }
@@ -523,6 +537,10 @@ namespace SigOSO_PBD.Controllers
                                         {
                                             ViewBag.respuestaPost = "No se ha podido realizar la creación del contrato";
                                         }
+
+                                        //CAMINO FELIZ
+                                        return RedirectToAction("Index", "home");
+
 
                                     }
                                     else

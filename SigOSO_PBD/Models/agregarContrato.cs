@@ -202,9 +202,14 @@ namespace SigOSO_PBD.Models
         public static int insertarPrecioServicios(int idContrato, List<ServicioListado> listaServicios)
         {
             int cantidadInsertada = 0;
+            //string query = "INSERT INTO precio_servicio( id_servicio, id_contrato, precio_acordado) VALUES ('";
+            string query = "INSERT INTO precio_servicio( id_servicio, id_contrato, precio_acordado, detalle_condicion) VALUES ('";
+            string queryCompleta;
             foreach (ServicioListado temp in listaServicios)
             {
-                cantidadInsertada += 1;
+                //queryCompleta = query + temp.id_servicio + "', '"+idContrato+"', '"+temp.precio_acordado+"')";
+                queryCompleta = query + temp.id_servicio + "', '" + idContrato + "', '" + temp.precio_acordado + "', '"+temp.descripcion+"')";
+                cantidadInsertada += DBConector.INSERT(queryCompleta);
             }
             return cantidadInsertada;
         }
