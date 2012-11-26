@@ -1411,9 +1411,9 @@ namespace SigOSO_PBD.Controllers
                         ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                         return View(nvoServicio);
                     }
-                    int cantidadInsertada = DBConector.INSERT(query);
+                    int cantidadInsertada = DBConector.INSERT(query);                    
+                    ViewBag.respuestaPost = "El servicio '" + nvoServicio.nombreServicio + "' se creo de manera satisfactoria";
                     ModelState.Clear();
-                    ViewBag.respuestaPost = "";
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                     return View();
@@ -1463,9 +1463,10 @@ namespace SigOSO_PBD.Controllers
                             return View();
                         }
                     }
-                    ModelState.Clear();
+                    
                     int cantidadInsertada = DBConector.UPDATE(query);
-                    ViewBag.respuestaPost = "";
+                    ViewBag.respuestaPost = "El servicio '" + nvoServicio.nombreServicio + "' se actualizo de manera satisfactoria";
+                    ModelState.Clear();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     return View();
