@@ -50,19 +50,23 @@
         <%
             if (ViewBag.respuestaPost!= null) {%>
                 var mensaje = <% Response.Write("\""+ViewBag.respuestaPost+"\""); %>;
-                if (mensaje != "") {                
-                    if(false){
-                        //satisfactorio
-                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Satisfactorio!</strong> "+mensaje+"</div>";
-                    }else if(false){
-                        //error
-                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Error!</strong> "+mensaje+"</div>";
-                    }else if(false){
-                        //peligro
-                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Advertencia!</strong> "+mensaje+"</div>";
-                    }else{
-                        //info
-                        document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";
+                if (mensaje != "") {   
+                    document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";
+                    if(viewBag.tipoRespuestaPos!=null){  
+                        var tipo_alert = <% Response.Write("\""+ViewBag.tipoRespuestaPos+"\""); %>;      
+                        if(tipo_alert=="satisfactorio"){
+                            //satisfactorio
+                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Satisfactorio!</strong> "+mensaje+"</div>";
+                        }else if(tipo_alert=="error"){
+                            //error
+                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Error!</strong> "+mensaje+"</div>";
+                        }else if(tipo_alert=="advertencia"){
+                            //advertencia
+                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Advertencia!</strong> "+mensaje+"</div>";
+                        }else if(tipo_alert=="informacion"){
+                            //informacion
+                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";
+                        }
                     }
                 }
             <%}
