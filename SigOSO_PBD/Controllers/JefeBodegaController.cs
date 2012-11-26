@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace SigOSO_PBD.Controllers
 {
+    [Authorize(Roles = "Jefe_bodega")]
     public class JefeBodegaController : Controller
     {
         //
