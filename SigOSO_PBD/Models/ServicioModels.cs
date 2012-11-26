@@ -58,7 +58,7 @@ namespace SigOSO_PBD.Models
                     {
                         respuesta += "<td>" + "<input type='checkbox' disabled='true'>" + "</td>";
                     }
-                    respuesta += "<td>" + "<input name='btn_submit' type='submit' value='editar " + servicios.GetInt32(servicios.GetOrdinal("id_servicio")).ToString() + "'/>" + "</td>";
+                    respuesta += "<td>" + "<input name='editar_" + servicios.GetInt32(servicios.GetOrdinal("id_servicio")).ToString() + "' type='submit' value='editar '/>" + "</td>";
                     respuesta += "</tr>";
                 }
                 respuesta += "</table>";

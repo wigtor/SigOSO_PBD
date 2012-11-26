@@ -1314,7 +1314,20 @@ namespace SigOSO_PBD.Controllers
         
         
         public ActionResult cargarServicio(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio) {
-            string query = "SELECT * FROM servicio WHERE id_servicio='" + btn_submit.Split(' ')[1] + "'";
+            //Agrego a la lista de agregados en caso que se haya presionado un botón agregar
+            NameValueCollection col = Request.Params;
+            string nombreParam = "", valorParam = "", id_servicio_actual="";
+            for (int i = 0; i < Request.Params.Count; i++)
+            {
+                nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
+                if (nombreParam.Contains("editar_")) //Con esto omito los parámetros que no me importan
+                {
+                    valorParam = col.Get(i); //Con esto accedo al valor del parámetro, debiese tener el texto del botón
+                    //Acá ya se que botón de agregar fue el presionado
+                    id_servicio_actual = nombreParam.Substring("editar_".Length);                   
+                }
+            }
+            string query = "SELECT * FROM servicio WHERE id_servicio='" + id_servicio_actual + "'";
             NpgsqlDataReaderWithConection lector = null;
             try
             {
@@ -1331,7 +1344,7 @@ namespace SigOSO_PBD.Controllers
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
                     ViewBag.respuestaPost = "";
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
-                    Session["servicioEditar"] = btn_submit.Split(' ')[1];                    
+                    Session["servicioEditar"] = id_servicio_actual;                    
                     return View(nvoServicio);
                 }
                 else
@@ -1352,7 +1365,7 @@ namespace SigOSO_PBD.Controllers
             ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
             ViewBag.respuestaPost = "";
             ViewBag.tabla = agregarServicioModel.generarTablaServicios();
-            Session["servicioEditar"] = btn_submit.Split(' ')[1];
+            Session["servicioEditar"] = id_servicio_actual;
             return View(nvoServicio);
         }
 
@@ -1405,7 +1418,7 @@ namespace SigOSO_PBD.Controllers
         }
 
         public ActionResult modificarServicio(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio)
-        {
+        {           
             if (ModelState.IsValid)
             {
                 string activado = visibilidad2;
@@ -1429,7 +1442,6 @@ namespace SigOSO_PBD.Controllers
                             lector.closeConection();
                             ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
                             ViewBag.tabla = agregarServicioModel.generarTablaServicios();
-                            ViewBag.id_servicio = "<input name='id_servicio'  type='submit' value='" + btn_submit.Split(' ')[1] + "'/>";
                             return View();
                         }
                     }
@@ -1438,7 +1450,6 @@ namespace SigOSO_PBD.Controllers
                     ViewBag.respuestaPost = "";
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
-                    ViewBag.id_servicio = "<input name='id_servicio'  type='submit' value='" + btn_submit.Split(' ')[1] + "'/>";
                     return View();
                 }
                 catch (Exception)
@@ -1461,17 +1472,19 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult MantServiciosPrestados(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio)
         {
-            if (btn_submit.Equals("Agregar Servicio"))
+            if (btn_submit != null)
             {
-                return agregarServicio(nvoServicio, btn_submit, visibilidad1, visibilidad2, id_servicio);            
+                if (btn_submit.Equals("Agregar Servicio"))
+                {
+                    return agregarServicio(nvoServicio, btn_submit, visibilidad1, visibilidad2, id_servicio);
+                }
+                if (btn_submit.Equals("Guardar cambios"))
+                {
+                    return modificarServicio(nvoServicio, btn_submit, visibilidad1, visibilidad2, id_servicio);
+                }
             }
-            if (btn_submit.Split(' ')[0].Equals("editar"))
-            {
-                return cargarServicio(nvoServicio, btn_submit, visibilidad1, visibilidad2, id_servicio);
-            }
-            if (btn_submit.Equals("Guardar cambios"))
-            {
-                return modificarServicio(nvoServicio, btn_submit, visibilidad1, visibilidad2, id_servicio);
+            else {
+                return cargarServicio(nvoServicio, btn_submit, visibilidad1, visibilidad2, id_servicio);                
             }
             ViewBag.respuestaPost = "";
             ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
