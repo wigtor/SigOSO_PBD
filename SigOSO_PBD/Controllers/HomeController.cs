@@ -1343,12 +1343,13 @@ namespace SigOSO_PBD.Controllers
                     nvoServicio.nombreServicio = lector.GetString(lector.GetOrdinal("nombre_servicio"));
                     nvoServicio.precioPizarra = lector.GetInt32(lector.GetOrdinal("precio_pizarra")).ToString();
                     nvoServicio.factorBono = lector.GetDouble(lector.GetOrdinal("factor_bono_trabajador")).ToString();
+                    ViewBag.VisibilidadServicio = lector.GetBoolean(lector.GetOrdinal("visibilidad_servicio"));
                     lector.Dispose();
                     lector.Close();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
                     ViewBag.respuestaPost = "";
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
-                    Session["servicioEditar"] = btn_submit.Split(' ')[1];
+                    Session["servicioEditar"] = btn_submit.Split(' ')[1];                    
                     return View(nvoServicio);
                 }
                 else
@@ -1398,6 +1399,7 @@ namespace SigOSO_PBD.Controllers
                         return View(nvoServicio);
                     }
                     int cantidadInsertada = DBConector.INSERT(query);
+                    ModelState.Clear();
                     ViewBag.respuestaPost = "";
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
@@ -1429,27 +1431,31 @@ namespace SigOSO_PBD.Controllers
                 NpgsqlDataReaderWithConection lector = null;
                 try
                 {
-                    string query2 = "SELECT * FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
+                    string query2 = "SELECT id_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "'";
                     lector = DBConector.SELECT(query2);
                     if (lector.HasRows)
                     {
-                        lector.GetInt32(lector.GetOrdinal("id_servicio")).ToString();
-                        Session["servicioEditar"].ToString();
-                        if (lector.GetInt32(lector.GetOrdinal("id_servicio")).ToString() != Session["servicioEditar"].ToString())
+                        
+                        query2 = "SELECT id_servicio FROM servicio WHERE nombre_servicio = '" + nvoServicio.nombreServicio + "' AND id_servicio = '" + Session["servicioEditar"] + "'";
+                        lector = DBConector.SELECT(query2);
+
+                        if (!lector.HasRows)
                         {
                             ModelState.AddModelError("nombreServicio", "Ya existe un servicio con ese nombre");
                             lector.Dispose();
                             lector.Close();
                             lector.closeConection();
-                            ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
+                            ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
                             ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                             ViewBag.id_servicio = "<input name='id_servicio'  type='submit' value='" + btn_submit.Split(' ')[1] + "'/>";
                             return View();
                         }
                     }
+                    ModelState.Clear();
                     int cantidadInsertada = DBConector.UPDATE(query);
                     ViewBag.respuestaPost = "";
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
+                    ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     ViewBag.id_servicio = "<input name='id_servicio'  type='submit' value='" + btn_submit.Split(' ')[1] + "'/>";
                     return View();
                 }
