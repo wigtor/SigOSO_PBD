@@ -301,3 +301,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba5151', end
     float:none !important;
     display: inline-block;
     }    
+    
+#indices_economicos
+{
+    height: 200px;
+    font-size: 12px;
+    -webkit-marquee-speed: 100ms;
+    }    

@@ -73,6 +73,9 @@ namespace SigOSO_PBD.Models
                 servicios.Close();
                 servicios.closeConection();
             }
+            servicios.Dispose();
+            servicios.Close();
+            servicios.closeConection();
             return respuesta;
         }
 
