@@ -113,6 +113,9 @@ namespace SigOSO_PBD.Controllers
             return RedirectToAction("LogOn", "Account");
         }
 
+
+
+        /*
         //
         // GET: /Account/Register
 
@@ -135,7 +138,7 @@ namespace SigOSO_PBD.Controllers
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+                    FormsAuthentication.SetAuthCookie(model.UserName, false);
                     if (User.IsInRole("administrador"))
                     {
                         return RedirectToAction("Index", "Home");
@@ -163,11 +166,11 @@ namespace SigOSO_PBD.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        */
         
 
         #region Status Codes
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        public static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.

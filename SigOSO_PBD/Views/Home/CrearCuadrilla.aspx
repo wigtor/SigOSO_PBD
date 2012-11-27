@@ -170,7 +170,7 @@
             <input id="btn_crear_cuadrilla" name="btn_crear_cuadrilla" type="submit" value="Crear cuadrilla" /> 
         </div>
 
-    </form>    
+    </form>
 </asp:Content>
 
 

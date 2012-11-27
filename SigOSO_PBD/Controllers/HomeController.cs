@@ -16,6 +16,106 @@ namespace SigOSO_PBD.Controllers
     public class HomeController : Controller
     {
 
+        //
+        // GET: /Account/Register
+
+        public ActionResult Register()
+        {
+            List<SelectListItem> tiposDeUsuario = new List<SelectListItem>();
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "administrador",
+                Value = "Administrador"
+            });
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "Jefe de bodega",
+                Value = "Jefe_bodega"
+            });
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "Jefe de cuadrilla",
+                Value = "Jefe_cuadrilla"
+            });
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "Supervisor",
+                Value = ""
+            });
+            ViewBag.listaTiposUsuarios = tiposDeUsuario;
+
+
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+
+        [HttpPost]
+        public ActionResult Register(RegisterModel model)
+        {
+            List<SelectListItem> tiposDeUsuario = new List<SelectListItem>();
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "administrador",
+                Value = "Administrador"
+            });
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "Jefe de bodega",
+                Value = "Jefe_bodega"
+            });
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "Jefe de cuadrilla",
+                Value = "Jefe_cuadrilla"
+            });
+            tiposDeUsuario.Add(new SelectListItem
+            {
+                Text = "Supervisor",
+                Value = ""
+            });
+            ViewBag.listaTiposUsuarios = tiposDeUsuario;
+
+
+            if (ModelState.IsValid)
+            {
+                // Attempt to register the user
+                MembershipCreateStatus createStatus;
+                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+
+                if (createStatus == MembershipCreateStatus.Success)
+                {
+                    FormsAuthentication.SetAuthCookie(model.UserName, false);
+                    if (User.IsInRole("administrador"))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (User.IsInRole("Supervisor"))
+                    {
+                        return RedirectToAction("Index", "Supervisor");
+                    }
+                    else if (User.IsInRole("Jefe_cuadrilla"))
+                    {
+                        return RedirectToAction("Index", "JefeCuadrilla");
+                    }
+                    else if (User.IsInRole("Jefe_bodega"))
+                    {
+                        return RedirectToAction("Index", "JefeBodega");
+                    }
+                    return RedirectToAction("LogOn", "Account"); //No debiese pasar nunca
+                }
+                else
+                {
+                    ModelState.AddModelError("", AccountController.ErrorCodeToString(createStatus));
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
         [Authorize]
         public ActionResult ChangePassword()
         {

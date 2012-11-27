@@ -22,7 +22,7 @@
     <div class="accordion" id="accordion2">
       <div class="accordion-group">
         <div class="accordion-heading accordion-heading-mapeso">        
-            <div class="dropup">
+            <div class="drop">
                 <ul class="dropdown-submenu">
                     <a id="A4" class="accordion-toggle barra-lateral-sub-menu" >Mantención</a>
                     <div class="dropdown-menu">
@@ -56,6 +56,11 @@
                                 <%:Html.ActionLink("Servicios prestados", "MantServiciosPrestados", "Home", null, new { @id = "BotonMantServiciosPrestados", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Registro de usuarios", "Register", "Home", null, new { @id = "BotonMantRegistroUsuarios", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
                     </div>                    
                 </ul>
             </div>
@@ -65,7 +70,7 @@
 
       <div class="accordion-group">
         <div class="accordion-heading accordion-heading-mapeso">        
-            <div class="dropup">
+            <div class="drop">
                 <ul class="dropdown-submenu">
                     <a id="A1" class="accordion-toggle barra-lateral-sub-menu" >Clientes</a>
                     <div class="dropdown-menu">
@@ -97,7 +102,7 @@
 
       <div class="accordion-group">
         <div class="accordion-heading accordion-heading-mapeso">        
-            <div class="dropup">
+            <div class="drop">
                 <ul class="dropdown-submenu">
                     <a id="A2" class="accordion-toggle barra-lateral-sub-menu" >Contratos</a>
                     <div class="dropdown-menu">

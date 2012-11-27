@@ -50,6 +50,10 @@ namespace SigOSO_PBD.Models
         public string UserName { get; set; }
 
         [Required]
+        [Display(Name = "Rut")]
+        public string rut { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Dirección de email")]
         public string Email { get; set; }
@@ -64,5 +68,9 @@ namespace SigOSO_PBD.Models
         [Display(Name = "Contraseña de confirmación")]
         [Compare("Password", ErrorMessage = "La contraseña y confirmación de esta no coinciden.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de usuario")]
+        public string tipoUsuario { get; set; }
     }
 }
