@@ -79,6 +79,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\agregarContrato.cs" />
+    <Compile Include="Models\OrdenTrabajo.cs" />
     <Compile Include="Models\DatosAuditoriaModels.cs" />
     <Compile Include="Models\logModels.cs" />
     <Compile Include="Models\PerfilModels.cs" />
@@ -141,6 +142,7 @@
     <Content Include="Views\Home\ChangePassword.aspx" />
     <Content Include="Views\Home\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Home\confAuditoria.aspx" />
+    <Content Include="Views\Home\ingresoOT.aspx" />
     <Content Include="Views\Home\CrearCuadrilla.aspx" />
     <Content Include="Views\Home\verAuditoria.aspx" />
     <Content Include="Views\Home\EliminarTrabajador.aspx" />

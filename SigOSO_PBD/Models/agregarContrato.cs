@@ -86,9 +86,7 @@ namespace SigOSO_PBD.Models
             }
             if (unidades != null)
             {
-                unidades.Dispose();
-                unidades.Close();
-                unidades.closeConection();
+                unidades.CloseTodo();
             }
             return items;
 
@@ -113,9 +111,7 @@ namespace SigOSO_PBD.Models
             }
             if (precio != null)
             {
-                precio.Dispose();
-                precio.Close();
-                precio.closeConection();
+                precio.CloseTodo();
             }
             return resultado;
         }
@@ -148,9 +144,7 @@ namespace SigOSO_PBD.Models
             }
             if (lector != null)
             {
-                lector.Dispose();
-                lector.Close();
-                lector.closeConection();
+                lector.CloseTodo();
             }
             return resultado;
         }
@@ -245,9 +239,7 @@ namespace SigOSO_PBD.Models
             }
             if (precio != null)
             {
-                precio.Dispose();
-                precio.Close();
-                precio.closeConection();
+                precio.CloseTodo();
             }
             return resultado;
 
