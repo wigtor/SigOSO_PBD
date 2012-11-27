@@ -138,6 +138,8 @@
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
     <Content Include="Views\Home\AgregarCliente.aspx" />
     <Content Include="Views\Home\agregarContrato.aspx" />
+    <Content Include="Views\Home\ChangePassword.aspx" />
+    <Content Include="Views\Home\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Home\confAuditoria.aspx" />
     <Content Include="Views\Home\CrearCuadrilla.aspx" />
     <Content Include="Views\Home\verAuditoria.aspx" />
@@ -149,13 +151,19 @@
     <Content Include="Views\Home\MantServiciosPrestados.aspx" />
     <Content Include="Views\Home\ModificarCliente.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\JefeBodega\ChangePassword.aspx" />
+    <Content Include="Views\JefeBodega\ChangePasswordSuccess.aspx" />
     <Content Include="Views\JefeBodega\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\CambiarEstadoOTI.aspx" />
+    <Content Include="Views\JefeCuadrilla\ChangePassword.aspx" />
+    <Content Include="Views\JefeCuadrilla\ChangePasswordSuccess.aspx" />
     <Content Include="Views\JefeCuadrilla\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\ModificarPerfil.aspx" />
     <Content Include="Views\JefeCuadrilla\SolicitudDeMaterial.aspx" />
     <Content Include="Views\JefeCuadrilla\Trabajador.aspx" />
     <Content Include="Views\Supervisor\BuscarCuadrilla.aspx" />
+    <Content Include="Views\Supervisor\ChangePassword.aspx" />
+    <Content Include="Views\Supervisor\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Supervisor\EliminarCuadrilla.aspx" />
     <Content Include="Views\Supervisor\ModificarCuadrilla.aspx" />
     <Content Include="Views\Supervisor\EstadosOTI.aspx" />
@@ -187,7 +195,7 @@
     <Content Include="Views\Account\ChangePassword.aspx" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Home\Register.aspx" />
     <Content Include="Views\Account\About.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />

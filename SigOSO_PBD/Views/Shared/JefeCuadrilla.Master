@@ -6,7 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content6" ContentPlaceHolderID="menuSuperiorC2" runat="server">
-    <%:Html.ActionLink("Modificar Perfil", "modPerfil", "JefeCuadrilla", null, new { @id = "BotonModPerfil", @class = "brand", @style = "text-decoration:none;" })%>
+    <%:Html.ActionLink("Modificar Perfil", "ChangePassword", "JefeCuadrilla", null, new { @id = "BotonModPerfil", @class = "brand", @style = "text-decoration:none;" })%>
 </asp:Content>
 
 <asp:Content ID="Content7" ContentPlaceHolderID="menuSuperiorC3" runat="server">
