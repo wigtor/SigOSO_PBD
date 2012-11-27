@@ -13,6 +13,11 @@ namespace SigOSO_PBD.Controllers
     public class AccountController : Controller
     {
 
+        public ActionResult About()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/LogOn
 

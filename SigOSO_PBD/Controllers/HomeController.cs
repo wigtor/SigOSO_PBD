@@ -23,14 +23,6 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-
-            ViewBag.primerValor = cargaUnidades();
-            return View();
-        }
-
-
         //Para hacer POST
         [HttpPost]
         public ActionResult AgregarCliente(agregarClienteModel nvoCliente)

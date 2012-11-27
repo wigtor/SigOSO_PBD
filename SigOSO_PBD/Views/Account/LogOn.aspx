@@ -5,16 +5,15 @@
 </asp:Content>
 
 <asp:Content ID="loginContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>Inicio de sesión</h2>
-    <p>
+    <div>
         Por favor introduzca su nombre de usuario y contraseña. <%: Html.ActionLink("Regístrese", "Register") %> Si tu no tiene una cuenta.
-    </p>
+    </div>
 
     <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
     <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
 
     <% using (Html.BeginForm()) { %>
-        <%: Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.") %>
+        <%: Html.ValidationSummary(true, "Autentificación incorrecta. Porfavor corrija los errores e intente nuevamente.") %>
         <div>
             <fieldset>
                 <legend>Información de cuenta</legend>
@@ -41,7 +40,7 @@
                 </div>
                 
                 <p>
-                    <input type="submit" value="Log On" />
+                    <input type="submit" value="Ingresar" />
                 </p>
             </fieldset>
         </div>
