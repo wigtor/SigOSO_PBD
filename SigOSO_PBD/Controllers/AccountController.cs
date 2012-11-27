@@ -40,12 +40,28 @@ namespace SigOSO_PBD.Controllers
                     }
                     else
                     {
+                        if (User.IsInRole("administrador"))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else if (User.IsInRole("Supervisor"))
+                        {
+                            return RedirectToAction("Index", "Supervisor");
+                        }
+                        else if (User.IsInRole("Jefe_cuadrilla"))
+                        {
+                            return RedirectToAction("Index", "JefeCuadrilla");
+                        }
+                        else if (User.IsInRole("Jefe_bodega"))
+                        {
+                            return RedirectToAction("Index", "JefeBodega");
+                        }
                         return RedirectToAction("Index", "Home");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    ModelState.AddModelError("", "El nombre de usuario o contraseña introducido son incorrectos.");
                 }
             }
 
@@ -60,7 +76,7 @@ namespace SigOSO_PBD.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LogOn", "Account");
         }
 
         //
@@ -86,7 +102,23 @@ namespace SigOSO_PBD.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+                    if (User.IsInRole("administrador"))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (User.IsInRole("Supervisor"))
+                    {
+                        return RedirectToAction("Index", "Supervisor");
+                    }
+                    else if (User.IsInRole("Jefe_cuadrilla"))
+                    {
+                        return RedirectToAction("Index", "JefeCuadrilla");
+                    }
+                    else if (User.IsInRole("Jefe_bodega"))
+                    {
+                        return RedirectToAction("Index", "JefeBodega");
+                    }
+                    return RedirectToAction("Index", "Home"); //No debiese pasar nunca
                 }
                 else
                 {
@@ -136,8 +168,8 @@ namespace SigOSO_PBD.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                }
+                    ModelState.AddModelError("", "La actual contraseña es incorrecta o la nueva contraseña es inválida");
+                } 
             }
 
             // If we got this far, something failed, redisplay form
@@ -160,13 +192,13 @@ namespace SigOSO_PBD.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+                    return "Nombre de usuario ya existe. Porfavor ingrese un nuevo nombre de usuario.";
 
                 case MembershipCreateStatus.DuplicateEmail:
                     return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return "La contraseña ingresada es inválida. Porfavor ingrese una contraseña válida.";
 
                 case MembershipCreateStatus.InvalidEmail:
                     return "The e-mail address provided is invalid. Please check the value and try again.";
@@ -178,7 +210,7 @@ namespace SigOSO_PBD.Controllers
                     return "The password retrieval question provided is invalid. Please check the value and try again.";
 
                 case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+                    return "El nombre de usuario ingresado es inválido. Porfavor reviselo e intente nuevamente.";
 
                 case MembershipCreateStatus.ProviderError:
                     return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";

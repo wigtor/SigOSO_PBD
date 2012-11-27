@@ -10,7 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="Content7" ContentPlaceHolderID="menuSuperiorC3" runat="server">
-    <%:Html.ActionLink("Cerrar Sesión", "Trabajador", "JefeBodega", null, new { @id = "BotonCerrarSesion", @class = "brand", @style = "text-decoration:none;" })%>
+    <%:Html.ActionLink("Cerrar Sesión", "LogOff", "Account", null, new { @id = "BotonCerrarSesion", @class = "brand", @style = "text-decoration:none;" })%>
 </asp:Content>
 
 
