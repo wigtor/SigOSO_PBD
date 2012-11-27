@@ -23,7 +23,7 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult LogOn()
         {
-            
+            string a = User.Identity.Name;
             return View();
         }
 
@@ -79,7 +79,11 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult LogOff()
         {
+            Session.Abandon();
             FormsAuthentication.SignOut();
+            Roles.DeleteCookie();
+            Session.Clear();
+            string a = User.Identity.Name;
 
             return RedirectToAction("LogOn", "Account");
         }
