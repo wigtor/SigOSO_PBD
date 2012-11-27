@@ -40,7 +40,7 @@ namespace SigOSO_PBD.Controllers
             tiposDeUsuario.Add(new SelectListItem
             {
                 Text = "Supervisor",
-                Value = ""
+                Value = "Supervisor"
             });
             ViewBag.listaTiposUsuarios = tiposDeUsuario;
 
@@ -57,7 +57,7 @@ namespace SigOSO_PBD.Controllers
             List<SelectListItem> tiposDeUsuario = new List<SelectListItem>();
             tiposDeUsuario.Add(new SelectListItem
             {
-                Text = "administrador",
+                Text = "Administrador",
                 Value = "Administrador"
             });
             tiposDeUsuario.Add(new SelectListItem
@@ -73,7 +73,7 @@ namespace SigOSO_PBD.Controllers
             tiposDeUsuario.Add(new SelectListItem
             {
                 Text = "Supervisor",
-                Value = ""
+                Value = "Supervisor"
             });
             ViewBag.listaTiposUsuarios = tiposDeUsuario;
 
@@ -82,33 +82,25 @@ namespace SigOSO_PBD.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
-
-                if (createStatus == MembershipCreateStatus.Success)
+                try
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false);
-                    if (User.IsInRole("administrador"))
+                    Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                    Roles.AddUserToRole(model.UserName, model.tipoUsuario);
+                    if (createStatus == MembershipCreateStatus.Success)
                     {
-                        return RedirectToAction("Index", "Home");
+                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        ViewBag.respuestaPost = "Usuario creado correctamente";
+                        ViewBag.tipoRespuestaPos = "satisfactorio";
                     }
-                    else if (User.IsInRole("Supervisor"))
+                    else
                     {
-                        return RedirectToAction("Index", "Supervisor");
+                        ModelState.AddModelError("", AccountController.ErrorCodeToString(createStatus));
                     }
-                    else if (User.IsInRole("Jefe_cuadrilla"))
-                    {
-                        return RedirectToAction("Index", "JefeCuadrilla");
-                    }
-                    else if (User.IsInRole("Jefe_bodega"))
-                    {
-                        return RedirectToAction("Index", "JefeBodega");
-                    }
-                    return RedirectToAction("LogOn", "Account"); //No debiese pasar nunca
                 }
-                else
-                {
-                    ModelState.AddModelError("", AccountController.ErrorCodeToString(createStatus));
+                catch (Exception) {
+                    ModelState.AddModelError("", "Ha ocurrido un error al crear el nuevo usuario");
                 }
+                
             }
 
             // If we got this far, something failed, redisplay form
