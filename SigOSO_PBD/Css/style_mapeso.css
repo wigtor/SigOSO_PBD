@@ -306,5 +306,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba5151', end
 {
     height: 20px;
     font-size: 12px;
+    margin-bottom: 10px;
     -webkit-marquee-speed: 100ms;
-    }    
+}    

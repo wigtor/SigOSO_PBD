@@ -23,8 +23,33 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult LogOn()
         {
-            string a = User.Identity.Name;
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("administrador"))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else if (User.IsInRole("Supervisor"))
+                {
+                    return RedirectToAction("Index", "Supervisor");
+                }
+                else if (User.IsInRole("Jefe_cuadrilla"))
+                {
+                    return RedirectToAction("Index", "JefeCuadrilla");
+                }
+                else if (User.IsInRole("Jefe_bodega"))
+                {
+                    return RedirectToAction("Index", "JefeBodega");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //
@@ -45,6 +70,7 @@ namespace SigOSO_PBD.Controllers
                     }
                     else
                     {
+                        
                         if (User.IsInRole("administrador"))
                         {
                             return RedirectToAction("Index", "Home");
@@ -83,7 +109,6 @@ namespace SigOSO_PBD.Controllers
             FormsAuthentication.SignOut();
             Roles.DeleteCookie();
             Session.Clear();
-            string a = User.Identity.Name;
 
             return RedirectToAction("LogOn", "Account");
         }
