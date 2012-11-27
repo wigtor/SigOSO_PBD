@@ -61,7 +61,7 @@ namespace SigOSO_PBD.Controllers
                         {
                             return RedirectToAction("Index", "JefeBodega");
                         }
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("LogOn", "Account");
                     }
                 }
                 else
@@ -123,7 +123,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         return RedirectToAction("Index", "JefeBodega");
                     }
-                    return RedirectToAction("Index", "Home"); //No debiese pasar nunca
+                    return RedirectToAction("LogOn", "Account"); //No debiese pasar nunca
                 }
                 else
                 {
