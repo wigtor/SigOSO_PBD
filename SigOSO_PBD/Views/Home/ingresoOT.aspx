@@ -111,7 +111,7 @@
                     <%: Html.LabelFor(nvaOT => nvaOT.breve_descripcion)%>
                         <%: Html.TextAreaFor(nvaOT => nvaOT.breve_descripcion, new { @style = "max-width: 600px; min-width: 600px;" })%>
 
-                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;text-align=\"center\"">
+                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;text-align: center;">
                         <input id="btn_agregarServicio" type="submit" name="btn_agregarServicio" value="Agregar trabajo" />
                     </div>
 
