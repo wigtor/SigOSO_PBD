@@ -2213,7 +2213,7 @@ namespace SigOSO_PBD.Controllers
             //Para borrar los datos de creaciones pasadas
             if (Session["listaServiciosNvaOT"] != null)
             {
-                List<int> listaAgregadosSesion = (List<int>)Session["listaServiciosNvaOT"];
+                List<ServicioListado> listaAgregadosSesion = (List<ServicioListado>)Session["listaServiciosNvaOT"];
                 listaAgregadosSesion.Clear();
                 Session["listaServiciosNvaOT"] = null;
             }
@@ -2248,7 +2248,7 @@ namespace SigOSO_PBD.Controllers
         }
 
         [HttpPost]
-        public ActionResult ingresoOT(OrdenTrabajoModel ordenTrabajo, string btn_crear_ot, string btn_agregar_servicio)
+        public ActionResult ingresoOT(OrdenTrabajoModel ordenTrabajo, string btn_crear_ot, string btn_agregarServicio)
         {
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
@@ -2257,33 +2257,69 @@ namespace SigOSO_PBD.Controllers
             List<SelectListItem> contratosSelectedList = new List<SelectListItem>();
             List<Contrato> contratos;
 
+            List<ServicioListado> listaAgregadosSesion;
+            if (Session["listaServiciosNvaOT"] == null)
+            {
+                listaAgregadosSesion = new List<ServicioListado>();
+            }
+            else
+            {
+                listaAgregadosSesion = (List<ServicioListado>)Session["listaServiciosNvaOT"];
+            }
+
+
             int id_servicio = 0;
             if (btn_crear_ot == null) //Si se presionó cualquier botón distinto del de crear la OT
             {
                 ModelState.Clear();
-                //Quito de la lista de agregados en caso que se haya presionado un botón quitar
-                NameValueCollection col = Request.Params;
-                string nombreParam = "", id_servicioStr;
-                for (int i = 0; i < Request.Params.Count; i++)
-                {
+                if (btn_agregarServicio != null) {
+                    ServicioListado nvoServ = new ServicioListado();
+                    
+                    nvoServ.descripcion = ordenTrabajo.breve_descripcion;
+                    nvoServ.id_servicio = ordenTrabajo.servicioSeleccionado;
 
-                    nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
-                    if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
+                    if (!Int32.TryParse(nvoServ.id_servicio, out id_servicio))
                     {
-                        if (Session["listaAgregadosCuadrilla"] != null)
+                        ViewBag.RespuestaPost = "No se ha podido cargar el nombre del servicio";
+                    }
+
+                    nvoServ.nombre_servicio = ServicioListado.getNombreServicio(id_servicio);
+                    nvoServ.precio_acordado = ordenTrabajo.precioFinal;
+                    nvoServ.cantidad = ordenTrabajo.cantidadDelServicio;
+                    
+                    listaAgregadosSesion.Add(nvoServ);
+                    Session["listaServiciosNvaOT"] = listaAgregadosSesion;
+
+
+                }
+                else {
+                    
+                    //Quito de la lista de agregados en caso que se haya presionado un botón quitar
+                    NameValueCollection col = Request.Params;
+                    string nombreParam = "", id_servicioStr;
+                    for (int i = 0; i < Request.Params.Count; i++)
+                    {
+
+                        nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
+                        if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
                         {
-                            id_servicioStr = nombreParam.Substring("quitar_".Length);
-                            if (Int32.TryParse(id_servicioStr, out id_servicio))
+                            if (Session["listaServiciosNvaOT"] != null)
                             {
-                                List<int> listaTemp = (List<int>)Session["listaServiciosNvaOT"];
-                                if (listaTemp.Remove(id_servicio))
+                                id_servicioStr = nombreParam.Substring("quitar_".Length);
+                                /*
+                                if (Int32.TryParse(id_servicioStr, out id_servicio))
                                 {
-                                    ViewBag.respuestaPost = "Se ha quitado el servicio de la lista de servicio de la orden de trabajo";
+                                    List<ServicioListado> listaTemp = (List<ServicioListado>)Session["listaServiciosNvaOT"];
+                                    if (listaTemp.Remove(id_servicio))
+                                    {
+                                        ViewBag.respuestaPost = "Se ha quitado el servicio de la lista de servicio de la orden de trabajo";
+                                    }
+                                    else
+                                    {
+                                        ViewBag.respuestaPost = "El servicio que desea quitar no se encontraba en la lista";
+                                    }
                                 }
-                                else
-                                {
-                                    ViewBag.respuestaPost = "El servicio que desea quitar no se encontraba en la lista";
-                                }
+                                */
                             }
                         }
                     }
@@ -2297,9 +2333,8 @@ namespace SigOSO_PBD.Controllers
                 string respuesta = "";
                 if (Session["listaServiciosNvaOT"] != null)
                 {
-                    List<int> listaAgregadosSesion = (List<int>)Session["listaServiciosNvaOT"];
                     bool satisfactorio = false;
-                    respuesta = ListarTrabajadorModel.crearCuadrilla(listaAgregadosSesion, out satisfactorio);
+                    respuesta = "BLA"; //bl
                     if (satisfactorio)
                     {
                         listaAgregadosSesion.Clear();
@@ -2385,29 +2420,8 @@ namespace SigOSO_PBD.Controllers
             }
 
 
-
-
-
-            //Cargo los servicios que se han escogido hasta ahora
-            if (Session["listaServiciosNvaOT"] != null)
-            {
-                List<ListarTrabajadorModel> listaTrabajadoresAgregados = new List<ListarTrabajadorModel>();
-                List<int> listaAgregadosSesion = (List<int>)Session["listaServiciosNvaOT"];
-                ListarTrabajadorModel temp;
-                foreach (int rut in listaAgregadosSesion)
-                {
-                    temp = ListarTrabajadorModel.getTrabajadorByRut(rut);
-                    if (temp != null)
-                    {
-                        listaTrabajadoresAgregados.Add(temp);
-                    }
-                }
-                ViewBag.listaTrabajadoresAgregados = listaTrabajadoresAgregados;
-            }
-            
-
             ViewBag.listaContratos = contratosSelectedList;
-            
+            ViewBag.listaServiciosAgregados = listaAgregadosSesion;
 
 
             return View(ordenTrabajo);

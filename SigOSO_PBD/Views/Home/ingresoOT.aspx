@@ -111,7 +111,7 @@
                     <%: Html.LabelFor(nvaOT => nvaOT.breve_descripcion)%>
                         <%: Html.TextAreaFor(nvaOT => nvaOT.breve_descripcion, new { @style = "max-width: 600px; min-width: 600px;" })%>
 
-                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  text-align="center">
+                    <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;text-align=\"center\"">
                         <input id="btn_agregarServicio" type="submit" name="btn_agregarServicio" value="Agregar trabajo" />
                     </div>
 
@@ -127,6 +127,8 @@
                                 <b>N° servicio</b></td>
                             <td>
                                 <b>Nombre del servicio</b></td>
+                            <td>
+                                <b>Cantidad</b></td>
                             <td>
                                 <b>Precio a cobrar</b></td>
                             <td>
@@ -148,11 +150,15 @@
                                     Response.Write("</td>");
                                     
                                     Response.Write("<td>");
+                                    Response.Write(temp.cantidad);
+                                    Response.Write("</td>");
+                                    
+                                    Response.Write("<td>");
                                     Response.Write(temp.precio_acordado);
                                     Response.Write("</td>");
 
                                     Response.Write("<td>");
-                                    Response.Write("<input id=\"Submit1\" name=\"quitar_" + temp.id_servicio + "\" type=\"submit\" value=\"Quitar\" />");
+                                    Response.Write("<input id=\"quitar_" + temp.id_servicio + "\" name=\"quitar_" + temp.id_servicio + "\" type=\"submit\" value=\"Quitar\" style=\"width:60px\" />");
                                     Response.Write("</td>");
 
                                     Response.Write("</tr>");

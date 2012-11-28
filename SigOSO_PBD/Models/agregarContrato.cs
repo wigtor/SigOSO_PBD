@@ -220,6 +220,7 @@ namespace SigOSO_PBD.Models
         public string nombre_servicio { get; set; }
         public string precio_acordado { get; set; }
         public string descripcion { get; set; }
+        public string cantidad { get; set; }
 
 
         public static string getNombreServicio(int idServicio)
