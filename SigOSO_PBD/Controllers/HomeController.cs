@@ -2211,171 +2211,188 @@ namespace SigOSO_PBD.Controllers
         public ActionResult ingresoOT()
         {
             //Para borrar los datos de creaciones pasadas
-            if (Session["listaAgregadosCuadrilla"] != null)
+            if (Session["listaServiciosNvaOT"] != null)
             {
-                List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                List<int> listaAgregadosSesion = (List<int>)Session["listaServiciosNvaOT"];
                 listaAgregadosSesion.Clear();
-                Session["listaAgregadosCuadrilla"] = null;
+                Session["listaServiciosNvaOT"] = null;
             }
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
-            ViewBag.listaServicios = Contrato.getAllServicios();
+            ViewBag.listaServicios = new List<SelectListItem>();
             
-            ViewBag.listaRuts = OrdenTrabajo.getClientes();
+            ViewBag.listaRuts = OrdenTrabajoModel.getClientes();
             List<SelectListItem> contratosSelectedList = new List<SelectListItem>();
             //List<Contrato> contratos = OrdenTrabajo.getContratosSegunCliente(-1);
 
             ViewBag.listaContratos = contratosSelectedList;
 
 
+            //Cargo los valores por defecto de la vista
+            OrdenTrabajoModel ordenTrabajo = new OrdenTrabajoModel();
+            ordenTrabajo.ciudad_ot = "Santiago";
+            DateTime ahora = DateTime.Now;
+            ordenTrabajo.dia_ini_ot = ahora.Day.ToString();
+            ordenTrabajo.mes_ini_ot = ahora.Month.ToString();
+            ordenTrabajo.agno_ini_ot = ahora.Year.ToString();
 
-            return View();
+            ordenTrabajo.dia_fin_ot = ahora.Day.ToString();
+            ordenTrabajo.mes_fin_ot = ahora.Month.ToString();
+            ordenTrabajo.agno_fin_ot = ordenTrabajo.agno_ini_ot;
+            ordenTrabajo.precioReferenciaContrato = "0";
+            ordenTrabajo.precioFinal = "0";
+            ordenTrabajo.cantidadDelServicio = "0";
+
+
+            return View(ordenTrabajo);
         }
 
         [HttpPost]
-        public ActionResult ingresoOT(OrdenTrabajo ordenTrabajo)
+        public ActionResult ingresoOT(OrdenTrabajoModel ordenTrabajo, string btn_crear_ot, string btn_agregar_servicio)
         {
+            ViewBag.listaDias = getListaDias();
+            ViewBag.listaMeses = getListaMeses();
             
-            ViewBag.listaRuts = OrdenTrabajo.getClientes();
+            ViewBag.listaRuts = OrdenTrabajoModel.getClientes();
             List<SelectListItem> contratosSelectedList = new List<SelectListItem>();
+            List<Contrato> contratos;
 
-
-            List<Contrato> contratos = OrdenTrabajo.getContratosSegunCliente(Int32.Parse(ordenTrabajo.cliente));
-
-
-            /*
-            if (btn_crear_cuadrilla == null) //Si se presionó cualquier botón distinto del de crear cuadrilla 
+            int id_servicio = 0;
+            if (btn_crear_ot == null) //Si se presionó cualquier botón distinto del de crear la OT
             {
                 ModelState.Clear();
-                if (rut_trabajador == null)
-                {
-                    ModelState.AddModelError("rut_trabajador", "No ha ingresado un rut");
-                }
-
-                if (nombre_trabajador == null)
-                {
-                    ModelState.AddModelError("nombre_trabajador", "No ha ingresado un nombre");
-                }
-
-                if ((rut_trabajador != null) && (nombre_trabajador != null))
-                {
-
-                    if ((rut_trabajador.Trim().Length == 0) && (nombre_trabajador.Trim().Length == 0))
-                    {
-                        ViewBag.listaTrabajadores = ListarTrabajadorModel.getTrabajadoresForTable(null, null);
-                    }
-                    else if (nombre_trabajador.Trim().Length > 0) //puso nombre entonces
-                    {
-                        ViewBag.listaTrabajadores = ListarTrabajadorModel.getTrabajadoresForTable(nombre_trabajador, "nombre_trabajador");
-                    }
-
-                    else if (rut_trabajador.Trim().Length > 0) //puso rut entonces
-                    {
-                        int rut_int = 0;
-                        if (Int32.TryParse(rut_trabajador, out rut_int))
-                        {
-                            ViewBag.listaTrabajadores = ListarTrabajadorModel.getTrabajadoresForTable(rut_trabajador, "rut_trabajador");
-
-                        }
-                        else
-                        {
-                            ModelState.Clear();
-                            ModelState.AddModelError("rut_trabajador", "El rut ingresado no es válido");
-                        }
-                    }
-                }
-
-
-                //Agrego a la lista de agregados en caso que se haya presionado un botón agregar
+                //Quito de la lista de agregados en caso que se haya presionado un botón quitar
                 NameValueCollection col = Request.Params;
-                int rutInt = 0;
-                string nombreParam = "", valorParam = "", rutStr;
+                string nombreParam = "", id_servicioStr;
                 for (int i = 0; i < Request.Params.Count; i++)
                 {
 
                     nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
-                    if (nombreParam.Contains("agregar_")) //Con esto omito los parámetros que no me importan
-                    {
-                        valorParam = col.Get(i); //Con esto accedo al valor del parámetro, debiese tener el texto del botón
-
-                        //Acá ya se que botón de agregar fue el presionado
-                        rutStr = nombreParam.Substring("agregar_".Length);
-                        if (Int32.TryParse(rutStr, out rutInt))
-                        {
-                            if (Session["listaAgregadosCuadrilla"] == null)
-                            {
-                                Session["listaAgregadosCuadrilla"] = new List<int>();
-                            }
-
-                            List<int> listaTemp = (List<int>)Session["listaAgregadosCuadrilla"];
-                            if (listaTemp.Contains(rutInt))
-                            {
-                                ViewBag.respuestaPost = "Ya ha agregado al trabajador con rut: " + rutInt + " a la lista";
-                            }
-                            else
-                            {
-                                listaTemp.Add(rutInt);
-                                ViewBag.respuestaPost = "Se ha agregado el trabajador con rut: " + rutInt + " a la lista";
-                            }
-                        }
-                        else
-                        {
-                            ViewBag.respuestaPost = "No fue posible agregar el trabajador, problemas con su rut";
-
-                        }
-                        break;
-                    }
-                    else if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
+                    if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
                     {
                         if (Session["listaAgregadosCuadrilla"] != null)
                         {
-                            rutStr = nombreParam.Substring("quitar_".Length);
-                            if (Int32.TryParse(rutStr, out rutInt))
+                            id_servicioStr = nombreParam.Substring("quitar_".Length);
+                            if (Int32.TryParse(id_servicioStr, out id_servicio))
                             {
-                                List<int> listaTemp = (List<int>)Session["listaAgregadosCuadrilla"];
-                                if (listaTemp.Remove(rutInt))
+                                List<int> listaTemp = (List<int>)Session["listaServiciosNvaOT"];
+                                if (listaTemp.Remove(id_servicio))
                                 {
-                                    ViewBag.respuestaPost = "Se ha quitado el trabajador de la lista que conformará la cuadrilla";
+                                    ViewBag.respuestaPost = "Se ha quitado el servicio de la lista de servicio de la orden de trabajo";
                                 }
                                 else
                                 {
-                                    ViewBag.respuestaPost = "El trabajador que desea quitar no estaba agregado a la lista";
+                                    ViewBag.respuestaPost = "El servicio que desea quitar no se encontraba en la lista";
                                 }
                             }
                         }
                     }
                 }
 
+                
 
             }
-            else //Se presionó el botón crear_cuadrilla
+            else //Se presionó el botón crear OT
             {
                 string respuesta = "";
-                if (Session["listaAgregadosCuadrilla"] != null)
+                if (Session["listaServiciosNvaOT"] != null)
                 {
-                    List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                    List<int> listaAgregadosSesion = (List<int>)Session["listaServiciosNvaOT"];
                     bool satisfactorio = false;
                     respuesta = ListarTrabajadorModel.crearCuadrilla(listaAgregadosSesion, out satisfactorio);
                     if (satisfactorio)
                     {
                         listaAgregadosSesion.Clear();
-                        Session["listaAgregadosCuadrilla"] = null;
+                        Session["listaServiciosNvaOT"] = null;
                     }
                 }
                 else
                 {
-                    respuesta = "No ha agregado trabajadores para formar la cuadrilla";
+                    respuesta = "No ha agregado servicios a la orden de trabajo";
                 }
 
                 ViewBag.respuestaPost = respuesta;
             }
 
 
+            //cargo los contratos que correspondan
+            if (Int32.TryParse(ordenTrabajo.cliente, out id_servicio))
+            {
+                contratos = OrdenTrabajoModel.getContratosSegunCliente(id_servicio);
+            }
+            else
+            {
+                contratosSelectedList = new List<SelectListItem>();
+                ViewBag.RespuestaPost = "Problemas con el rut del cliente";
+                ViewBag.tipoRespuestaPost = "error";
+                contratos = new List<Contrato>();
+            }
+            ordenTrabajo.descripcion_contrato = "";
+            bool coincideAlguno = false;
+            foreach (Contrato t in contratos)
+            {
+                if (ordenTrabajo.contrato != null)
+                {
+                    if (ordenTrabajo.contrato.Equals(t.id_contrato.ToString()))
+                    {
+                        coincideAlguno = true;
+                        ordenTrabajo.descripcion_contrato = t.breve_descripcion;
+                    }
+                }
+                contratosSelectedList.Add(new SelectListItem
+                {
+                    Text = t.id_contrato,
+                    Value = t.id_contrato
+                });
+            }
+            if (!coincideAlguno && contratos.Count > 0)
+            {
+                ordenTrabajo.contrato = contratos[0].id_contrato;
+                ordenTrabajo.descripcion_contrato = contratos[0].breve_descripcion;
+            }
+            else if (!coincideAlguno)
+            {
+                ordenTrabajo.descripcion_contrato = "";
+            }
 
-            if (Session["listaAgregadosCuadrilla"] != null)
+
+
+            //Cargo la lista de servicios para el contrato y su precio correspondiente
+            int id_contrato_seleccionado = -1;
+            Int32.TryParse(ordenTrabajo.contrato, out id_contrato_seleccionado);
+            List<SelectListItem> serviciosDelContrato = servicioContrato.getServiciosDeContrato(id_contrato_seleccionado);
+            ViewBag.listaServicios = serviciosDelContrato;
+            coincideAlguno = false;
+            foreach (SelectListItem t in serviciosDelContrato)
+            {
+                if (ordenTrabajo.servicioSeleccionado != null)
+                {
+                    if (ordenTrabajo.servicioSeleccionado.Equals(t.Value))
+                    {
+                        coincideAlguno = true;
+                        ordenTrabajo.precioReferenciaContrato = servicioContrato.getPrecioAcordadoServicio(Int32.Parse(t.Value), id_contrato_seleccionado).ToString();
+                    }
+                }
+            }
+            if (!coincideAlguno && contratos.Count > 0)
+            {
+                ordenTrabajo.servicioSeleccionado = serviciosDelContrato[0].Value;
+                ordenTrabajo.precioReferenciaContrato = servicioContrato.getPrecioAcordadoServicio(Int32.Parse(serviciosDelContrato[0].Value), id_contrato_seleccionado).ToString();
+            }
+            else if (!coincideAlguno)
+            {
+                ordenTrabajo.precioReferenciaContrato = "0";
+            }
+
+
+
+
+
+            //Cargo los servicios que se han escogido hasta ahora
+            if (Session["listaServiciosNvaOT"] != null)
             {
                 List<ListarTrabajadorModel> listaTrabajadoresAgregados = new List<ListarTrabajadorModel>();
-                List<int> listaAgregadosSesion = (List<int>)Session["listaAgregadosCuadrilla"];
+                List<int> listaAgregadosSesion = (List<int>)Session["listaServiciosNvaOT"];
                 ListarTrabajadorModel temp;
                 foreach (int rut in listaAgregadosSesion)
                 {
@@ -2387,12 +2404,13 @@ namespace SigOSO_PBD.Controllers
                 }
                 ViewBag.listaTrabajadoresAgregados = listaTrabajadoresAgregados;
             }
-            */
+            
 
             ViewBag.listaContratos = contratosSelectedList;
+            
 
 
-            return View();
+            return View(ordenTrabajo);
         }
 
 

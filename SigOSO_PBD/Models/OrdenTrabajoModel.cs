@@ -8,11 +8,11 @@ using SigOSO_PBD.classes;
 
 namespace SigOSO_PBD.Models
 {
-    public class OrdenTrabajo
+    public class OrdenTrabajoModel
     {
 
         [Required]
-        [StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 6)]
+        [StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 1)]
         [Display(Name = "Cliente")]
         public string cliente { get; set; }
 
@@ -119,7 +119,7 @@ namespace SigOSO_PBD.Models
             return items;
         }
 
-        public static List<Contrato> getContratosSegunCliente(int rutCliente)
+        public static List<Contrato> getContratosSegunCliente(int id_cliente)
         {
 
             List<Contrato> items = new List<Contrato>();
@@ -127,14 +127,14 @@ namespace SigOSO_PBD.Models
             Contrato temp;
             try
             {
-                contratos = DBConector.SELECT("SELECT id_contrato, breve_descripcion FROM contrato WHERE fecha_inicio_contrato < '" + DateTime.Now + "' AND fecha_caducidad_contrato > '" + DateTime.Now + "' AND id_cliente = (SELECT id_cliente FROM cliente WHERE rut_cliente = '" + rutCliente + "')");
+                contratos = DBConector.SELECT("SELECT id_contrato, breve_descripcion FROM contrato WHERE fecha_inicio_contrato < '" + DateTime.Now + "' AND (fecha_caducidad_contrato > '" + DateTime.Now + "' OR fecha_caducidad_contrato IS NULL) AND id_cliente = " + id_cliente);
 
                 while (contratos.Read())
                 {
                     temp = new Contrato();
                     temp.breve_descripcion = contratos["breve_descripcion"];
                     temp.id_contrato = contratos["id_contrato"];
-                    
+                    items.Add(temp);
                 }
             }
             catch (Exception)
@@ -184,7 +184,6 @@ namespace SigOSO_PBD.Models
                 unidades.CloseTodo();
             }
             return items;
-
         }
 
 
@@ -212,5 +211,61 @@ namespace SigOSO_PBD.Models
         }
 
     }
-    
+
+
+    public class servicioContrato
+    {
+        public string id_servicio;
+        public string nombre_servicio;
+
+        public static List<SelectListItem> getServiciosDeContrato(int id_contrato) {
+            List<SelectListItem> items = new List<SelectListItem>();
+            NpgsqlDataReaderWithConection unidades = null;
+            try
+            {
+                unidades = DBConector.SELECT("SELECT id_servicio, nombre_servicio FROM servicio NATURAL JOIN precio_servicio NATURAL JOIN contrato WHERE contrato.id_contrato = "+id_contrato);
+                while (unidades.Read())
+                {
+                    items.Add(new SelectListItem
+                    {
+                        Text = unidades["nombre_servicio"],
+                        Value = unidades["id_servicio"]
+                    });
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (unidades != null)
+            {
+                unidades.CloseTodo();
+            }
+            return items;
+        }
+
+        public static int getPrecioAcordadoServicio(int id_servicio, int id_contrato)
+        {
+            NpgsqlDataReaderWithConection precio = null;
+            int resultado = 0;
+            try
+            {
+                precio = DBConector.SELECT("SELECT precio_acordado FROM precio_servicio WHERE id_servicio=" + id_servicio + " AND id_contrato="+id_contrato);
+
+                if (precio.Read())
+                {
+                    resultado = precio.GetInt32(0);
+                }
+            }
+            catch (Exception)
+            {
+                resultado = 0;
+            }
+            if (precio != null)
+            {
+                precio.CloseTodo();
+            }
+            return resultado;
+        }
+
+    }
 }

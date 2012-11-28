@@ -79,7 +79,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\agregarContrato.cs" />
-    <Compile Include="Models\OrdenTrabajo.cs" />
+    <Compile Include="Models\OrdenTrabajoModel.cs" />
     <Compile Include="Models\DatosAuditoriaModels.cs" />
     <Compile Include="Models\logModels.cs" />
     <Compile Include="Models\PerfilModels.cs" />

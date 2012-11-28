@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.OrdenTrabajo>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage<SigOSO_PBD.Models.OrdenTrabajoModel>" %>
 
 
 
@@ -35,7 +35,7 @@
             
             <!-- RUT DEL CLIENTE Y SU NOMBRE -->
             <%: Html.LabelFor(nvaOT => nvaOT.cliente)%>
-                <%: Html.DropDownListFor(nvaOT => nvaOT.cliente, (List<SelectListItem>)ViewBag.listaRuts, new { @class = "text" })%>
+                <%: Html.DropDownListFor(nvaOT => nvaOT.cliente, (List<SelectListItem>)ViewBag.listaRuts, new { @class = "text", @onchange="submit()" })%>
                 <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.cliente)%>
 
             <!-- N° DE CONTRATO -->
@@ -70,7 +70,7 @@
                     <%: Html.ValidationMessageFor(nvaOT => nvaOT.direccion_ot)%>
 
                 <label>Fecha de inicio</label>
-                    <%: Html.DropDownList("dias_ini_ot", (List<SelectListItem>)ViewBag.listaDias, new { @style = "width: 55px;" })%>
+                    <%: Html.DropDownList("dia_ini_ot", (List<SelectListItem>)ViewBag.listaDias, new { @style = "width: 55px;" })%>
                     <%: Html.DropDownList("mes_ini_ot", (List<SelectListItem>)ViewBag.listaMeses, new { @style = "width: 130px;" })%>
                     <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.dia_ini_ot)%>
                     <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.mes_ini_ot)%>
@@ -81,12 +81,12 @@
 
 
                 <label>Fecha de plazo máximo</label>
-                    <%: Html.DropDownList("dia_fin_ot", (List<SelectListItem>)ViewBag.listaDias, new { @style = "width: 55px;", @readonly=true })%>
-                    <%: Html.DropDownList("mes_fin_ot", (List<SelectListItem>)ViewBag.listaMeses, new { @style = "width: 130px;", @readonly = true })%>
+                    <%: Html.DropDownList("dia_fin_ot", (List<SelectListItem>)ViewBag.listaDias, new { @style = "width: 55px;" })%>
+                    <%: Html.DropDownList("mes_fin_ot", (List<SelectListItem>)ViewBag.listaMeses, new { @style = "width: 130px;" })%>
                     <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.dia_fin_ot)%>
                     <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.mes_fin_ot)%>
 
-                    <%: Html.TextBoxFor(nvoContrato => nvoContrato.agno_fin_ot, new { @class = "text", @style = "width: 60px;", @readonly = true })%>
+                    <%: Html.TextBoxFor(nvoContrato => nvoContrato.agno_fin_ot, new { @class = "text", @style = "width: 60px;" })%>
                     <%: Html.ValidationMessageFor(nvoContrato => nvoContrato.agno_fin_ot)%>
                 
                 <div class="fieldsetInterno">
