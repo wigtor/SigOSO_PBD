@@ -13,9 +13,8 @@ namespace SigOSO_PBD.Models
 
         [Required]
         [StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 6)]
-        [Display(Name = "Rut del cliente")]
-        [Range(1000000, 1000000000, ErrorMessage = "El {0} ingresado no es válido")]
-        public string rutCliente { get; set; }
+        [Display(Name = "Cliente")]
+        public string cliente { get; set; }
 
         [Required]
         [Display(Name = "N° de contrato")]
@@ -23,9 +22,6 @@ namespace SigOSO_PBD.Models
 
         [Display(Name = "Descripción del contrato")]
         public string descripcion_contrato { get; set; }
-
-        [Display(Name = "Nombre del cliente")]
-        public string nombre_cliente { get; set; }
 
         [Required]
         [Display(Name = "Ciudad")]
@@ -35,43 +31,121 @@ namespace SigOSO_PBD.Models
         [Display(Name = "Comuna")]
         public string comuna_ot { get; set; }
 
-
-
+        [Required]
+        [Display(Name = "Dirección")]
+        public string direccion_ot { get; set; }
 
         [Display(Name = "dia_ini_contrato")]
         [StringLength(2, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 1)]
-        public string dia_ini_contrato { get; set; }
+        public string dia_ini_ot { get; set; }
 
         [Display(Name = "mes_ini_contrato")]
         [StringLength(2, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 1)]
-        public string mes_ini_contrato { get; set; }
+        public string mes_ini_ot { get; set; }
 
 
         [Display(Name = "agno_ini_contrato")]
         [StringLength(4, ErrorMessage = "El {0} debe tener máximo {1} caracteres de longitud", MinimumLength = 1)]
-        public string agno_ini_contrato { get; set; }
+        public string agno_ini_ot { get; set; }
 
         [Required]
         [StringLength(2, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 0)]
         [Display(Name = "dia_caducidad_contrato")]
-        public string dia_caducidad_contrato { get; set; }
+        public string dia_fin_ot { get; set; }
 
         [Required]
         [StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 0)]
         [Display(Name = "mes_caducidad_contrato")]
-        public string mes_caducidad_contrato { get; set; }
+        public string mes_fin_ot { get; set; }
 
         
         [StringLength(4, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 0)]
         [Display(Name = "agno_caducidad_contrato")]
-        public string agno_caducidad_contrato { get; set; }
+        public string agno_fin_ot { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 2)]
-        [Display(Name = "breve_descripcion")]
+        [Display(Name = "Descripción del trabajo")]
         public string breve_descripcion { get; set; }
 
+
         public string servicioSeleccionado { get; set; }
+
+        [Display(Name = "Precio según contrato")]
+        public string precioReferenciaContrato { get; set; }
+
+        [Display(Name = "Cantidad")]
+        public string cantidadDelServicio { get; set; }
+
+        [Display(Name = "Precio final")]
+        public string precioFinal { get; set; }
+
+        public static List<SelectListItem> getClientes()
+        {
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "",
+                Value = "-1"
+            });
+            NpgsqlDataReaderWithConection unidades = null;
+            try
+            {
+                unidades = DBConector.SELECT("SELECT id_cliente, rut_cliente, nombre_cliente FROM cliente");
+
+
+                while (unidades.Read())
+                {
+                    items.Add(new SelectListItem
+                    {
+                        Text = unidades["rut_cliente"] + " - " + unidades["nombre_cliente"],
+                        Value = unidades["id_cliente"]
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = DBConector.msjError,
+                    Value = "-1"
+                });
+            }
+            if (unidades != null)
+            {
+                unidades.CloseTodo();
+            }
+            return items;
+        }
+
+        public static List<Contrato> getContratosSegunCliente(int rutCliente)
+        {
+
+            List<Contrato> items = new List<Contrato>();
+            NpgsqlDataReaderWithConection contratos = null;
+            Contrato temp;
+            try
+            {
+                contratos = DBConector.SELECT("SELECT id_contrato, breve_descripcion FROM contrato WHERE fecha_inicio_contrato < '" + DateTime.Now + "' AND fecha_caducidad_contrato > '" + DateTime.Now + "' AND id_cliente = (SELECT id_cliente FROM cliente WHERE rut_cliente = '" + rutCliente + "')");
+
+                while (contratos.Read())
+                {
+                    temp = new Contrato();
+                    temp.breve_descripcion = contratos["breve_descripcion"];
+                    temp.id_contrato = contratos["id_contrato"];
+                    
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (contratos != null)
+            {
+                contratos.CloseTodo();
+            }
+            return items;
+        }
 
 
         public static List<SelectListItem> getAllServicios()
@@ -136,82 +210,6 @@ namespace SigOSO_PBD.Models
             }
             return resultado;
         }
-
-        public static List<SelectListItem> getContratosCliente(int rutCliente)
-        {
-            List<SelectListItem> items = new List<SelectListItem>();
-            
-            items.Add(new SelectListItem
-            {
-                Text = "",
-                Value = "-1"
-            });
-
-            if (rutCliente < 0)
-                return items;
-
-            NpgsqlDataReaderWithConection unidades = null;
-            try
-            {
-                unidades = DBConector.SELECT("SELECT id_servicio, nombre_servicio, precio_pizarra FROM servicio");
-
-
-                while (unidades.Read())
-                {
-                    items.Add(new SelectListItem
-                    {
-                        Text = unidades.GetString(1),
-                        Value = unidades.GetInt32(0).ToString()
-                    });
-                }
-            }
-            catch (Exception)
-            {
-                items.Add(new SelectListItem
-                {
-                    Text = DBConector.msjError,
-                    Value = "-1"
-                });
-            }
-            if (unidades != null)
-            {
-                unidades.CloseTodo();
-            }
-            return items;
-        }
-
-        public static string getNombreCliente(int rut, out bool bienHecho) {
-            string query = "SELECT nombre_cliente FROM cliente WHERE rut_cliente = '" + rut + "'";
-            string resultado = "";
-            NpgsqlDataReaderWithConection lector = null;
-            try
-            {
-                lector = DBConector.SELECT(query);
-                if (lector.Read())
-                {
-                    bienHecho = true;
-                    resultado = lector["nombre_cliente"];
-
-                }
-                else
-                {
-                    bienHecho = false;
-                    resultado = "";
-                }
-            }
-            catch (Exception)
-            {
-                bienHecho = false;
-                resultado = "";
-
-            }
-            if (lector != null)
-            {
-                lector.CloseTodo();
-            }
-            return resultado;
-        }
-        
 
     }
     

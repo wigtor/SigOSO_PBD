@@ -11,6 +11,8 @@ namespace SigOSO_PBD.Models
     public class Contrato
     {
 
+        public string id_contrato { get; set; }
+
         [Required]
         [StringLength(10, ErrorMessage = "El {0} debe tener al menos {2} caracteres de longitud y máximo {1}.", MinimumLength = 6)]
         [Display(Name = "rutCliente")]

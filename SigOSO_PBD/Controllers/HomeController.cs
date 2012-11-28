@@ -169,34 +169,27 @@ namespace SigOSO_PBD.Controllers
         {  
             if (ModelState.IsValid)
             {
-                string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente, ciudad_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '" + nvoCliente.correo + "', '"+nvoCliente.ciudad+"')";
-                NpgsqlDataReaderWithConection lector = null;
-                try
+                int respuesta;
+                respuesta = agregarClienteModel.existeCliente(nvoCliente);
+                if (respuesta == funciones.SI )
                 {
-                    string query2 = "SELECT rut_cliente FROM cliente WHERE rut_cliente = '" + nvoCliente.rut + "'";
-                    lector = DBConector.SELECT(query2);
-                    if (lector.HasRows) {
-                        ModelState.AddModelError( "rut", "Ya existe un cliente con ese rut");
-                        lector.Dispose();
-                        lector.Close();
-                        lector.closeConection();
-                        ViewBag.respuestaPost = "";
-                        return View(nvoCliente);
-                    }
-                    int cantidadInsertada = DBConector.INSERT(query);
-                    ViewBag.respuestaPost = "Se ha creado correctamente el cliente";
+                    ModelState.AddModelError("rut", "Ya existe un cliente con ese rut");
+                    ViewBag.respuestaPost = "";
+                    return View(nvoCliente);
                 }
-                catch (Exception)
+                else if (respuesta == funciones.ERROR)
                 {
-                    ViewBag.respuestaPost = DBConector.msjError;//ex.Message;
-                }
-                if (lector != null)
-                {
-                    lector.Dispose();
-                    lector.Close();
-                    lector.closeConection();
+                    ViewBag.respuestaPost = DBConector.msjError;
+                    return View(nvoCliente);
                 }
 
+                respuesta = agregarClienteModel.insertarCliente(nvoCliente);
+                if (respuesta == funciones.ERROR)
+                {
+                    ViewBag.respuestaPost = DBConector.msjError;
+                    return View(nvoCliente);
+                }
+                ViewBag.respuestaPost = "Se ha creado correctamente el cliente";
                 return View();
                 //return RedirectToAction("AgregarCliente", "home");
             }
@@ -317,53 +310,13 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
-        public List<SelectListItem> getListaPerfilesTrabajadores()
-        {
-            List<SelectListItem> items = new List<SelectListItem>();
-            NpgsqlDataReaderWithConection servicios = null;
-            try
-            {
-                servicios = DBConector.SELECT("SELECT id_perfil, nombre_cargo FROM perfil_trabajador");
-                int id_perfil;
-                string nombre_cargo;
-                while (servicios.Read())
-                {
-                    id_perfil = servicios.GetInt32(0);
-                    nombre_cargo = servicios.GetString(1);
-                    items.Add(new SelectListItem
-                    {
-                        Text = nombre_cargo,
-                        Value = id_perfil.ToString()
-                    });
-                }
-                
-
-            }
-            catch (Exception)
-            {
-                items.Add(new SelectListItem
-                {
-                    Text = DBConector.msjError,
-                    Value = "-1"
-                });
-
-            }
-            if (servicios != null)
-            {
-                servicios.Dispose();
-                servicios.Close();
-                servicios.closeConection();
-            }
-            return items;
-        }
-
 
         //Para visualizar
         [HttpGet]
         public ActionResult AgregarTrabajador()
         {
 
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             return View();
@@ -374,7 +327,7 @@ namespace SigOSO_PBD.Controllers
         public ActionResult AgregarTrabajador(agregarTrabajadorModel nvoTrabajador)
         {
 
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
 
@@ -461,7 +414,7 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult agregarContrato()
         {
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             ViewBag.listaServicios = Contrato.getAllServicios();
@@ -478,7 +431,7 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult agregarContrato(Contrato nvoContrato, string nombre_cliente, string btn_cargar, string btn_agregarServicio, string precioPorContrato, string condicion_servicio, string btn_agregarContrato, string tieneTermino_contrato)
         {
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             ViewBag.listaServicios = Contrato.getAllServicios();
@@ -791,8 +744,8 @@ namespace SigOSO_PBD.Controllers
         [HttpGet]
         public ActionResult ModificarTrabajador()
         {
-            
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             return View();
@@ -802,8 +755,8 @@ namespace SigOSO_PBD.Controllers
         [HttpPost]
         public ActionResult ModificarTrabajador(agregarTrabajadorModel trabajadorMod, string btn_submit, string es_activo)
         {
-            
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
 
@@ -976,7 +929,7 @@ namespace SigOSO_PBD.Controllers
         public ActionResult EliminarTrabajador()
         {
 
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             return View();
@@ -986,7 +939,7 @@ namespace SigOSO_PBD.Controllers
         public ActionResult EliminarTrabajador(agregarTrabajadorModel trabajadorMod, string btn_submit, string es_activo)
         {
 
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
+            ViewBag.listaPerfiles = perfilTrabajadorModel.getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
 
@@ -2264,25 +2217,33 @@ namespace SigOSO_PBD.Controllers
                 listaAgregadosSesion.Clear();
                 Session["listaAgregadosCuadrilla"] = null;
             }
-            ViewBag.listaPerfiles = getListaPerfilesTrabajadores();
             ViewBag.listaDias = getListaDias();
             ViewBag.listaMeses = getListaMeses();
             ViewBag.listaServicios = Contrato.getAllServicios();
-            ViewBag.precioReferencia = "0";
             
-            ViewBag.listaRuts = agregarClienteModel.getRutsClientes();
-            ViewBag.listaContratos = OrdenTrabajo.getContratosCliente(-1);
+            ViewBag.listaRuts = OrdenTrabajo.getClientes();
+            List<SelectListItem> contratosSelectedList = new List<SelectListItem>();
+            //List<Contrato> contratos = OrdenTrabajo.getContratosSegunCliente(-1);
+
+            ViewBag.listaContratos = contratosSelectedList;
+
 
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult ingresoOT(string rut_trabajador, string nombre_trabajador, string btn_cargar, string btn_crear_cuadrilla)
+        public ActionResult ingresoOT(OrdenTrabajo ordenTrabajo)
         {
-            ViewBag.listaRuts = agregarClienteModel.getRutsClientes();
-            ViewBag.listaContratos = OrdenTrabajo.getContratosCliente(-1);
+            
+            ViewBag.listaRuts = OrdenTrabajo.getClientes();
+            List<SelectListItem> contratosSelectedList = new List<SelectListItem>();
 
+
+            List<Contrato> contratos = OrdenTrabajo.getContratosSegunCliente(Int32.Parse(ordenTrabajo.cliente));
+
+
+            /*
             if (btn_crear_cuadrilla == null) //Si se presionó cualquier botón distinto del de crear cuadrilla 
             {
                 ModelState.Clear();
@@ -2426,6 +2387,9 @@ namespace SigOSO_PBD.Controllers
                 }
                 ViewBag.listaTrabajadoresAgregados = listaTrabajadoresAgregados;
             }
+            */
+
+            ViewBag.listaContratos = contratosSelectedList;
 
 
             return View();

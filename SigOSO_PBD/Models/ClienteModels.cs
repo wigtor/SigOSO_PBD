@@ -60,6 +60,52 @@ namespace SigOSO_PBD.Models
             return items;
         }
 
+        public static int existeCliente(agregarClienteModel nvoCliente)
+        {
+            int respuesta;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                string query2 = "SELECT rut_cliente FROM cliente WHERE rut_cliente = '" + nvoCliente.rut + "'";
+                lector = DBConector.SELECT(query2);
+                if (lector.HasRows)
+                {
+                    respuesta = funciones.SI;
+                }
+                else
+                {
+                    respuesta = funciones.NO;
+                }
+            }
+            catch (Exception)
+            {
+                respuesta = funciones.ERROR;
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return respuesta;
+        }
+
+        public static int insertarCliente(agregarClienteModel nvoCliente) {
+            int cantidadInsertada;
+            string query = "INSERT INTO cliente (rut_cliente, nombre_cliente, direccion_cliente, comuna_cliente, giro_cliente, tel1_cliente, tel2_cliente, mail_cliente, ciudad_cliente) VALUES ('" + nvoCliente.rut + "', '" + nvoCliente.nombre + "', '" + nvoCliente.direccion + "', '" + nvoCliente.comuna + "', '" + nvoCliente.giro + "', '" + nvoCliente.telefono1 + "', '" + nvoCliente.telefono2 + "', '" + nvoCliente.correo + "', '"+nvoCliente.ciudad+"')";
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                cantidadInsertada = DBConector.INSERT(query);
+            }
+            catch (Exception)
+            {
+                return funciones.ERROR;
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return funciones.SI;
+        }
     }
 
 
