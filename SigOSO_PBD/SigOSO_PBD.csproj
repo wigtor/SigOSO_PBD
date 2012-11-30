@@ -91,8 +91,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\imagenes\chile.png" />
+    <Content Include="Content\imagenes\euro.png" />
+    <Content Include="Content\imagenes\indicadores-arrow-green.png" />
+    <Content Include="Content\imagenes\indicadores-arrow-red.png" />
+    <Content Include="Content\imagenes\indicadores-arrow-yellow.png" />
     <Content Include="Content\imagenes\logo mapeso.png" />
     <Content Include="Content\imagenes\pattern11.png" />
+    <Content Include="Content\imagenes\usa.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
