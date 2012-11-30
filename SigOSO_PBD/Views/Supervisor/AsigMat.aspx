@@ -3,19 +3,14 @@
 
 
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
-    Bienvenido
+    Asignación materiales
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
 
-        Formulario de supervisor
+
+    <div class="sitio_en_construccion"></div>
     
-    <script>
-        $('#BotonAsigMat').removeClass("accordion-heading-mapeso");
-        $('#BotonAsigMat').addClass("accordion-heading-mapeso-seleccionada");
-        
-            
-    </script>    
 </asp:Content>
 
 

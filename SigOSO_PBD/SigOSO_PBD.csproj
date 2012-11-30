@@ -91,7 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\imagenes\chile.png" />
+    <Content Include="Content\imagenes\ESTAMOS_TRABAJANDO.png" />
     <Content Include="Content\imagenes\euro.png" />
     <Content Include="Content\imagenes\indicadores-arrow-green.png" />
     <Content Include="Content\imagenes\indicadores-arrow-red.png" />
@@ -172,6 +172,7 @@
     <Content Include="Views\Supervisor\BuscarCuadrilla.aspx" />
     <Content Include="Views\Supervisor\ChangePassword.aspx" />
     <Content Include="Views\Supervisor\ChangePasswordSuccess.aspx" />
+    <Content Include="Views\Supervisor\CrearCuadrilla.aspx" />
     <Content Include="Views\Supervisor\EliminarCuadrilla.aspx" />
     <Content Include="Views\Supervisor\ModificarCuadrilla.aspx" />
     <Content Include="Views\Supervisor\EstadosOTI.aspx" />

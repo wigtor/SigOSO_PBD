@@ -18,6 +18,12 @@ namespace SigOSO_PBD.Controllers
         }
 
         [Authorize]
+        public ActionResult CrearCuadrilla()
+        {
+            return View();
+        }
+
+        [Authorize]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {

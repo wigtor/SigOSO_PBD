@@ -309,3 +309,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ba5151', end
     margin-bottom: 10px;
     -webkit-marquee-speed: 100ms;
 }    
+
+.sitio_en_construccion
+{
+   
+    background-image: url("../../Content/imagenes/ESTAMOS_TRABAJANDO.png");
+    margin: 50px auto 0px auto;
+    height: 292px;
+    width: 326px;
+    
+    
+    }
