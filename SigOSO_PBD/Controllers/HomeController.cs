@@ -2313,20 +2313,35 @@ namespace SigOSO_PBD.Controllers
                             if (Session["listaServiciosNvaOT"] != null)
                             {
                                 id_servicioStr = nombreParam.Substring("quitar_".Length);
-                                /*
+                                
                                 if (Int32.TryParse(id_servicioStr, out id_servicio))
                                 {
+                                    bool re = false;
                                     List<ServicioListado> listaTemp = (List<ServicioListado>)Session["listaServiciosNvaOT"];
-                                    if (listaTemp.Remove(id_servicio))
+                                    int pos = 0;
+                                    foreach (ServicioListado t in listaTemp)
                                     {
+                                        if (t.id_servicio.Equals(id_servicioStr))
+                                        {
+                                            re = true;
+                                            break;
+                                        }
+                                        pos++;
+                                    }
+                                    
+                                    if (re)
+                                    {
+                                        listaTemp.RemoveAt(pos);
                                         ViewBag.respuestaPost = "Se ha quitado el servicio de la lista de servicio de la orden de trabajo";
+                                        ViewBag.tipoRespuetaPost = "information";
                                     }
                                     else
                                     {
                                         ViewBag.respuestaPost = "El servicio que desea quitar no se encontraba en la lista";
+                                        ViewBag.tipoRespuetaPost = "error";
                                     }
                                 }
-                                */
+                                
                             }
                         }
                     }
