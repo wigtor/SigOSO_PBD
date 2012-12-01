@@ -55,17 +55,17 @@
                 var mensaje = <% Response.Write("\""+ViewBag.respuestaPost+"\""); %>;
                 if (mensaje != "") {   
                     document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";
-                    if(viewBag.tipoRespuestaPos!=null){  
-                        var tipo_alert = <% Response.Write("\""+ViewBag.tipoRespuestaPos+"\""); %>;      
+                    var tipo_alert = <% Response.Write("\""+ViewBag.tipoRespuestaPos+"\""); %>;      
+                    if(tipo_alert!=null){                                                  
                         if(tipo_alert=="satisfactorio"){
                             //satisfactorio
                             document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Satisfactorio!</strong> "+mensaje+"</div>";
                         }else if(tipo_alert=="error"){
                             //error
-                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Error!</strong> "+mensaje+"</div>";
+                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Error!</strong> "+mensaje+"</div>";
                         }else if(tipo_alert=="advertencia"){
                             //advertencia
-                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Advertencia!</strong> "+mensaje+"</div>";
+                            document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert laert-block'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Advertencia!</strong> "+mensaje+"</div>";
                         }else if(tipo_alert=="informacion"){
                             //informacion
                             document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";

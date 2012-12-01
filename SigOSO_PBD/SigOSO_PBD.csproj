@@ -79,6 +79,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\agregarContrato.cs" />
+    <Compile Include="Models\SolicitudMaterialModels.cs" />
     <Compile Include="Models\OrdenTrabajoModel.cs" />
     <Compile Include="Models\DatosAuditoriaModels.cs" />
     <Compile Include="Models\logModels.cs" />
@@ -142,6 +143,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\solicitudMaterial.js" />
     <Content Include="Views\Home\AgregarTrabajador.aspx" />
     <Content Include="Views\Home\AgregarCliente.aspx" />
     <Content Include="Views\Home\agregarContrato.aspx" />
@@ -167,7 +169,7 @@
     <Content Include="Views\JefeCuadrilla\ChangePasswordSuccess.aspx" />
     <Content Include="Views\JefeCuadrilla\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\ModificarPerfil.aspx" />
-    <Content Include="Views\JefeCuadrilla\SolicitudDeMaterial.aspx" />
+    <Content Include="Views\JefeCuadrilla\SolicitarMaterial.aspx" />
     <Content Include="Views\JefeCuadrilla\Trabajador.aspx" />
     <Content Include="Views\Supervisor\BuscarCuadrilla.aspx" />
     <Content Include="Views\Supervisor\ChangePassword.aspx" />
@@ -213,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Servicios\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
