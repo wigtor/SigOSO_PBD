@@ -151,6 +151,40 @@ namespace SigOSO_PBD.Models
         }
 
 
+        public static List<SelectListItem> getAllTrabajadores()
+        {
+            string query = "SELECT id_trabajador, rut_trabajador, nombre_trabajador FROM trabajador WHERE esta_activo = TRUE";
+            NpgsqlDataReaderWithConection lector = null;
+            List<SelectListItem> res = new List<SelectListItem>();
+            res.Add(new SelectListItem
+            {
+                Text = "",
+                Value = "-1"
+            });
+            try
+            {
+                lector = DBConector.SELECT(query);
+                while (lector.Read())
+                {
+                    res.Add(new SelectListItem
+                    {
+                        Text = lector["rut_trabajador"] + " - " + lector["nombre_trabajador"],
+                        Value = lector["rut_trabajador"]
+                    });
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return res;
+
+        }
+
+
         public static string crearCuadrilla(List<int> listaAgregadosSesion, out bool satisfactorio) {
             
             if (listaAgregadosSesion.Count < 2)

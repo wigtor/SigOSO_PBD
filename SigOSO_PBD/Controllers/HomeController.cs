@@ -82,6 +82,9 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaTiposUsuarios = tiposDeUsuario;
 
 
+            ViewBag.listaRuts = ListarTrabajadorModel.getAllTrabajadores();
+
+
             return View();
         }
 
@@ -113,8 +116,26 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaTiposUsuarios = tiposDeUsuario;
 
 
+            if (model.tipoUsuario.Equals("Jefe_cuadrilla"))
+            {
+                int enteroTemp;
+                if (Int32.TryParse(model.rut, out enteroTemp))
+                {
+                    if (enteroTemp < 0)
+                        ModelState.AddModelError("rut", "El rut no es válido");
+                    model.UserName = model.rut;
+
+                }
+                else
+                {
+                    ModelState.AddModelError("rut", "El rut no es válido");
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
+                
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
                 try
@@ -123,7 +144,7 @@ namespace SigOSO_PBD.Controllers
                     Roles.AddUserToRole(model.UserName, model.tipoUsuario);
                     if (createStatus == MembershipCreateStatus.Success)
                     {
-                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        //FormsAuthentication.SetAuthCookie(model.UserName, false); //Hace que ahora quede logueado con el usuario recién creado
                         ViewBag.RespuestaPost = "Usuario creado correctamente";
                         ViewBag.tipoRespuestaPos = "satisfactorio";
                     }
@@ -139,6 +160,7 @@ namespace SigOSO_PBD.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            ViewBag.listaRuts = ListarTrabajadorModel.getAllTrabajadores();
             return View(model);
         }
 
