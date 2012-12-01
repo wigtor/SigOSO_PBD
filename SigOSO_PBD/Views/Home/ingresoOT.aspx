@@ -54,6 +54,11 @@
         <div class="fieldsetInterno">
         <fieldset>
             <legend>Datos de la orden de trabajo</legend>
+                <!-- N° de la OT según numeración del cliente -->
+                <%: Html.LabelFor(nvaOT => nvaOT.nro_orden_segun_cliente)%>
+                    <%: Html.TextBoxFor(nvaOT => nvaOT.nro_orden_segun_cliente, new { @class = "text" })%>
+                    <%: Html.ValidationMessageFor(nvaOT => nvaOT.nro_orden_segun_cliente)%>
+
                 <!-- CIUDAD DE EJECUCIÓN DE LA OT -->
                 <%: Html.LabelFor(nvaOT => nvaOT.ciudad_ot) %>
                     <%: Html.TextBoxFor(nvaOT => nvaOT.ciudad_ot, new { @class = "text" })%>
@@ -112,7 +117,7 @@
                         <%: Html.TextAreaFor(nvaOT => nvaOT.breve_descripcion, new { @style = "max-width: 600px; min-width: 600px;" })%>
 
                     <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;text-align: center;">
-                        <input id="btn_agregarServicio" type="submit" name="btn_agregarServicio" value="Agregar trabajo" />
+                        <input id="btn_agregarServicio" type="submit" name="btn_agregarServicio" value="Agregar servicio" />
                     </div>
 
                 </fieldset>
@@ -175,8 +180,8 @@
             
         </fieldset>
         </div>
-        <div style="height: 30px; width: 20%; margin-right: auto; margin-left: 40%;"  text-align="center">
-            <input id="btn_agregarContrato" type="submit" name="btn_agregarContrato" value="Agregar contrato" />
+        <div style="height: 30px; width: 30%; margin-right: 35%; margin-left: 35%; text-align: center">
+            <input id="btn_crear_ot" type="submit" style="width:100%" name="btn_crear_ot" value="Agregar orden de trabajo" />
         </div>
     </form>    
 </asp:Content>

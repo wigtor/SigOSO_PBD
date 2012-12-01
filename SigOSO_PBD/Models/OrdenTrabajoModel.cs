@@ -80,6 +80,10 @@ namespace SigOSO_PBD.Models
         [Display(Name = "Precio final")]
         public string precioFinal { get; set; }
 
+        [Display(Name = "N° orden de cliente")]
+        public string nro_orden_segun_cliente { get; set; }
+
+
         public static List<SelectListItem> getClientes()
         {
 
@@ -146,6 +150,56 @@ namespace SigOSO_PBD.Models
             }
             return items;
         }
+
+
+
+        public static string insertOrdenTrabajo(OrdenTrabajoModel ot, List<ServicioListado> listaServ) {
+
+            string fecha_ini = ot.dia_ini_ot+ "-"+ot.mes_ini_ot+"-"+ot.agno_ini_ot;
+            string fecha_term = ot.dia_fin_ot+ "-"+ot.mes_fin_ot+"-"+ot.agno_fin_ot;
+            string query = "SELECT sp_new_orden_trabajo("+ot.contrato+", "+ot.nro_orden_segun_cliente+", '"+ot.comuna_ot+"', '"+ot.direccion_ot+"', '"+fecha_ini + "', '"+ fecha_term+ "', ";
+            //string resto = "ids_servicios integer[], cantidades_servicios integer[], precios_finales integer[], descripciones_servicios VARCHAR(200)[])";
+            string id_servs = "ARRAY[";
+            string cantidades = "ARRAY[";
+            string precios = "ARRAY[";
+            string descripciones = "ARRAY[";
+            foreach(ServicioListado temp in listaServ) {
+                if (temp != listaServ[0])
+                {
+                    id_servs += ", ";
+                    cantidades += ", ";
+                    precios += ", ";
+                    descripciones += ", ";
+                }
+                id_servs += temp.id_servicio;
+                cantidades += temp.cantidad;
+                precios += temp.precio_acordado;
+                descripciones += "'"+temp.descripcion+"'";
+            }
+            query += id_servs + "], " + cantidades + "], " + precios + "], " + descripciones + "])";
+            
+            
+            string respuesta = "";
+            NpgsqlDataReaderWithConection result = null;
+            try
+            {
+                result = DBConector.SELECT(query);
+                if (result.Read())
+                {
+                    respuesta = result.GetString(0);
+                }
+            }
+            catch (Exception)
+            {
+                respuesta = "Error al realizar la consulta a la base de datos";
+            }
+            if (result != null)
+            {
+                result.CloseTodo();
+            }
+            return respuesta;
+        }
+
 
 
         public static List<SelectListItem> getAllServicios()
