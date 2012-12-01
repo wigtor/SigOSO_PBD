@@ -148,6 +148,7 @@
     <Content Include="Views\Home\ChangePassword.aspx" />
     <Content Include="Views\Home\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Home\confAuditoria.aspx" />
+    <Content Include="Views\Home\verUsuarios.aspx" />
     <Content Include="Views\Home\ingresoOT.aspx" />
     <Content Include="Views\Home\CrearCuadrilla.aspx" />
     <Content Include="Views\Home\verAuditoria.aspx" />

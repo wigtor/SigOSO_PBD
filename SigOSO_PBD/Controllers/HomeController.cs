@@ -15,6 +15,46 @@ namespace SigOSO_PBD.Controllers
     [Authorize(Roles = "administrador")]
     public class HomeController : Controller
     {
+        [HttpGet]
+        public ActionResult verUsuarios()
+        {
+            ViewBag.listaUsuarios = Membership.GetAllUsers();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult verUsuarios(RegisterModel t)
+        {
+
+            string username;
+            NameValueCollection col = Request.Params;
+            string nombreParam = "";
+            for (int i = 0; i < Request.Params.Count; i++)
+            {
+                nombreParam = col.GetKey(i); //Con esto accedo al nombre del parámetro
+                if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
+                {
+                    username = nombreParam.Substring("quitar_".Length);
+                    if (Membership.DeleteUser(username))
+                    {
+                        ViewBag.respuestaPost = "Se ha eliminado satisfactoriamente el usuario";
+                        ViewBag.tipoRespuestaPost = "satisfactorio";
+                    }
+                    else
+                    {
+                        ViewBag.respuestaPost = "Ha ocurrido un error al eliminar el usuario";
+                        ViewBag.tipoRespuestaPost = "error";
+                    }
+                }
+            }
+            
+
+
+            ViewBag.listaUsuarios = Membership.GetAllUsers();
+            return View();
+        }
+
+
 
         public ActionResult Register()
         {
@@ -84,7 +124,7 @@ namespace SigOSO_PBD.Controllers
                     if (createStatus == MembershipCreateStatus.Success)
                     {
                         FormsAuthentication.SetAuthCookie(model.UserName, false);
-                        ViewBag.respuestaPost = "Usuario creado correctamente";
+                        ViewBag.RespuestaPost = "Usuario creado correctamente";
                         ViewBag.tipoRespuestaPos = "satisfactorio";
                     }
                     else

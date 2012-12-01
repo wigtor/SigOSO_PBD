@@ -61,6 +61,11 @@
                                 <%:Html.ActionLink("Registro de usuarios", "Register", "Home", null, new { @id = "BotonMantRegistroUsuarios", @class = "accordion-toggle accordion-heading-mapeso" })%>
                             </div>
                         </div>
+                        <div>
+                            <div class="accordion-heading"> 
+                                <%:Html.ActionLink("Usuarios del sistema", "verUsuarios", "Home", null, new { @id = "BotonVerUsuarios", @class = "accordion-toggle accordion-heading-mapeso" })%>
+                            </div>
+                        </div>
                     </div>                    
                 </ul>
             </div>
