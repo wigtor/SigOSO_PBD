@@ -16,9 +16,6 @@ namespace SigOSO_PBD.Controllers
     public class HomeController : Controller
     {
 
-        //
-        // GET: /Account/Register
-
         public ActionResult Register()
         {
             List<SelectListItem> tiposDeUsuario = new List<SelectListItem>();
@@ -48,8 +45,6 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
 
         [HttpPost]
         public ActionResult Register(RegisterModel model)
@@ -1141,7 +1136,6 @@ namespace SigOSO_PBD.Controllers
         }
 
 
-
         public string generarTablaUnidadesMedida()
         {
             string respuesta;
@@ -1957,6 +1951,7 @@ namespace SigOSO_PBD.Controllers
             return items;
         }
 
+
         public List<DatoLogForTabla> getLogAuditoria(string nombreTabla, string operacion, string fechaIni, string fechaFin, string cuantosVer)
         {
             List<DatoLogForTabla> resultado = new List<DatoLogForTabla>();
@@ -2035,7 +2030,6 @@ namespace SigOSO_PBD.Controllers
 
             return resultado;
         }
-
 
 
         [HttpGet]
@@ -2204,9 +2198,6 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
-
-
-
         [HttpGet]
         public ActionResult ingresoOT()
         {
@@ -2241,7 +2232,7 @@ namespace SigOSO_PBD.Controllers
             ordenTrabajo.agno_fin_ot = ordenTrabajo.agno_ini_ot;
             ordenTrabajo.precioReferenciaContrato = "0";
             ordenTrabajo.precioFinal = "0";
-            ordenTrabajo.cantidadDelServicio = "0";
+            ordenTrabajo.cantidadDelServicio = "1";
 
 
             return View(ordenTrabajo);
@@ -2281,13 +2272,29 @@ namespace SigOSO_PBD.Controllers
                     if (!Int32.TryParse(nvoServ.id_servicio, out id_servicio))
                     {
                         ViewBag.RespuestaPost = "No se ha podido cargar el nombre del servicio";
+                        ViewBag.tipoRespuestaPost = "error";
                     }
 
                     nvoServ.nombre_servicio = ServicioListado.getNombreServicio(id_servicio);
                     nvoServ.precio_acordado = ordenTrabajo.precioFinal;
                     nvoServ.cantidad = ordenTrabajo.cantidadDelServicio;
                     
-                    listaAgregadosSesion.Add(nvoServ);
+                    //Controlo que el servicio no haya sido agregado anteriormente
+                    bool yaAgregado = false;
+                    foreach (ServicioListado servTemp in listaAgregadosSesion)
+                    {
+                        if (servTemp.id_servicio.Equals(nvoServ.id_servicio))
+                        {
+                            ViewBag.RespuestaPost = "Ya tiene agregado el servicio";
+                            ViewBag.tipoRespuestaPost = "advertencia";
+                            yaAgregado = true;
+                        }
+                    }
+
+                    if (!yaAgregado)
+                    {
+                        listaAgregadosSesion.Add(nvoServ);
+                    }
                     Session["listaServiciosNvaOT"] = listaAgregadosSesion;
 
 
@@ -2324,26 +2331,46 @@ namespace SigOSO_PBD.Controllers
                         }
                     }
                 }
-
-                
-
             }
             else //Se presionó el botón crear OT
             {
                 string respuesta = "";
                 if (Session["listaServiciosNvaOT"] != null)
                 {
-                    bool satisfactorio = false;
-                    respuesta = "BLA"; //bl
-                    if (satisfactorio)
+                    if (listaAgregadosSesion.Count == 0)
                     {
-                        listaAgregadosSesion.Clear();
-                        Session["listaServiciosNvaOT"] = null;
+                        respuesta = "No ha agregado servicios a la orden de trabajo";
+                        ViewBag.tipoRespuestaPos = "informacion";
+                    }
+                    else
+                    {
+                        //Camino feliz
+                        int enteroTemp;
+                        bool satisfactorio = true;
+                        if (!(satisfactorio = satisfactorio && Int32.TryParse(ordenTrabajo.agno_ini_ot, out enteroTemp)))
+                        {
+                            ModelState.AddModelError("agno_ini_ot", "El año de inicio de la orden de trabajo no es válido");
+                        }
+                        if (!(satisfactorio = satisfactorio && Int32.TryParse(ordenTrabajo.agno_fin_ot, out enteroTemp)))
+                        {
+                            ModelState.AddModelError("agno_fin_ot", "El año de finalización de la orden de trabajo no es válido");
+                        }
+                        if (!(satisfactorio = satisfactorio && Int32.TryParse(ordenTrabajo.nro_orden_segun_cliente, out enteroTemp)))
+                        {
+                            ModelState.AddModelError("nro_orden_segun_cliente", "El N° de la orden de trabajo no es válido");
+                        }
+                        if (ModelState.IsValid)
+                        {
+                            respuesta = OrdenTrabajoModel.insertOrdenTrabajo(ordenTrabajo, listaAgregadosSesion);
+                            ViewBag.tipoRespuestaPos = "informacion";
+                        }
+                        
                     }
                 }
                 else
                 {
                     respuesta = "No ha agregado servicios a la orden de trabajo";
+                    ViewBag.tipoRespuestaPos = "informacion";
                 }
 
                 ViewBag.respuestaPost = respuesta;
@@ -2406,6 +2433,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         coincideAlguno = true;
                         ordenTrabajo.precioReferenciaContrato = servicioContrato.getPrecioAcordadoServicio(Int32.Parse(t.Value), id_contrato_seleccionado).ToString();
+                        ordenTrabajo.precioFinal = ordenTrabajo.precioReferenciaContrato;
                     }
                 }
             }
@@ -2413,10 +2441,12 @@ namespace SigOSO_PBD.Controllers
             {
                 ordenTrabajo.servicioSeleccionado = serviciosDelContrato[0].Value;
                 ordenTrabajo.precioReferenciaContrato = servicioContrato.getPrecioAcordadoServicio(Int32.Parse(serviciosDelContrato[0].Value), id_contrato_seleccionado).ToString();
+                ordenTrabajo.precioFinal = ordenTrabajo.precioReferenciaContrato;
             }
             else if (!coincideAlguno)
             {
                 ordenTrabajo.precioReferenciaContrato = "0";
+                ordenTrabajo.precioFinal = "0";
             }
 
 
@@ -2426,10 +2456,5 @@ namespace SigOSO_PBD.Controllers
 
             return View(ordenTrabajo);
         }
-
-
-
-
     }
-
 }
