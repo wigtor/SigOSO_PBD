@@ -43,7 +43,7 @@
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.comuna, new { @class = "text" })%>
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.comuna)%>
 
-        <label>Direccón</label>
+        <label>Dirección</label>
 
             <%: Html.TextBoxFor(nvoTrabajador => nvoTrabajador.direccion, new { @class = "text" })%>
             <%: Html.ValidationMessageFor(nvoTrabajador => nvoTrabajador.direccion)%>

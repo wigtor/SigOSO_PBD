@@ -171,6 +171,7 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+
         [Authorize]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
@@ -269,7 +270,6 @@ namespace SigOSO_PBD.Controllers
         {
             return View();
         }
-
 
 
         [HttpPost]
@@ -791,7 +791,6 @@ namespace SigOSO_PBD.Controllers
         }
 
 
-
         [HttpGet]
         public ActionResult ModificarTrabajador()
         {
@@ -976,6 +975,7 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+
         [HttpGet]
         public ActionResult EliminarTrabajador()
         {
@@ -985,6 +985,7 @@ namespace SigOSO_PBD.Controllers
             ViewBag.listaMeses = getListaMeses();
             return View();
         }
+
 
         [HttpPost]
         public ActionResult EliminarTrabajador(agregarTrabajadorModel trabajadorMod, string btn_submit, string es_activo)
@@ -1089,6 +1090,7 @@ namespace SigOSO_PBD.Controllers
             //return RedirectToAction("EliminarTrabajador", "home");
         }
 
+
         public List<SelectListItem> getListaDias()
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -1102,6 +1104,7 @@ namespace SigOSO_PBD.Controllers
             }
             return items;
         }
+
 
         public List<SelectListItem> getListaMeses()
         {
@@ -1122,6 +1125,7 @@ namespace SigOSO_PBD.Controllers
             }
             return items;
         }
+
 
         public List<SelectListItem> getListaUnidades()
         {
@@ -1157,6 +1161,7 @@ namespace SigOSO_PBD.Controllers
             }
             return items;
         }
+
 
         public string generarTablaPerfilesTrabajadores() {
             string respuesta;
@@ -1230,6 +1235,7 @@ namespace SigOSO_PBD.Controllers
             return respuesta;
         }
 
+
         public string generarTablaMaterialGenericos()
         {
             string respuesta = "";
@@ -1266,9 +1272,6 @@ namespace SigOSO_PBD.Controllers
             }
             return respuesta;
         }
-
-
-        
 
 
         [HttpGet]
@@ -1455,7 +1458,6 @@ namespace SigOSO_PBD.Controllers
         }
 
 
-
         //DEL ADOLFO
 
         [HttpGet]
@@ -1580,6 +1582,7 @@ namespace SigOSO_PBD.Controllers
             return View(nvoServicio);
         }
 
+
         public ActionResult modificarServicio(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio)
         {           
             if (ModelState.IsValid)
@@ -1636,6 +1639,7 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+
         [HttpPost]
         public ActionResult MantServiciosPrestados(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio)
         {
@@ -1659,8 +1663,6 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
-
-
         //HASTA ACÁ EL ADOLFO
 
 
@@ -1671,9 +1673,7 @@ namespace SigOSO_PBD.Controllers
         }
 
 
-
         //AUDITORÍA
-
         public List<string> getTablasDB()
         {
             List<string> result = new List<string>();
@@ -1695,6 +1695,7 @@ namespace SigOSO_PBD.Controllers
             }
             return result;
         }
+
 
         public List<logModel> cargaTablaAuditoria()
         {
@@ -1742,6 +1743,7 @@ namespace SigOSO_PBD.Controllers
             return resultadoAuditoria;
         }
 
+
         [HttpGet]
         public ActionResult confAuditoria()
         {
@@ -1749,6 +1751,7 @@ namespace SigOSO_PBD.Controllers
             return View();
 
         }
+
 
         [HttpPost]
         public ActionResult confAuditoria(string btn_guardar)
@@ -2103,6 +2106,7 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+
         [HttpPost]
         public ActionResult CrearCuadrilla(string rut_trabajador, string nombre_trabajador, string btn_cargar, string btn_crear_cuadrilla)
         {
@@ -2253,6 +2257,7 @@ namespace SigOSO_PBD.Controllers
 
             return View();
         }
+
 
         [HttpGet]
         public ActionResult ingresoOT()
@@ -2526,6 +2531,16 @@ namespace SigOSO_PBD.Controllers
 
 
             return View(ordenTrabajo);
+        }
+
+
+        [HttpGet]
+        public ActionResult Contratos()
+        {
+            ViewBag.listaContratos = Contrato.getAllContratos();
+            ViewBag.listaContratosDetalle = Contrato.getAllContratosDetalle();
+
+            return View();
         }
     }
 }

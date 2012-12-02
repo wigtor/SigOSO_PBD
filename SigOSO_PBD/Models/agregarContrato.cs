@@ -52,6 +52,8 @@ namespace SigOSO_PBD.Models
         [Display(Name = "breve_descripcion")]
         public string breve_descripcion { get; set; }
 
+        public string nombreCliente { get; set; }
+
         public string servicioSeleccionado { get; set; }
 
 
@@ -116,6 +118,72 @@ namespace SigOSO_PBD.Models
                 precio.CloseTodo();
             }
             return resultado;
+        }
+
+
+        public static List<SelectListItem> getAllContratos()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "",
+                Value = "-1"
+            });
+            NpgsqlDataReaderWithConection unidades = null;
+            try
+            {
+                unidades = DBConector.SELECT("SELECT contrato.id_contrato, cliente.nombre_cliente FROM contrato NATURAL JOIN cliente");
+
+                while (unidades.Read())
+                {
+                    items.Add(new SelectListItem
+                    {
+                        Text = unidades.GetInt32(0) + " - Contrato con: " + unidades.GetString(1),
+                        Value = unidades.GetInt32(0).ToString()
+                    });
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (unidades != null)
+            {
+                unidades.CloseTodo();
+            }
+            return items;
+
+        }
+
+
+        public static List<Contrato> getAllContratosDetalle()
+        {
+            List<Contrato> items = new List<Contrato>();
+            Contrato temp;
+            NpgsqlDataReaderWithConection unidades = null;
+            try
+            {
+                unidades = DBConector.SELECT("SELECT contrato.id_contrato, cliente.nombre_cliente FROM contrato NATURAL JOIN cliente");
+
+                while (unidades.Read())
+                {
+                    temp = new Contrato();
+
+
+
+
+
+
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (unidades != null)
+            {
+                unidades.CloseTodo();
+            }
+            return items;
+
         }
 
 
@@ -208,21 +276,6 @@ namespace SigOSO_PBD.Models
 
             return 0;
 
-        }
-
-        public static int insertarPrecioServicios(int idContrato, List<ServicioListado> listaServicios)
-        {
-            int cantidadInsertada = 0;
-            //string query = "INSERT INTO precio_servicio( id_servicio, id_contrato, precio_acordado) VALUES ('";
-            string query = "INSERT INTO precio_servicio( id_servicio, id_contrato, precio_acordado, detalle_condicion) VALUES ('";
-            string queryCompleta;
-            foreach (ServicioListado temp in listaServicios)
-            {
-                //queryCompleta = query + temp.id_servicio + "', '"+idContrato+"', '"+temp.precio_acordado+"')";
-                queryCompleta = query + temp.id_servicio + "', '" + idContrato + "', '" + temp.precio_acordado + "', '"+temp.descripcion+"')";
-                cantidadInsertada += DBConector.INSERT(queryCompleta);
-            }
-            return cantidadInsertada;
         }
 
     }
