@@ -55,15 +55,19 @@
 
                     <label>Fecha término</label>
                     <%
+                        string valorFechaTerm;
                         if (contrato.tieneTermino.Contains("true"))
                         {
-                            Html.TextBox("fecha_termino", contrato.dia_caducidad_contrato + "-" + contrato.mes_caducidad_contrato + "-" + contrato.agno_caducidad_contrato, new { @disabled = "disabled" });
+                            valorFechaTerm = contrato.dia_caducidad_contrato + "-" + contrato.mes_caducidad_contrato + "-" + contrato.agno_caducidad_contrato;
                         }
                         else
                         {
-                            Html.TextBox("fecha_termino", "No tiene", new { @disabled = "disabled" });
+                            valorFechaTerm = "No tiene";
                         }
                     %>
+                    <%: Html.TextBox("fecha_termino", valorFechaTerm, new { @disabled = "disabled" }) %>
+                    
+                    
                     <div class="fieldsetInterno">
                     <fieldset>
                         <legend>Descripción del contrato</legend>
@@ -83,21 +87,29 @@
                                 <td><b>
                                     Nombre del servicio</b></td>
                                 <td><b>
-                                    N° Precio referencia</b></td>
-                                <td><b>
                                     N° Precio estipulado</b></td>
                                 <td><b>
                                     Detalles</b></td>
                             </tr>
                             
-                            <!--bucle for-->
-
-
-
-
-
-
-
+                            <%
+                            if (ViewBag.serviciosDelContrato != null) {
+                                List<SigOSO_PBD.Models.ServicioListado> lst = ViewBag.serviciosDelContrato;
+                                foreach (SigOSO_PBD.Models.ServicioListado temp in lst)
+                                {
+                                    Response.Write("<tr>");
+                                    Response.Write("<td>");
+                                    Response.Write(temp.id_servicio+"</td>");
+                                    Response.Write("<td>");
+                                    Response.Write(temp.nombre_servicio+"</td>");
+                                    Response.Write("<td>");
+                                    Response.Write(temp.precio_acordado+"</td>");
+                                    Response.Write("<td>");
+                                    Response.Write("<textarea cols=\"20\" id=\"descripcion_serv_" + temp.id_servicio + "\" name=\"descripcion_serv_" + temp.id_servicio + "\" rows=\"2\" style=\"width:95%;\">"+temp.descripcion+"</textarea></td>");
+                                    Response.Write("</tr>");
+                                }
+                            }
+                            %>
                         </table>
                         
                     </fieldset>

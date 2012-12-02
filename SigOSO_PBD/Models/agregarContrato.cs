@@ -58,20 +58,23 @@ namespace SigOSO_PBD.Models
 
         public string servicioSeleccionado { get; set; }
 
-        public static List<servicioContrato> getServiciosDelContrato(int idContrato)
+        public static List<ServicioListado> getServiciosDelContrato(int idContrato)
         {
-            List<servicioContrato> res = new List<servicioContrato>();
-            servicioContrato temp;
+            List<ServicioListado> res = new List<ServicioListado>();
+            ServicioListado temp;
             NpgsqlDataReaderWithConection lector = null;
             try
             {
-                string query = "SELECT * FROM contrato NATURAL JOIN precio_servicio NATURAL JOIN servicio WHERE id_contrato=" + idContrato;
+                string query = "SELECT id_contrato, id_servicio, nombre_servicio, precio_acordado, detalle_condicion FROM contrato NATURAL JOIN precio_servicio NATURAL JOIN servicio WHERE id_contrato=" + idContrato;
                 lector = DBConector.SELECT(query);
 
                 while (lector.Read())
                 {
-                    temp = new servicioContrato();
-
+                    temp = new ServicioListado();
+                    temp.id_servicio = lector["id_servicio"];
+                    temp.nombre_servicio = lector["nombre_servicio"];
+                    temp.precio_acordado = lector["precio_acordado"];
+                    temp.descripcion = lector["detalle_condicion"];
 
                     res.Add(temp);
                 }
