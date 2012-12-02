@@ -2538,9 +2538,25 @@ namespace SigOSO_PBD.Controllers
         public ActionResult Contratos()
         {
             ViewBag.listaContratos = Contrato.getAllContratos();
-            ViewBag.listaContratosDetalle = Contrato.getAllContratosDetalle();
+            ViewBag.contratoDetallado = null;
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Contratos(Contrato contrato)
+        {
+            ModelState.Clear();
+            int idContrato = -1;
+            if (!Int32.TryParse(contrato.id_contrato, out idContrato))
+            {
+                ModelState.AddModelError("id_contrato", "N° de contrato no válido");
+            }
+            ViewBag.listaContratos = Contrato.getAllContratos();
+            ViewBag.contratoDetallado = Contrato.getDetalleContrato(idContrato);
+            ViewBag.serviciosDelContrato = Contrato.getServiciosDelContrato(idContrato);
+
+            return View(contrato);
         }
     }
 }

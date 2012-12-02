@@ -54,7 +54,37 @@ namespace SigOSO_PBD.Models
 
         public string nombreCliente { get; set; }
 
+        public string tieneTermino { get; set; }
+
         public string servicioSeleccionado { get; set; }
+
+        public static List<servicioContrato> getServiciosDelContrato(int idContrato)
+        {
+            List<servicioContrato> res = new List<servicioContrato>();
+            servicioContrato temp;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                string query = "SELECT * FROM contrato NATURAL JOIN precio_servicio NATURAL JOIN servicio WHERE id_contrato=" + idContrato;
+                lector = DBConector.SELECT(query);
+
+                while (lector.Read())
+                {
+                    temp = new servicioContrato();
+
+
+                    res.Add(temp);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return res;
+        }
 
 
         public static List<SelectListItem> getAllServicios()
@@ -121,6 +151,55 @@ namespace SigOSO_PBD.Models
         }
 
 
+        public static Contrato getDetalleContrato(int idContrato)
+        {
+            Contrato res = null;
+            DateTime t;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                lector = DBConector.SELECT("SELECT contrato.id_contrato, nombre_cliente, breve_descripcion, fecha_inicio_contrato, fecha_caducidad_contrato, rut_cliente FROM contrato NATURAL JOIN cliente WHERE id_contrato=" + idContrato);
+
+                while (lector.Read())
+                {
+                    res = new Contrato();
+                    res.id_contrato = lector["id_contrato"];
+                    res.nombreCliente = lector["nombre_cliente"];
+
+                    
+                    res.breve_descripcion = lector["breve_descripcion"];
+                    t = lector.GetDateTime(3);
+                    res.dia_ini_contrato = t.Day.ToString();
+                    res.mes_ini_contrato = t.Month.ToString();
+                    res.agno_ini_contrato = t.Year.ToString();
+
+                    if (lector.IsDBNull(4))
+                    {
+                        res.tieneTermino = "false";
+                    }
+                    else
+                    {
+                        res.tieneTermino = "true";
+                        t = lector.GetDateTime(4);
+                        res.dia_caducidad_contrato = t.Day.ToString();
+                        res.mes_caducidad_contrato = t.Month.ToString();
+                        res.agno_caducidad_contrato = t.Year.ToString();
+                    }
+                    
+                    
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return res;
+        }
+
+
         public static List<SelectListItem> getAllContratos()
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -154,37 +233,6 @@ namespace SigOSO_PBD.Models
 
         }
 
-
-        public static List<Contrato> getAllContratosDetalle()
-        {
-            List<Contrato> items = new List<Contrato>();
-            Contrato temp;
-            NpgsqlDataReaderWithConection unidades = null;
-            try
-            {
-                unidades = DBConector.SELECT("SELECT contrato.id_contrato, cliente.nombre_cliente FROM contrato NATURAL JOIN cliente");
-
-                while (unidades.Read())
-                {
-                    temp = new Contrato();
-
-
-
-
-
-
-                }
-            }
-            catch (Exception)
-            {
-            }
-            if (unidades != null)
-            {
-                unidades.CloseTodo();
-            }
-            return items;
-
-        }
 
 
         public static string getNombreCliente(int rut, out bool bienHecho) {
