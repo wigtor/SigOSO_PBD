@@ -155,32 +155,47 @@ namespace SigOSO_PBD.Models
         public static int insertContrato(int rut_cliente, string fecha_inicio, string fecha_termino, string descripcion, List<ServicioListado> listaServicios)
         {
             NpgsqlDataReaderWithConection lector = null;
-            int resultado = 0;
+            string msjResultado = "";
             int idContrato = 0;
+
             string tieneTermino = "TRUE";
             if (fecha_termino == null)
             {
                 fecha_termino = fecha_inicio;
                 tieneTermino = "FALSE";
             }
+            string query = "SELECT sp_new_contrato('" + rut_cliente + "', '" + fecha_inicio + "', '" + fecha_termino + "', '" + tieneTermino + "', '" + descripcion + "', ";
+            string id_servs = "ARRAY[";
+            string precios = "ARRAY[";
+            string descripciones = "ARRAY[";
+            foreach (ServicioListado temp in listaServicios)
+            {
+                if (temp != listaServicios[0])
+                {
+                    id_servs += ", ";
+                    precios += ", ";
+                    descripciones += ", ";
+                }
+                id_servs += temp.id_servicio;
+                precios += temp.precio_acordado;
+                descripciones += "'" + temp.descripcion + "'";
+            }
+            query += id_servs + "], " + precios + "], " + descripciones + "])";
+
             try
             {
-                string query = "SELECT sp_new_contrato('"+rut_cliente+"', '"+fecha_inicio+"', '"+fecha_termino+"', '"+tieneTermino+"', '"+descripcion+"')";
                 lector = DBConector.SELECT(query);
 
                 if (lector.Read())
                 {
-                    idContrato = lector.GetInt32(0);
-                    resultado = idContrato;
+                    msjResultado = lector.GetString(0);
                 }
 
             }
             catch (Exception)
             {
-                resultado = -1;
+                msjResultado = "Error al conectar a la base de datos";
             }
-
-            
             if (lector != null)
             {
                 lector.CloseTodo();
@@ -188,10 +203,10 @@ namespace SigOSO_PBD.Models
             }
 
             //ACÁ HAGO UNA LLAMADA A LA FUNCIÓN QUE CREA LA RELACIÓN DE SERVICIOS CON CONTRATOS EN LA BASE DE DATOS
-            insertarPrecioServicios(idContrato, listaServicios);
+            //insertarPrecioServicios(idContrato, listaServicios);
 
 
-            return resultado;
+            return 0;
 
         }
 

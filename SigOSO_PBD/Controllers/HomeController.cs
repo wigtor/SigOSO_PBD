@@ -699,14 +699,8 @@ namespace SigOSO_PBD.Controllers
                                     ModelState.AddModelError("agno_ini_contrato", "El año de inicio de contrato no es válido");
                                 }
                             }
-
-
-
-
-
                         }
                     }
-                    
                 }
                 else
                 {
