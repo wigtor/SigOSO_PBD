@@ -3,16 +3,22 @@
 
 
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
-    Bienvenido
+    <MARQUEE  id="indices_economicos" onmouseover="this.stop();" onmouseout="this.start();">
+        
+    </MARQUEE >       
+    
+    Bienvenido usuario<% Response.Write(" '" + User.Identity.Name + "'"); %>
+    <HR><br>
+    
+    
+    <!--#include virtual="../../Servicios/indicesEconomicos.html"-->
+
+
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server">
+        <div class="sitio_en_construccion"></div> 
 
-        Formulario de supervisor
-    
-    
-    
-    
+
 </asp:Content>
-
 

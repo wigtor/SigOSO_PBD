@@ -1535,6 +1535,16 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult agregarServicio(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio)
         {
+            int precioInt;
+            if(!Int32.TryParse(nvoServicio.precioPizarra, out precioInt)){
+                ModelState.AddModelError("precioPizarra", "El precio de pizarra introdusido no es un precio valido");
+            }
+            double factorDouble;
+            if (!Double.TryParse(nvoServicio.factorBono, out factorDouble))
+            {
+                ModelState.AddModelError("factorBono", "El factor bono es invalido");
+            }
+
             if (ModelState.IsValid)
             {
                 string activado = visibilidad1;
@@ -1555,8 +1565,9 @@ namespace SigOSO_PBD.Controllers
                         ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                         return View(nvoServicio);
                     }
-                    int cantidadInsertada = DBConector.INSERT(query);                    
+                    int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "El servicio '" + nvoServicio.nombreServicio + "' se creo de manera satisfactoria";
+                    ViewBag.tipoRespuestaPos = "informacion";
                     ModelState.Clear();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
@@ -1576,6 +1587,13 @@ namespace SigOSO_PBD.Controllers
                     lector.closeConection();
                 }
             }
+            else {
+                ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
+                ViewBag.respuestaPost = "Campos llenados de manera incorrecta";
+                ViewBag.tipoRespuestaPos = "error";
+                ViewBag.tabla = agregarServicioModel.generarTablaServicios();
+                return View(nvoServicio);
+            }
             ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
             ViewBag.respuestaPost = "";
             ViewBag.tabla = agregarServicioModel.generarTablaServicios();
@@ -1584,7 +1602,18 @@ namespace SigOSO_PBD.Controllers
 
 
         public ActionResult modificarServicio(agregarServicioModel nvoServicio, string btn_submit, string visibilidad1, string visibilidad2, string id_servicio)
-        {           
+        {
+            int precioInt;
+            if (!Int32.TryParse(nvoServicio.precioPizarra, out precioInt))
+            {
+                ModelState.AddModelError("precioPizarra", "El precio de pizarra introdusido no es un precio valido");
+            }
+            double factorDouble;
+            if (!Double.TryParse(nvoServicio.factorBono, out factorDouble))
+            {
+                ModelState.AddModelError("factorBono", "El factor bono es invalido");
+            }
+
             if (ModelState.IsValid)
             {
                 string activado = visibilidad2;
@@ -1614,6 +1643,7 @@ namespace SigOSO_PBD.Controllers
                     
                     int cantidadInsertada = DBConector.UPDATE(query);
                     ViewBag.respuestaPost = "El servicio '" + nvoServicio.nombreServicio + "' se actualizo de manera satisfactoria";
+                    ViewBag.tipoRespuestaPos = "informacion";
                     ModelState.Clear();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
@@ -1633,8 +1663,15 @@ namespace SigOSO_PBD.Controllers
                     lector.closeConection();
                 }
             }
+            else
+            {
+                ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
+                ViewBag.respuestaPost = "Campos llenados de manera incorrecta";
+                ViewBag.tipoRespuestaPos = "error";
+                ViewBag.tabla = agregarServicioModel.generarTablaServicios();
+                return View(nvoServicio);
+            }
             ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
-            ViewBag.respuestaPost = "";
             ViewBag.tabla = agregarServicioModel.generarTablaServicios();
             return View();
         }
