@@ -20,9 +20,6 @@
                             <%: Html.LabelFor(user => user.UserName) %>
                         </td>
                         <td>
-                            <%: Html.LabelFor(user => user.rut) %>
-                        </td>
-                        <td>
                             <%: Html.LabelFor(user => user.Email) %>
                         </td>
                         <td>
@@ -40,10 +37,6 @@
                             foreach (MembershipUser temp in lst)
                             {
                                 Response.Write("<tr>");
-
-                                Response.Write("<td>&nbsp;");
-                                Response.Write(temp.UserName);
-                                Response.Write("</td>");
 
                                 Response.Write("<td>&nbsp;");
                                 Response.Write(temp.UserName);

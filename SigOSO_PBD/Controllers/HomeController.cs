@@ -131,8 +131,15 @@ namespace SigOSO_PBD.Controllers
                     ModelState.AddModelError("rut", "El rut no es válido");
                 }
             }
+            else
+            {
+                if (!ModelState.IsValidField("rut"))
+                {
+                    ModelState.Remove("rut");
+                }
+            }
 
-
+            
             if (ModelState.IsValid)
             {
                 

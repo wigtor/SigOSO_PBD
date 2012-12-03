@@ -98,7 +98,7 @@
                 </div>
                 
                 <p>
-                    <input type="submit" value="Register" />
+                    <input type="submit" value="Registrar usuario" />
                 </p>
             </fieldset>
             </div>
