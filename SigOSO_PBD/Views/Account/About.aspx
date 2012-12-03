@@ -6,8 +6,11 @@
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div style="background-image: url(../../Content/imagenes/logo_about.png); height: 756px; width: 519px">
+    <div>
         Este corresponde a la entrega final del trabajo de Proyecto de base de datos 2-2012. El proyecto ha sido llamado SigOSO
+    </div>
+    <div style="background-image: url(../../Content/imagenes/logo.png); background-repeat: no-repeat; width: 30%;">
+        :)
     </div>
     
 </asp:Content>

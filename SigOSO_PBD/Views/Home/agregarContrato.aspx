@@ -46,13 +46,17 @@
 
             <label>Nombre cliente</label>
                 <%
-                    string nombre_cliente = "";
                     if (ViewBag.nombreCliente != null)
                     {
-                        nombre_cliente = ViewBag.nombreCliente;
+                        Response.Write("<input class=\"text\" id=\"nombreCliente\" name=\"nombreCliente\" readonly=\"true\" value=\"" + (string)ViewBag.nombreCliente+ "\" type=\"text\">");
+                        
                     }
+                    else
+                    {
+                        Response.Write(Html.TextBox("nombreCliente", "", new { @class = "text", @readonly = "true" }));
+                    }
+                    
                 %>
-                <%: Html.TextBox("nombreCliente", nombre_cliente, new { @class = "text", @readonly = "true" })%>
                 <%: Html.ValidationMessage("nombreCliente")%>
         </fieldset>
         </div>

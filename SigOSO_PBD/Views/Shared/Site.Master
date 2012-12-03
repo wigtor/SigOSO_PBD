@@ -55,7 +55,7 @@
                 var mensaje = <% Response.Write("\""+ViewBag.respuestaPost+"\""); %>;
                 if (mensaje != "") {   
                     document.getElementById("contenedor_respuesta_vista").innerHTML="<div class='alert alert-info'><button type='button' class='close' data-dismiss='alert'>×</button><strong>Información!</strong> "+mensaje+"</div>";
-                    var tipo_alert = <% Response.Write("\""+ViewBag.tipoRespuestaPos+"\""); %>;      
+                    var tipo_alert = <% Response.Write("\""+ViewBag.tipoRespuestaPost+"\""); %>;      
                     if(tipo_alert!=null){                                                  
                         if(tipo_alert=="satisfactorio"){
                             //satisfactorio
