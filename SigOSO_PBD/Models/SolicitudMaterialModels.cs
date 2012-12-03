@@ -45,11 +45,6 @@ namespace SigOSO_PBD.Models
             return "";
         }
 
-        public static string generarMaterialesAsignados(int rut_jefe_cuadrilla)
-        {
-
-            return "<div>aun en desarrollo</div>";
-        }
 
         public static string generarSolicitudDeMateriales(int rut_jefe_cuadrilla)
         {
@@ -91,6 +86,28 @@ namespace SigOSO_PBD.Models
                 lector.CloseTodo();
             }
             return (respuesta + script_respuesta + option);
+        }
+    }
+
+    public class materialSolicitado
+    {
+        public string nombreMaterial { get; set; }
+        public string abrevUnidad { get; set; }
+        public string cantidadAsignada { get; set; }
+        public string cantidadDisponible { get; set; }
+
+
+        public static List<materialSolicitado> getSolicitudMaterial(int idOti) {
+            List<materialSolicitado> resultado = new List<materialSolicitado>();
+            materialSolicitado res = new materialSolicitado();
+            res.nombreMaterial = "Cemento";
+            res.cantidadAsignada = "2";
+            res.cantidadDisponible = "1";
+            res.abrevUnidad = "Sacos";
+
+            resultado.Add(res);
+
+            return resultado;
         }
     }
 

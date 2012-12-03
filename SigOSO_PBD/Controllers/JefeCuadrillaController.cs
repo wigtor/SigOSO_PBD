@@ -80,6 +80,8 @@ namespace SigOSO_PBD.Controllers
         {
             return View();
         }
+
+        [HttpGet] //Lo cambié, no tenia nada
         public ActionResult solicitarMaterial()
         {
             //Para borrar los datos de creaciones pasadas
@@ -91,7 +93,7 @@ namespace SigOSO_PBD.Controllers
             int rut_jefe_cuadrilla = 123456789;
             Session["rut_usuario"]=rut_jefe_cuadrilla;
             ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-            ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+            ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
             ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
             return View();
         }
@@ -128,7 +130,7 @@ namespace SigOSO_PBD.Controllers
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                 int rut_jefe_cuadrilla = 123456789;
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-                ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+                ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
                 ViewBag.respuestaPost = "El tipo de material " + servicio.tipo + " se  agregado a la lista de solicitudes de manera satisfactoria";
                 ViewBag.tipoRespuestaPos = "informacion";
@@ -138,7 +140,7 @@ namespace SigOSO_PBD.Controllers
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                 int rut_jefe_cuadrilla = 123456789;
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-                ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+                ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
                 ViewBag.respuestaPost = "El tipo de material " + servicio.tipo + " ya se ha sido solicitada";
                 ViewBag.tipoRespuestaPos = "advertencia";
@@ -171,7 +173,7 @@ namespace SigOSO_PBD.Controllers
                         listaAgregadosMaterialSolicitado.RemoveAt(i);
                         ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                         ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-                        ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+                        ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
                         ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
                         ViewBag.respuestaPost = servicio.tipo + " eliminado de manera satisfactoria";
                         ViewBag.tipoRespuestaPos = "informacion";
@@ -182,7 +184,7 @@ namespace SigOSO_PBD.Controllers
             else {
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-                ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+                ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
                 ViewBag.respuestaPost = "Error al eliminar " + servicio.tipo;
                 ViewBag.tipoRespuestaPos = "advertencia";
@@ -190,7 +192,7 @@ namespace SigOSO_PBD.Controllers
             }
             ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
             ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-            ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+            ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
             ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
             return View();
         }
@@ -219,7 +221,7 @@ namespace SigOSO_PBD.Controllers
                     string query = "SELECT sp_solicitud_material(" + 1 + ", " + cod_producto + ", " + (int)Session["rut_usuario"] + "," + cantidad_solicitada + "," + comentarios_jefe_cuadrilla + ")";
                     lector = DBConector.SELECT(query);
                     ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden((int)Session["rut_usuario"]);
-                    ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados((int)Session["rut_usuario"]);
+                    ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial((int)Session["rut_usuario"]);
                     ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales((int)Session["rut_usuario"]);
                     ViewBag.respuestaPost = "La solicitud de materiales se realizo de manera satisfactoria";
                     ViewBag.tipoRespuestaPos = "satisfactorio";
@@ -230,7 +232,7 @@ namespace SigOSO_PBD.Controllers
                 {
                     ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                     ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden((int)Session["rut_usuario"]);
-                    ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados((int)Session["rut_usuario"]);
+                    ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial((int)Session["rut_usuario"]);
                     ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales((int)Session["rut_usuario"]);
                     ViewBag.respuestaPost = "Error al enviar la solicitud, vuelva a intentarlo";
                     ViewBag.tipoRespuestaPos = "error";
@@ -242,7 +244,7 @@ namespace SigOSO_PBD.Controllers
             {
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden((int)Session["rut_usuario"]);
-                ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados((int)Session["rut_usuario"]);
+                ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial((int)Session["rut_usuario"]);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales((int)Session["rut_usuario"]);
                 ViewBag.respuestaPost = "Debe solicitar por lo menos";
                 ViewBag.tipoRespuestaPos = "error";
