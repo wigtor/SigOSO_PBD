@@ -52,6 +52,13 @@
             <fieldset>
                 <legend>Información de cuenta</legend>
                 
+                <div class="editor-field">
+                    <label>Tipo de usuario</label>
+                    <%: Html.DropDownListFor(m => m.tipoUsuario, (List<SelectListItem>)ViewBag.listaTiposUsuarios, new { @onchange = "cambioTipoUsuario(this)" })%>
+                    <%: Html.ValidationMessageFor(m => m.tipoUsuario)%>
+                </div>
+
+
                 <div class="editor-label">
                     <%: Html.LabelFor(m => m.UserName) %>
                 </div>
@@ -92,10 +99,6 @@
                     <%: Html.ValidationMessageFor(m => m.ConfirmPassword) %>
                 </div>
 
-                <div class="editor-field">
-                    <%: Html.DropDownListFor(m => m.tipoUsuario, (List<SelectListItem>)ViewBag.listaTiposUsuarios, new { @onchange = "cambioTipoUsuario(this)" })%>
-                    <%: Html.ValidationMessageFor(m => m.tipoUsuario)%>
-                </div>
                 
                 <p>
                     <input type="submit" value="Registrar usuario" />
