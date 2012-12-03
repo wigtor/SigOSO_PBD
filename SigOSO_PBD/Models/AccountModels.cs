@@ -18,11 +18,11 @@ namespace SigOSO_PBD.Models
         [Required]
         [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "nueva contraseña")]
+        [Display(Name = "Nueva contraseña")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Nueva contraseña de confirmación")]
+        [Display(Name = "Confirme su nueva contraseña")]
         //Quizás existe un error por "newPassword"
         [Compare("NewPassword", ErrorMessage = "La nueva contraseña y confirmación de esta no coinciden.")]
         public string ConfirmPassword { get; set; }
@@ -39,7 +39,7 @@ namespace SigOSO_PBD.Models
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [Display(Name = "Recordarme?")]
+        [Display(Name = "¿Recordarme?")]
         public bool RememberMe { get; set; }
     }
 
