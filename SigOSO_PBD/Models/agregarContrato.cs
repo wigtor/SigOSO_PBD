@@ -52,7 +52,42 @@ namespace SigOSO_PBD.Models
         [Display(Name = "breve_descripcion")]
         public string breve_descripcion { get; set; }
 
+        public string nombreCliente { get; set; }
+
+        public string tieneTermino { get; set; }
+
         public string servicioSeleccionado { get; set; }
+
+        public static List<ServicioListado> getServiciosDelContrato(int idContrato)
+        {
+            List<ServicioListado> res = new List<ServicioListado>();
+            ServicioListado temp;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                string query = "SELECT id_contrato, id_servicio, nombre_servicio, precio_acordado, detalle_condicion FROM contrato NATURAL JOIN precio_servicio NATURAL JOIN servicio WHERE id_contrato=" + idContrato;
+                lector = DBConector.SELECT(query);
+
+                while (lector.Read())
+                {
+                    temp = new ServicioListado();
+                    temp.id_servicio = lector["id_servicio"];
+                    temp.nombre_servicio = lector["nombre_servicio"];
+                    temp.precio_acordado = lector["precio_acordado"];
+                    temp.descripcion = lector["detalle_condicion"];
+
+                    res.Add(temp);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return res;
+        }
 
 
         public static List<SelectListItem> getAllServicios()
@@ -119,6 +154,90 @@ namespace SigOSO_PBD.Models
         }
 
 
+        public static Contrato getDetalleContrato(int idContrato)
+        {
+            Contrato res = null;
+            DateTime t;
+            NpgsqlDataReaderWithConection lector = null;
+            try
+            {
+                lector = DBConector.SELECT("SELECT contrato.id_contrato, nombre_cliente, breve_descripcion, fecha_inicio_contrato, fecha_caducidad_contrato, rut_cliente FROM contrato NATURAL JOIN cliente WHERE id_contrato=" + idContrato);
+
+                while (lector.Read())
+                {
+                    res = new Contrato();
+                    res.id_contrato = lector["id_contrato"];
+                    res.nombreCliente = lector["nombre_cliente"];
+
+                    
+                    res.breve_descripcion = lector["breve_descripcion"];
+                    t = lector.GetDateTime(3);
+                    res.dia_ini_contrato = t.Day.ToString();
+                    res.mes_ini_contrato = t.Month.ToString();
+                    res.agno_ini_contrato = t.Year.ToString();
+
+                    if (lector.IsDBNull(4))
+                    {
+                        res.tieneTermino = "false";
+                    }
+                    else
+                    {
+                        res.tieneTermino = "true";
+                        t = lector.GetDateTime(4);
+                        res.dia_caducidad_contrato = t.Day.ToString();
+                        res.mes_caducidad_contrato = t.Month.ToString();
+                        res.agno_caducidad_contrato = t.Year.ToString();
+                    }
+                    
+                    
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (lector != null)
+            {
+                lector.CloseTodo();
+            }
+            return res;
+        }
+
+
+        public static List<SelectListItem> getAllContratos()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "",
+                Value = "-1"
+            });
+            NpgsqlDataReaderWithConection unidades = null;
+            try
+            {
+                unidades = DBConector.SELECT("SELECT contrato.id_contrato, cliente.nombre_cliente FROM contrato NATURAL JOIN cliente");
+
+                while (unidades.Read())
+                {
+                    items.Add(new SelectListItem
+                    {
+                        Text = unidades.GetInt32(0) + " - Contrato con: " + unidades.GetString(1),
+                        Value = unidades.GetInt32(0).ToString()
+                    });
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (unidades != null)
+            {
+                unidades.CloseTodo();
+            }
+            return items;
+
+        }
+
+
+
         public static string getNombreCliente(int rut, out bool bienHecho) {
             string query = "SELECT nombre_cliente FROM cliente WHERE rut_cliente = '" + rut + "'";
             string resultado = "";
@@ -155,32 +274,47 @@ namespace SigOSO_PBD.Models
         public static int insertContrato(int rut_cliente, string fecha_inicio, string fecha_termino, string descripcion, List<ServicioListado> listaServicios)
         {
             NpgsqlDataReaderWithConection lector = null;
-            int resultado = 0;
+            string msjResultado = "";
             int idContrato = 0;
+
             string tieneTermino = "TRUE";
             if (fecha_termino == null)
             {
                 fecha_termino = fecha_inicio;
                 tieneTermino = "FALSE";
             }
+            string query = "SELECT sp_new_contrato('" + rut_cliente + "', '" + fecha_inicio + "', '" + fecha_termino + "', '" + tieneTermino + "', '" + descripcion + "', ";
+            string id_servs = "ARRAY[";
+            string precios = "ARRAY[";
+            string descripciones = "ARRAY[";
+            foreach (ServicioListado temp in listaServicios)
+            {
+                if (temp != listaServicios[0])
+                {
+                    id_servs += ", ";
+                    precios += ", ";
+                    descripciones += ", ";
+                }
+                id_servs += temp.id_servicio;
+                precios += temp.precio_acordado;
+                descripciones += "'" + temp.descripcion + "'";
+            }
+            query += id_servs + "], " + precios + "], " + descripciones + "])";
+
             try
             {
-                string query = "SELECT sp_new_contrato('"+rut_cliente+"', '"+fecha_inicio+"', '"+fecha_termino+"', '"+tieneTermino+"', '"+descripcion+"')";
                 lector = DBConector.SELECT(query);
 
                 if (lector.Read())
                 {
-                    idContrato = lector.GetInt32(0);
-                    resultado = idContrato;
+                    msjResultado = lector.GetString(0);
                 }
 
             }
             catch (Exception)
             {
-                resultado = -1;
+                msjResultado = "Error al conectar a la base de datos";
             }
-
-            
             if (lector != null)
             {
                 lector.CloseTodo();
@@ -188,26 +322,11 @@ namespace SigOSO_PBD.Models
             }
 
             //ACÁ HAGO UNA LLAMADA A LA FUNCIÓN QUE CREA LA RELACIÓN DE SERVICIOS CON CONTRATOS EN LA BASE DE DATOS
-            insertarPrecioServicios(idContrato, listaServicios);
+            //insertarPrecioServicios(idContrato, listaServicios);
 
 
-            return resultado;
+            return 0;
 
-        }
-
-        public static int insertarPrecioServicios(int idContrato, List<ServicioListado> listaServicios)
-        {
-            int cantidadInsertada = 0;
-            //string query = "INSERT INTO precio_servicio( id_servicio, id_contrato, precio_acordado) VALUES ('";
-            string query = "INSERT INTO precio_servicio( id_servicio, id_contrato, precio_acordado, detalle_condicion) VALUES ('";
-            string queryCompleta;
-            foreach (ServicioListado temp in listaServicios)
-            {
-                //queryCompleta = query + temp.id_servicio + "', '"+idContrato+"', '"+temp.precio_acordado+"')";
-                queryCompleta = query + temp.id_servicio + "', '" + idContrato + "', '" + temp.precio_acordado + "', '"+temp.descripcion+"')";
-                cantidadInsertada += DBConector.INSERT(queryCompleta);
-            }
-            return cantidadInsertada;
         }
 
     }
