@@ -79,6 +79,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\agregarContrato.cs" />
+    <Compile Include="Models\AsigMatSupervisorModels.cs" />
     <Compile Include="Models\SolicitudMaterialModels.cs" />
     <Compile Include="Models\OrdenTrabajoModel.cs" />
     <Compile Include="Models\DatosAuditoriaModels.cs" />
@@ -169,6 +170,7 @@
     <Content Include="Views\JefeCuadrilla\CambiarEstadoOTI.aspx" />
     <Content Include="Views\JefeCuadrilla\ChangePassword.aspx" />
     <Content Include="Views\JefeCuadrilla\ChangePasswordSuccess.aspx" />
+    <Content Include="Views\JefeCuadrilla\VerSolicitudesMat.aspx" />
     <Content Include="Views\JefeCuadrilla\Index.aspx" />
     <Content Include="Views\JefeCuadrilla\ModificarPerfil.aspx" />
     <Content Include="Views\JefeCuadrilla\SolicitarMaterial.aspx" />

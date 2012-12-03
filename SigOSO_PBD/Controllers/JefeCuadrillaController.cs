@@ -88,7 +88,7 @@ namespace SigOSO_PBD.Controllers
                 Session["listaAgregadosMaterialSolicitado"] = null;
             }
 
-            int rut_jefe_cuadrilla = 123124121;
+            int rut_jefe_cuadrilla = 123456789;
             Session["rut_usuario"]=rut_jefe_cuadrilla;
             ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
             ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
@@ -119,13 +119,14 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult agregar_nuevo_material(solicitudMaterialModels servicio)
         {
+            ModelState.Clear();
             if (!materialYaExistente(servicio))//material no solicitado
             {
                 List<solicitudMaterialModels> listaAgregadosMaterialSolicitado = (List<solicitudMaterialModels>)Session["listaAgregadosMaterialSolicitado"];
                 listaAgregadosMaterialSolicitado.Add(servicio);
                 Session["listaAgregadosMaterialSolicitado"] = listaAgregadosMaterialSolicitado;
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
-                int rut_jefe_cuadrilla = 123124121;
+                int rut_jefe_cuadrilla = 123456789;
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
                 ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
@@ -135,7 +136,7 @@ namespace SigOSO_PBD.Controllers
             }
             else {
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
-                int rut_jefe_cuadrilla = 123124121;
+                int rut_jefe_cuadrilla = 123456789;
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
                 ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
@@ -147,7 +148,8 @@ namespace SigOSO_PBD.Controllers
 
         public ActionResult eliminar_nuevo_material(solicitudMaterialModels servicio)
         {
-            int rut_jefe_cuadrilla = 123124121;
+            ModelState.Clear();
+            int rut_jefe_cuadrilla = 123456789;
             string nombreParam = "", valorParam = "", id = "";
             NameValueCollection col = Request.Params;
             for (int i = 0; i < Request.Params.Count; i++)
@@ -195,23 +197,25 @@ namespace SigOSO_PBD.Controllers
 
         [HttpPost]
         public ActionResult guardar_solicitud() {
-            if (Session["listaAgregadosMaterialSolicitado"]!=null)
+            ModelState.Clear();
+            if (Session["listaAgregadosMaterialSolicitado"] != null)
             {
                 List<solicitudMaterialModels> listaAgregadosMaterialSolicitado = (List<solicitudMaterialModels>)Session["listaAgregadosMaterialSolicitado"];
                 NpgsqlDataReaderWithConection lector = null;
                 try
-                {                    
-                    string cod_producto="ARRAY["+listaAgregadosMaterialSolicitado[0].id;
-                    string cantidad_solicitada="ARRAY["+listaAgregadosMaterialSolicitado[0].cantidad;
-                    string comentarios_jefe_cuadrilla="ARRAY['"+listaAgregadosMaterialSolicitado[0].detalle+"'";
-                    for (int i = 1; i < listaAgregadosMaterialSolicitado.Count; i++){
+                {
+                    string cod_producto = "ARRAY[" + listaAgregadosMaterialSolicitado[0].id;
+                    string cantidad_solicitada = "ARRAY[" + listaAgregadosMaterialSolicitado[0].cantidad;
+                    string comentarios_jefe_cuadrilla = "ARRAY['" + listaAgregadosMaterialSolicitado[0].detalle + "'";
+                    for (int i = 1; i < listaAgregadosMaterialSolicitado.Count; i++)
+                    {
                         cod_producto += "," + listaAgregadosMaterialSolicitado[i].id;
                         cantidad_solicitada += "," + listaAgregadosMaterialSolicitado[i].cantidad;
-                        comentarios_jefe_cuadrilla += ",'" + listaAgregadosMaterialSolicitado[i].detalle + "'";                                            
+                        comentarios_jefe_cuadrilla += ",'" + listaAgregadosMaterialSolicitado[i].detalle + "'";
                     }
-                    cod_producto+="]";
-                    cantidad_solicitada+="]";
-                    comentarios_jefe_cuadrilla+="]";
+                    cod_producto += "]";
+                    cantidad_solicitada += "]";
+                    comentarios_jefe_cuadrilla += "]";
                     string query = "SELECT sp_solicitud_material(" + 1 + ", " + cod_producto + ", " + (int)Session["rut_usuario"] + "," + cantidad_solicitada + "," + comentarios_jefe_cuadrilla + ")";
                     lector = DBConector.SELECT(query);
                     ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden((int)Session["rut_usuario"]);
@@ -220,9 +224,9 @@ namespace SigOSO_PBD.Controllers
                     ViewBag.respuestaPost = "La solicitud de materiales se realizo de manera satisfactoria";
                     ViewBag.tipoRespuestaPos = "satisfactorio";
                     lector.CloseTodo();
-                    return View();                                        
+                    return View();
                 }
-                catch 
+                catch
                 {
                     ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
                     ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden((int)Session["rut_usuario"]);
@@ -234,25 +238,30 @@ namespace SigOSO_PBD.Controllers
                     return View();
                 }
             }
-            return solicitarMaterial();
+            else
+            {
+                ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
+                ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden((int)Session["rut_usuario"]);
+                ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados((int)Session["rut_usuario"]);
+                ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales((int)Session["rut_usuario"]);
+                ViewBag.respuestaPost = "Debe solicitar por lo menos";
+                ViewBag.tipoRespuestaPos = "error";
+                return View();
+            }
         }
 
         [HttpPost]
         public ActionResult solicitarMaterial(solicitudMaterialModels servicio, string btn_agregar_servicio, string btn_solicitar)
         {
             if (btn_agregar_servicio != null)//agregamos nuevo servicio
-            {
-                ModelState.Clear();
+            {                
                 return (agregar_nuevo_material(servicio));
             }
             else if (btn_solicitar != null)
             {
-                ModelState.Clear();
                 return guardar_solicitud();
             } else
-            {
-                
-                ModelState.Clear();
+            {                
                 return (eliminar_nuevo_material(servicio));
             }
         }
@@ -263,6 +272,53 @@ namespace SigOSO_PBD.Controllers
         }
         public ActionResult ModificarPerfil()
         {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult VerSolicitudesMat()
+        {
+            NpgsqlDataReaderWithConection lector = null;
+            
+            int rut_jefe_cuadrilla = 123456789;
+            string query1 = "SELECT id_trabajo_interno FROM cuadrilla NATURAL JOIN trabajador NATURAL JOIN trabajo_interno WHERE habilitada=true and rut_trabajador="+ rut_jefe_cuadrilla +" ORDER BY id_trabajo_interno DESC" ;
+            lector = DBConector.SELECT(query1);
+            if(lector.Read()){                
+                string query2 = "SELECT cantidad_solicitada, fecha_solicitud_material, cantidad_aprobada_material, fecha_respuesta, comentarios_jefe_cuadrilla, comentarios_supervisor, revisada, nombre_tipo_material  FROM solicitud_material NATURAL JOIN detalle_material NATURAL JOIN material_generico WHERE id_trabajo_interno = " + lector["id_trabajo_interno"];
+            
+                lector = DBConector.SELECT(query2);
+                
+                List<string> cantidad_solicitada = new List<string>();
+                List<string> fecha_solicitud_material = new List<string>();
+                List<string> cantidad_aprobada_material = new List<string>();
+                List<string> fecha_respuesta = new List<string>();
+                List<string> comentarios_jefe_cuadrilla = new List<string>();
+                List<string> comentarios_supervisor = new List<string>();
+                List<string> revisada = new List<string>();
+                List<string> nombre_tipo_material = new List<string>();
+                
+                while(lector.Read()){
+                    cantidad_solicitada.Add(lector["cantidad_solicitada"]);
+                    fecha_solicitud_material.Add(lector["fecha_solicitud_material"]);
+                    cantidad_aprobada_material.Add(lector["cantidad_aprobada_material"]);
+                    fecha_respuesta.Add(lector["fecha_respuesta"]);
+                    comentarios_jefe_cuadrilla.Add(lector["comentarios_jefe_cuadrilla"]);
+                    comentarios_supervisor.Add(lector["comentarios_supervisor"]);
+                    revisada.Add(lector["revisada"]);
+                    nombre_tipo_material.Add(lector["nombre_tipo_material"]);
+                    
+                }
+                ViewBag.cantidad_solicitada = cantidad_solicitada;
+                ViewBag.fecha_solicitud_material = fecha_solicitud_material;
+                ViewBag.cantidad_aprobada_material = cantidad_aprobada_material;
+                ViewBag.fecha_respuesta = fecha_respuesta;
+                ViewBag.comentarios_jefe_cuadrilla = comentarios_jefe_cuadrilla;
+                ViewBag.comentarios_supervisor = comentarios_supervisor;
+                ViewBag.revisada = revisada;
+                ViewBag.nombre_tipo_material = nombre_tipo_material;
+                
+            }
+            lector.CloseTodo();
             return View();
         }
     }
