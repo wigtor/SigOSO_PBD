@@ -99,14 +99,39 @@ namespace SigOSO_PBD.Models
 
         public static List<materialSolicitado> getSolicitudMaterial(int idOti) {
             List<materialSolicitado> resultado = new List<materialSolicitado>();
-            materialSolicitado res = new materialSolicitado();
-            res.nombreMaterial = "Cemento";
-            res.cantidadAsignada = "2";
-            res.cantidadDisponible = "1";
-            res.abrevUnidad = "Sacos";
+            materialSolicitado res;
 
-            resultado.Add(res);
+            NpgsqlDataReaderWithConection datos = null;
+            try
+            {
+                datos = DBConector.SELECT("queryQla");
 
+                while (datos.Read())
+                {
+                    res = new materialSolicitado();
+
+                    //ACÁ ASIGNAR LOS DATOS DE LA QUERY A LOS ATRIBUTOS DE RES;
+
+
+
+
+                    res.nombreMaterial = "Cemento";
+                    res.cantidadAsignada = "2";
+                    res.cantidadDisponible = "1";
+                    res.abrevUnidad = "Sacos";
+
+
+
+                    resultado.Add(res);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            if (datos != null)
+            {
+                datos.CloseTodo();
+            }
             return resultado;
         }
     }
