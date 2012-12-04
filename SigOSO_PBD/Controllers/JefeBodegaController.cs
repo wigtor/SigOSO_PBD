@@ -64,5 +64,40 @@ namespace SigOSO_PBD.Controllers
             return View();
         }
 
+
+        public ActionResult RetiroMat() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RetiroMat(retiroMaterialModel retiroMaterial, string btn_cargar)
+        {
+            if (btn_cargar!= null)
+            {
+                int precioInt;
+                if (!Int32.TryParse(retiroMaterial.RUT, out precioInt))
+                {
+                    ModelState.AddModelError("RUT", "El RUT es invalido");
+                }
+                if (ModelState.IsValid)
+                {
+
+                    string query = "SELECT id_trabajo_interno FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + retiroMaterial.RUT + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
+
+                }else{
+                    
+                }
+            }
+            return View();
+        }
+
+        public ActionResult DevolucionMat()
+        {
+            return View();
+
+        }
+
+        
     }
 }

@@ -75,14 +75,7 @@
                    }
                }               
                tabla +="</table>";
-               Response.Write(tabla);
-               
-                
-                    
-                
-                
-            
-
+               Response.Write(tabla);                                                                                             
             %>
 
         </fieldset>

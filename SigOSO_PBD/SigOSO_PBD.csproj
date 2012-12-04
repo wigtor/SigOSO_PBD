@@ -80,6 +80,7 @@
     <Compile Include="Models\ClienteModels.cs" />
     <Compile Include="Models\agregarContrato.cs" />
     <Compile Include="Models\AsigMatSupervisorModels.cs" />
+    <Compile Include="Models\RetiroMat.cs" />
     <Compile Include="Models\SolicitudMaterialModels.cs" />
     <Compile Include="Models\OrdenTrabajoModel.cs" />
     <Compile Include="Models\DatosAuditoriaModels.cs" />
@@ -164,6 +165,8 @@
     <Content Include="Views\Home\MantServiciosPrestados.aspx" />
     <Content Include="Views\Home\ModificarCliente.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\JefeBodega\DevolucionMat.aspx" />
+    <Content Include="Views\JefeBodega\RetiroMat.aspx" />
     <Content Include="Views\JefeBodega\ChangePassword.aspx" />
     <Content Include="Views\JefeBodega\ChangePasswordSuccess.aspx" />
     <Content Include="Views\JefeBodega\Index.aspx" />
