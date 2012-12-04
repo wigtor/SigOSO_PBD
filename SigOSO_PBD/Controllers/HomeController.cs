@@ -2611,5 +2611,68 @@ namespace SigOSO_PBD.Controllers
 
             return View(contrato);
         }
+        [HttpGet]
+        public ActionResult BuscarCliente()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult BuscarTrabajador()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult EliminarCliente()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult EliminarContrato()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult EliminarCuadrilla()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult EstadosOT()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult infBonoTrabajador()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult infMaterialUsado()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult MantBuscarCuadrilla()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult MantEstadosOT()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult MantEstadosOTI()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult ModificarCuadrilla()
+        {
+            return View();
+        }
+
+
+
     }
 }

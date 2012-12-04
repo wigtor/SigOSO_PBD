@@ -61,8 +61,8 @@ namespace SigOSO_PBD.Models
                 script_respuesta += "var var_tipoMaterial = new Array();";
                 script_respuesta += "var var_unidad = new Array();";
                 script_respuesta += "var var_detalle = new Array();";
-                option += "<select id='nombre_servicios' onclick='cargarDatos(this)'>";
-                option += "<option value='" + -10 + "'>"  + "</option>";
+                option += "<select id='nombre_servicios' onclick='cargarDatos(this)' value='-10'>";
+                option += "<option value='-10'> </option>";
                 while (lector.Read())
                 {
                     script_respuesta += "var_cod_producto.push('" + lector["cod_producto"] + "');";
@@ -97,32 +97,66 @@ namespace SigOSO_PBD.Models
         public string cantidadDisponible { get; set; }
 
 
-        public static List<materialSolicitado> getSolicitudMaterial(int idOti) {
+        public static List<materialSolicitado> getSolicitudMaterial(int idOti, string rut) {
             List<materialSolicitado> resultado = new List<materialSolicitado>();
             materialSolicitado res;
-
             NpgsqlDataReaderWithConection datos = null;
             try
             {
-                datos = DBConector.SELECT("queryQla");
 
-                while (datos.Read())
+
+                string query = "SELECT id_trabajo_interno, nombre_trabajador, glosa_ti FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + rut + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
+                datos = DBConector.SELECT(query);
+                if (datos.HasRows)
                 {
-                    res = new materialSolicitado();
-
-                    //ACÁ ASIGNAR LOS DATOS DE LA QUERY A LOS ATRIBUTOS DE RES;
-
-
-
-
-                    res.nombreMaterial = "Cemento";
-                    res.cantidadAsignada = "2";
-                    res.cantidadDisponible = "1";
-                    res.abrevUnidad = "Sacos";
+                    datos.Read();
+                    string id_trabajo_interno = datos["id_trabajo_interno"];
+                    string nombre_trabajador = datos["nombre_trabajador"];
+                    string glosa_ti = datos["glosa_ti"];
 
 
+                    query = "SELECT nombre_tipo_material, abreviatura_unidad, cantidad_asignada, id_detalle_material FROM asignacion_material NATURAL JOIN detalle_material NATURAL JOIN material_generico NATURAL JOIN unidad_material WHERE id_trabajo_interno=" + id_trabajo_interno;
+                    datos = DBConector.SELECT(query);
+                    NpgsqlDataReaderWithConection lector2 = null;
+                    //NpgsqlDataReaderWithConection lector3 = null;
+                    string id_detalle_material = "";
+                    int cantidad_retirada_temp;
+                    if(datos.HasRows){
+                        while (datos.Read())
+                        {
+                            res = new materialSolicitado();
+                            res.nombreMaterial = datos["nombre_tipo_material"].ToString();
+                            res.cantidadAsignada=datos["cantidad_asignada"];
+                            res.abrevUnidad=datos["abreviatura_unidad"];
+                            id_detalle_material = (datos["id_detalle_material"]);
+                            lector2 = DBConector.SELECT("SELECT SUM(cantidad_retirada) FROM retiro_material NATURAL JOIN detalle_material WHERE id_trabajo_interno=" + id_trabajo_interno + " AND id_detalle_material=" + id_detalle_material);
+                            //lector3 = DBConector.SELECT("SELECT SUM(cantidad_retirada) FROM retiro_material NATURAL JOIN detalle_material WHERE id_trabajo_interno=" + id_trabajo_interno + " AND id_detalle_material=" + id_detalle_material);
+                                    
+                            if (lector2.Read())
+                            {
+                                cantidad_retirada_temp=Convert.ToInt32(lector2.GetInt32(0));
+                            }
+                            else {
+                                cantidad_retirada_temp=0;
+                            }
+                            res.cantidadDisponible=((Convert.ToInt32(datos["cantidad_asignada"])) - (cantidad_retirada_temp)).ToString();
+                            resultado.Add(res);
+                        }
+                    }
 
-                    resultado.Add(res);
+
+
+
+
+
+
+
+
+
+
+
+
+                    
                 }
             }
             catch (Exception)

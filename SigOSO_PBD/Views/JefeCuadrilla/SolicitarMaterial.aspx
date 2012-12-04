@@ -63,14 +63,16 @@
     <div class="fieldsetInterno">
     <fieldset>
         <legend>Solicitud de materiales</legend>
+        <label>Nombre material</label>
         <%if (ViewBag.SolicitudDeMateriales != null)
           {
               Response.Write(ViewBag.SolicitudDeMateriales);                       
         }                                                     
         %>
+        <%: Html.ValidationMessageFor(servicio => servicio.tipo)%>
         <div>Cantidad</div>
         <%: Html.TextBoxFor(servicio => servicio.cantidad, new { @class = "text" })%>
-
+        <%: Html.ValidationMessageFor(servicio => servicio.cantidad)%>
         <%: Html.TextBoxFor(servicio => servicio.id, new { @id = "id_servicio_a_agregar_oculta", @style = "display:none;" })%>
 
         <%: Html.TextBoxFor(servicio => servicio.tipo, new { @id = "tipo_oculta", @style = "display:none;" })%>

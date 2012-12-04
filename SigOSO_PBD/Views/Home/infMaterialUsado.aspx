@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/JefeCuadrilla.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Administrador.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <asp:Content ID="Content4" ContentPlaceHolderID="TitleContent" runat="server">
-
+      
     
-    Cambiar estado orden de trabajo interna
+    Informes material usado
+
 
 
 </asp:Content>
@@ -13,3 +13,5 @@
 
 
 </asp:Content>
+
+
