@@ -89,36 +89,12 @@ namespace SigOSO_PBD.Controllers
             {
                 Session["listaAgregadosMaterialSolicitado"] = null;
             }
-            NpgsqlDataReaderWithConection lector = null;
-            try{
-                string query = "SELECT id_trabajo_interno FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + Convert.ToInt32(User.Identity.Name) + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
-                
-                lector = DBConector.SELECT(query);
-                if (lector.HasRows)
-                {
-                    int rut_jefe_cuadrilla = Convert.ToInt32(User.Identity.Name);
-                    Session["rut_usuario"] = rut_jefe_cuadrilla;
-                    ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-                    //ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
-                    ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
-                    lector.CloseTodo();
-                    return View();
-                }else{
 
-                    ViewBag.respuestaPost = "No tiene orden de trabajo asiganada";
-                    ViewBag.tipoRespuestaPost = "informacion";
-                    ViewBag.NumeroOrden = "<script type='text/javascript'>$('#form1').css('display','none');</script>";
-                    ModelState.Clear();
-                    lector.CloseTodo();
-                    return View();
-                }
-            }
-            catch
-            {
-                lector.CloseTodo();
-            }
-
-
+            int rut_jefe_cuadrilla = 123456789;
+            Session["rut_usuario"]=rut_jefe_cuadrilla;
+            ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
+            ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
+            ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
             return View();
         }
 
@@ -152,7 +128,7 @@ namespace SigOSO_PBD.Controllers
                 listaAgregadosMaterialSolicitado.Add(servicio);
                 Session["listaAgregadosMaterialSolicitado"] = listaAgregadosMaterialSolicitado;
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
-                int rut_jefe_cuadrilla = Convert.ToInt32(User.Identity.Name);
+                int rut_jefe_cuadrilla = 123456789;
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
                 ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
@@ -162,7 +138,7 @@ namespace SigOSO_PBD.Controllers
             }
             else {
                 ViewBag.listaAgregadosMaterialSolicitado = Session["listaAgregadosMaterialSolicitado"];
-                int rut_jefe_cuadrilla = Convert.ToInt32(User.Identity.Name);
+                int rut_jefe_cuadrilla = 123456789;
                 ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
                 ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
                 ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
@@ -175,7 +151,7 @@ namespace SigOSO_PBD.Controllers
         public ActionResult eliminar_nuevo_material(solicitudMaterialModels servicio)
         {
             ModelState.Clear();
-            int rut_jefe_cuadrilla = Convert.ToInt32(User.Identity.Name);
+            int rut_jefe_cuadrilla = 123456789;
             string nombreParam = "", valorParam = "", id = "";
             NameValueCollection col = Request.Params;
             for (int i = 0; i < Request.Params.Count; i++)
@@ -306,8 +282,8 @@ namespace SigOSO_PBD.Controllers
         {
             NpgsqlDataReaderWithConection lector = null;
             
-            int rut_jefe_cuadrilla = Convert.ToInt32(User.Identity.Name);
-            string query1 = "SELECT id_trabajo_interno FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + rut_jefe_cuadrilla + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
+            int rut_jefe_cuadrilla = 123456789;
+            string query1 = "SELECT id_trabajo_interno FROM cuadrilla NATURAL JOIN trabajador NATURAL JOIN trabajo_interno WHERE habilitada=true and rut_trabajador="+ rut_jefe_cuadrilla +" ORDER BY id_trabajo_interno DESC" ;
             lector = DBConector.SELECT(query1);
             if(lector.Read()){                
                 string query2 = "SELECT cantidad_solicitada, fecha_solicitud_material, cantidad_aprobada_material, fecha_respuesta, comentarios_jefe_cuadrilla, comentarios_supervisor, revisada, nombre_tipo_material  FROM solicitud_material NATURAL JOIN detalle_material NATURAL JOIN material_generico WHERE id_trabajo_interno = " + lector["id_trabajo_interno"];

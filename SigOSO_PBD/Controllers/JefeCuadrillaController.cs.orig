@@ -89,36 +89,37 @@ namespace SigOSO_PBD.Controllers
             {
                 Session["listaAgregadosMaterialSolicitado"] = null;
             }
-            NpgsqlDataReaderWithConection lector = null;
             try{
-                string query = "SELECT id_trabajo_interno FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + Convert.ToInt32(User.Identity.Name) + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
-                
+                string query = "SELECT id_trabajo_interno FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + retiroMaterial.RUT + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
+                NpgsqlDataReaderWithConection lector = null;
                 lector = DBConector.SELECT(query);
                 if (lector.HasRows)
                 {
                     int rut_jefe_cuadrilla = Convert.ToInt32(User.Identity.Name);
                     Session["rut_usuario"] = rut_jefe_cuadrilla;
                     ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
-                    //ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
+                    ViewBag.MaterialesAsignados = solicitudMaterialModels.generarMaterialesAsignados(rut_jefe_cuadrilla);
                     ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
-                    lector.CloseTodo();
                     return View();
                 }else{
 
-                    ViewBag.respuestaPost = "No tiene orden de trabajo asiganada";
-                    ViewBag.tipoRespuestaPost = "informacion";
-                    ViewBag.NumeroOrden = "<script type='text/javascript'>$('#form1').css('display','none');</script>";
-                    ModelState.Clear();
-                    lector.CloseTodo();
-                    return View();
+                    ViewBag
+
                 }
             }
             catch
             {
-                lector.CloseTodo();
             }
 
 
+<<<<<<< HEAD
+=======
+            int rut_jefe_cuadrilla = 123456789;
+            Session["rut_usuario"]=rut_jefe_cuadrilla;
+            ViewBag.NumeroOrden = solicitudMaterialModels.generarNumeroOrden(rut_jefe_cuadrilla);
+            ViewBag.MaterialesAsignados = materialSolicitado.getSolicitudMaterial(rut_jefe_cuadrilla);
+            ViewBag.SolicitudDeMateriales = solicitudMaterialModels.generarSolicitudDeMateriales(rut_jefe_cuadrilla);
+>>>>>>> a0c5a7922670f71474ce71f22f1dcf4cfe2a2dbf
             return View();
         }
 
