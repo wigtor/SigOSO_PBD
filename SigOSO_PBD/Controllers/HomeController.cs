@@ -35,15 +35,24 @@ namespace SigOSO_PBD.Controllers
                 if (nombreParam.Contains("quitar_")) //Con esto omito los parámetros que no me importan
                 {
                     username = nombreParam.Substring("quitar_".Length);
-                    if (Membership.DeleteUser(username))
+                    if (username.Equals("admin"))
                     {
-                        ViewBag.respuestaPost = "Se ha eliminado satisfactoriamente el usuario";
-                        ViewBag.tipoRespuestaPost = "satisfactorio";
+                        ViewBag.respuestaPost = "No es posible eliminar el usuario admin";
+                        ViewBag.tipoRespuestaPost = "error";
+
                     }
                     else
                     {
-                        ViewBag.respuestaPost = "Ha ocurrido un error al eliminar el usuario";
-                        ViewBag.tipoRespuestaPost = "error";
+                        if (Membership.DeleteUser(username))
+                        {
+                            ViewBag.respuestaPost = "Se ha eliminado satisfactoriamente el usuario";
+                            ViewBag.tipoRespuestaPost = "satisfactorio";
+                        }
+                        else
+                        {
+                            ViewBag.respuestaPost = "Ha ocurrido un error al eliminar el usuario";
+                            ViewBag.tipoRespuestaPost = "error";
+                        }
                     }
                 }
             }
@@ -153,7 +162,7 @@ namespace SigOSO_PBD.Controllers
                     {
                         //FormsAuthentication.SetAuthCookie(model.UserName, false); //Hace que ahora quede logueado con el usuario recién creado
                         ViewBag.RespuestaPost = "Usuario creado correctamente";
-                        ViewBag.tipoRespuestaPos = "satisfactorio";
+                        ViewBag.tipoRespuestaPost = "satisfactorio";
                     }
                     else
                     {
@@ -1574,7 +1583,7 @@ namespace SigOSO_PBD.Controllers
                     }
                     int cantidadInsertada = DBConector.INSERT(query);
                     ViewBag.respuestaPost = "El servicio '" + nvoServicio.nombreServicio + "' se creo de manera satisfactoria";
-                    ViewBag.tipoRespuestaPos = "informacion";
+                    ViewBag.tipoRespuestaPost = "informacion";
                     ModelState.Clear();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
@@ -1597,7 +1606,7 @@ namespace SigOSO_PBD.Controllers
             else {
                 ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
                 ViewBag.respuestaPost = "Campos llenados de manera incorrecta";
-                ViewBag.tipoRespuestaPos = "error";
+                ViewBag.tipoRespuestaPost = "error";
                 ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                 return View(nvoServicio);
             }
@@ -1650,7 +1659,7 @@ namespace SigOSO_PBD.Controllers
                     
                     int cantidadInsertada = DBConector.UPDATE(query);
                     ViewBag.respuestaPost = "El servicio '" + nvoServicio.nombreServicio + "' se actualizo de manera satisfactoria";
-                    ViewBag.tipoRespuestaPos = "informacion";
+                    ViewBag.tipoRespuestaPost = "informacion";
                     ModelState.Clear();
                     ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                     ViewBag.ScriptOcultar = agregarServicioModel.ocultarModificarServicios();
@@ -1674,7 +1683,7 @@ namespace SigOSO_PBD.Controllers
             {
                 ViewBag.ScriptOcultar = agregarServicioModel.ocultarAgregarServicios();
                 ViewBag.respuestaPost = "Campos llenados de manera incorrecta";
-                ViewBag.tipoRespuestaPos = "error";
+                ViewBag.tipoRespuestaPost = "error";
                 ViewBag.tabla = agregarServicioModel.generarTablaServicios();
                 return View(nvoServicio);
             }
@@ -2460,7 +2469,7 @@ namespace SigOSO_PBD.Controllers
                     if (listaAgregadosSesion.Count == 0)
                     {
                         respuesta = "No ha agregado servicios a la orden de trabajo";
-                        ViewBag.tipoRespuestaPos = "informacion";
+                        ViewBag.tipoRespuestaPost = "informacion";
                     }
                     else
                     {
@@ -2482,7 +2491,7 @@ namespace SigOSO_PBD.Controllers
                         if (ModelState.IsValid)
                         {
                             respuesta = OrdenTrabajoModel.insertOrdenTrabajo(ordenTrabajo, listaAgregadosSesion);
-                            ViewBag.tipoRespuestaPos = "informacion";
+                            ViewBag.tipoRespuestaPost = "informacion";
                         }
                         
                     }
@@ -2490,7 +2499,7 @@ namespace SigOSO_PBD.Controllers
                 else
                 {
                     respuesta = "No ha agregado servicios a la orden de trabajo";
-                    ViewBag.tipoRespuestaPos = "informacion";
+                    ViewBag.tipoRespuestaPost = "informacion";
                 }
 
                 ViewBag.respuestaPost = respuesta;

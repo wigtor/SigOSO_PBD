@@ -18,11 +18,43 @@
             <div class="fieldsetInterno">
             <fieldset>
                 <legend>Materiales asignados</legend>
-                    <%if (ViewBag.MaterialesAsignados != null)
-                      {
-                          Response.Write(ViewBag.MaterialesAsignados);                       
-                    }                                                     
-                    %>
+
+
+                    <table>
+                        <tr>
+                            <td><b>
+                            Nombre material</b></td> <!-- incluye la unidad -->
+                            <td><b>
+                            Cantidad asignada</b></td>
+                            <td><b>
+                            Cantidad disponible</b></td>
+                        </tr>
+
+                        <% if (ViewBag.MaterialesAsignados != null)
+                        {
+                            List<SigOSO_PBD.Models.materialSolicitado> lst = (List<SigOSO_PBD.Models.materialSolicitado>)ViewBag.MaterialesAsignados;
+                            foreach(SigOSO_PBD.Models.materialSolicitado temp in lst) {
+                                Response.Write("<tr>");
+                                
+                                
+                                Response.Write("<td>");
+                                Response.Write(temp.nombreMaterial);
+                                Response.Write("</td>");
+
+                                Response.Write("<td>");
+                                Response.Write(temp.cantidadAsignada + " " + temp.abrevUnidad);
+                                Response.Write("</td>");
+
+                                Response.Write("<td>");
+                                Response.Write(temp.cantidadDisponible + " " + temp.abrevUnidad);
+                                Response.Write("</td>");
+
+                                
+                                Response.Write("</tr>");
+                            }                    
+                        }                                                     
+                        %>
+                    </table>
             </fieldset>
             </div>
     </fieldset>
