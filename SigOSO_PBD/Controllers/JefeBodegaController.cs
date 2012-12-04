@@ -87,6 +87,7 @@ namespace SigOSO_PBD.Controllers
                 if (ModelState.IsValid)
                 {
                     NpgsqlDataReaderWithConection lector = null;
+                    NpgsqlDataReaderWithConection lector2 = null;
                     try
                     {
                         string query = "SELECT id_trabajo_interno, nombre_trabajador, glosa_ti FROM trabajador NATURAL JOIN cuadrilla NATURAL JOIN trabajo_interno NATURAL JOIN estado_ot NATURAL JOIN autom_estado WHERE rut_trabajador=" + retiroMaterial.RUT + " AND habilitada=true AND final_normal!=true AND final_inesperado=true AND estado_ot.id_estado=autom_estado.id_estado_pasado AND estado_ot.id_estado=trabajo_interno.id_estado_actual_ti;";
@@ -103,13 +104,14 @@ namespace SigOSO_PBD.Controllers
                             List<string> unidad = new List<string>();
                             List<string> disponible = new List<string>();
 
+
                             ViewBag.nombre_material = new List<string>();
                             ViewBag.asignado = new List<string>();
                             ViewBag.unidad = new List<string>();
                             ViewBag.disponible = new List<string>();
+
                             query = "SELECT nombre_tipo_material, abreviatura_unidad, cantidad_asignada, id_detalle_material FROM asignacion_material NATURAL JOIN detalle_material NATURAL JOIN material_generico NATURAL JOIN unidad_material WHERE id_trabajo_interno=" + id_trabajo_interno;
-                            lector = DBConector.SELECT(query);
-                            NpgsqlDataReaderWithConection lector2 = null;
+                            lector = DBConector.SELECT(query);                            
                             //NpgsqlDataReaderWithConection lector3 = null;
                             string id_detalle_material = "";
                             int cantidad_retirada_temp;
@@ -121,11 +123,13 @@ namespace SigOSO_PBD.Controllers
                                     unidad.Add(lector["abreviatura_unidad"]);
                                     id_detalle_material = (lector["id_detalle_material"]);
                                     lector2 = DBConector.SELECT("SELECT SUM(cantidad_retirada) FROM retiro_material NATURAL JOIN detalle_material WHERE id_trabajo_interno=" + id_trabajo_interno + " AND id_detalle_material=" + id_detalle_material);
+
                                     //lector3 = DBConector.SELECT("SELECT SUM(cantidad_retirada) FROM retiro_material NATURAL JOIN detalle_material WHERE id_trabajo_interno=" + id_trabajo_interno + " AND id_detalle_material=" + id_detalle_material);
                                     
                                     if (lector2.Read())
                                     {
                                         cantidad_retirada_temp=Convert.ToInt32(lector2.GetInt32(0));
+                                        lector2.CloseTodo();
                                     }
                                     else {
                                         cantidad_retirada_temp=0;
@@ -144,6 +148,7 @@ namespace SigOSO_PBD.Controllers
                             ViewBag.asignado = asignado;
                             ViewBag.unidad = unidad;
                             ViewBag.disponible = disponible;
+
                         }
                         else {
                             ViewBag.respuestaPost = "No tiene orden de trabajo asiganada";
@@ -152,8 +157,16 @@ namespace SigOSO_PBD.Controllers
 
                     }
                     catch
-                    { 
-                    
+                    {
+                        ViewBag.respuestaPost = "Error al acceder a la base de datos, si el error persiste, comunicarse con el servicio técnico.";
+                        ViewBag.tipoRespuestaPost = "error";
+                    }
+                    if(lector != null){
+                        lector.CloseTodo();
+                    }
+                    if (lector2 != null)
+                    {
+                        lector2.CloseTodo();
                     }
                 }
             }

@@ -54,13 +54,14 @@
                     tabla += "<td><b>" + ((List<string>)ViewBag.nombre_material)[i] + "</b></td>";
                     tabla += "<td><b>" + ((List<string>)ViewBag.asignado)[i] + " " + ((List<string>)ViewBag.unidad)[i] + "</b></td>";
                     tabla += "<td>" + ((List<string>)ViewBag.disponible)[i] + " " + ((List<string>)ViewBag.unidad)[i] + "<b>Disponible</b></td>";
-                    tabla += "<td><b>Cantidad a retirar</b></td>";
+                    tabla += "<td><b><input id='cantidad_retirada_'></b></td>";
                     tabla += "</tr>";
                 }    
             }
             tabla += "</table>";
             Response.Write(tabla);
              %>
+             <div class="sitio_en_construccion"></div> 
     </fieldset>
 </form>    
 </asp:Content>

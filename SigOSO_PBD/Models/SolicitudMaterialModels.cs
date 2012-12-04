@@ -101,6 +101,7 @@ namespace SigOSO_PBD.Models
             List<materialSolicitado> resultado = new List<materialSolicitado>();
             materialSolicitado res;
             NpgsqlDataReaderWithConection datos = null;
+            NpgsqlDataReaderWithConection lector2 = null;
             try
             {
 
@@ -117,7 +118,7 @@ namespace SigOSO_PBD.Models
 
                     query = "SELECT nombre_tipo_material, abreviatura_unidad, cantidad_asignada, id_detalle_material FROM asignacion_material NATURAL JOIN detalle_material NATURAL JOIN material_generico NATURAL JOIN unidad_material WHERE id_trabajo_interno=" + id_trabajo_interno;
                     datos = DBConector.SELECT(query);
-                    NpgsqlDataReaderWithConection lector2 = null;
+                    
                     //NpgsqlDataReaderWithConection lector3 = null;
                     string id_detalle_material = "";
                     int cantidad_retirada_temp;
@@ -165,6 +166,10 @@ namespace SigOSO_PBD.Models
             if (datos != null)
             {
                 datos.CloseTodo();
+            }
+            if (lector2 != null)
+            {
+                lector2.CloseTodo();
             }
             return resultado;
         }
